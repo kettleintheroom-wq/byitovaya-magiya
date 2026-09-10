@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5f0e8">
+<title>Бытовая магия — когда что делать</title>
+<style>
+  :root{
+    --bg:#f4efe7;
+    --paper:#fffdf8;
+    --ink:#171714;
+    --muted:#746f67;
+    --line:#ded7cd;
+    --accent:#d95932;
+    --accent-soft:#f3d6ca;
+    --green:#365b44;
+    --yellow:#f0c762;
+    --shadow:0 12px 40px rgba(37,30,21,.08);
+    --radius:24px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background:
+      radial-gradient(circle at 10% 10%, rgba(240,199,98,.18), transparent 28rem),
+      radial-gradient(circle at 90% 20%, rgba(217,89,50,.10), transparent 26rem),
+      var(--bg);
+    color:var(--ink);
+  }
+  a{color:inherit}
+  .wrap{width:min(1120px, calc(100% - 32px)); margin:auto}
+  header{padding:28px 0 0}
+  .topline{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    font-size:14px; color:var(--muted)
+  }
+  .brand{font-weight:800; letter-spacing:-.02em; color:var(--ink)}
+  .pill{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:9px 12px; border:1px solid var(--line); border-radius:999px;
+    background:rgba(255,253,248,.72); backdrop-filter:blur(10px)
+  }
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .hero{
+    padding:70px 0 34px;
+    display:grid; grid-template-columns:1.15fr .85fr; gap:28px; align-items:end
+  }
+  h1{
+    font-size:clamp(50px,8vw,104px);
+    line-height:.88; letter-spacing:-.07em; margin:0; max-width:900px
+  }
+  .hero-copy{
+    font-size:18px; line-height:1.5; color:var(--muted); max-width:430px;
+    padding-bottom:7px
+  }
+  .hero-copy strong{color:var(--ink)}
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:16px;
+    margin:10px 0 54px;
+    align-items:stretch;
+  }
+  .today{
+    background:var(--ink); color:#fff; border-radius:var(--radius);
+    padding:26px; box-shadow:var(--shadow);
+    display:grid; grid-template-columns:1fr auto; gap:20px; align-items:center
+  }
+  .eyebrow{text-transform:uppercase; letter-spacing:.12em; font-size:11px; opacity:.65; font-weight:800}
+  .today h2{font-size:clamp(26px,4vw,44px); letter-spacing:-.04em; margin:7px 0 6px}
+  .today p{margin:0;color:#cbc7bf;line-height:1.45}
+  .today .badge{
+    width:106px;height:106px;border-radius:50%;
+    display:grid;place-items:center;text-align:center;
+    background:var(--yellow);color:var(--ink);font-weight:900;
+    transform:rotate(5deg); padding:12px; line-height:1.05
+  }
+
+  .moon-box{
+    background:rgba(255,253,248,.88);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:0 5px 18px rgba(37,30,21,.035);
+    padding:18px 18px 16px;
+    display:flex;
+    flex-direction:column;
+    min-height:100%;
+  }
+  .moon-top{
+    display:flex; justify-content:space-between; align-items:start; gap:16px;
+    margin-bottom:14px;
+  }
+  .moon-title{
+    font-size:22px; letter-spacing:-.04em; line-height:1.05; margin:4px 0 0;
+  }
+  .moon-sub{
+    color:var(--muted); font-size:13px; line-height:1.35;
+  }
+  .moon-status{
+    text-align:right;
+    min-width:120px;
+  }
+  .moon-emoji{
+    font-size:30px; line-height:1; margin-bottom:4px;
+  }
+  .moon-phase{
+    font-size:14px; font-weight:800; line-height:1.2;
+  }
+  .moon-calendar{
+    display:grid;
+    grid-template-columns:repeat(7, 1fr);
+    gap:6px;
+    margin-top:4px;
+  }
+  .moon-weekday{
+    text-align:center;
+    font-size:11px;
+    color:var(--muted);
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    padding:4px 0;
+  }
+  .moon-day{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:14px;
+    min-height:58px;
+    padding:7px 4px 6px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    gap:4px;
+    font-size:12px;
+  }
+  .moon-day.empty{
+    background:transparent;
+    border:none;
+  }
+  .moon-day .num{
+    font-weight:800;
+    line-height:1;
+  }
+  .moon-day .micon{
+    font-size:16px;
+    line-height:1;
+  }
+  .moon-day .mini{
+    font-size:9px;
+    color:var(--muted);
+    line-height:1.05;
+    text-align:center;
+  }
+  .moon-day.today{
+    border-color:var(--ink);
+    box-shadow:inset 0 0 0 1px var(--ink);
+  }
+  .moon-day.major{
+    background:var(--accent-soft);
+  }
+  .moon-notes{
+    margin-top:12px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .moon-note{
+    border:1px solid var(--line);
+    background:var(--paper);
+    border-radius:999px;
+    padding:7px 10px;
+    font-size:12px;
+    line-height:1.2;
+    color:var(--muted);
+    white-space:nowrap;
+  }
+
+  .nav{
+    display:flex; gap:10px; flex-wrap:wrap; margin-bottom:24px
+  }
+  .filter{
+    border:1px solid var(--line); background:rgba(255,253,248,.7);
+    padding:10px 14px;border-radius:999px;font:inherit;font-weight:700;cursor:pointer
+  }
+  .filter.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  section{padding:22px 0 48px}
+  .section-head{
+    display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:22px
+  }
+  .section-head h2{font-size:clamp(30px,5vw,56px);letter-spacing:-.045em;margin:0}
+  .section-head p{max-width:480px;margin:0;color:var(--muted);line-height:1.5}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .card{
+    background:rgba(255,253,248,.88);border:1px solid var(--line);
+    border-radius:22px;padding:22px;min-height:270px;
+    display:flex;flex-direction:column;position:relative;overflow:hidden;
+    transition:.2s ease; box-shadow:0 5px 18px rgba(37,30,21,.035)
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+  .card.highlight{background:var(--accent);color:#fff;border-color:transparent}
+  .card.highlight .muted,.card.highlight .when{color:rgba(255,255,255,.75)}
+  .icon{font-size:36px;line-height:1;margin-bottom:24px}
+  .when{
+    font-size:12px;text-transform:uppercase;letter-spacing:.11em;
+    color:var(--muted);font-weight:850;margin-bottom:7px
+  }
+  .card h3{font-size:25px;letter-spacing:-.035em;margin:0 0 10px;line-height:1.05}
+  .card p{margin:0 0 12px;line-height:1.45}
+  .muted{color:var(--muted);font-size:14px}
+  .spell{
+    margin-top:auto;padding-top:18px;font-size:15px;font-weight:800;line-height:1.35
+  }
+  .tag{
+    display:inline-block;margin-top:12px;width:max-content;
+    border:1px solid currentColor;border-radius:999px;padding:5px 8px;font-size:11px;font-weight:800;
+    opacity:.75
+  }
+  .calendar{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:14px
+  }
+  .wide{
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px;box-shadow:0 5px 18px rgba(37,30,21,.035)
+  }
+  .wide h3{font-size:28px;letter-spacing:-.035em;margin:8px 0 10px}
+  .wide p{color:var(--muted);line-height:1.5;margin:0}
+  .countdown{font-size:13px;font-weight:800;color:var(--accent);margin-top:16px}
+  .rule{
+    margin:8px 0 48px;padding:20px 22px;border-radius:18px;
+    background:var(--accent-soft);color:#5d2b1d;line-height:1.45
+  }
+  .rule strong{color:#3a160d}
+  footer{
+    padding:30px 0 60px;border-top:1px solid var(--line);color:var(--muted);
+    display:grid;grid-template-columns:1fr 1fr;gap:28px;font-size:13px;line-height:1.5
+  }
+  .sources{display:grid;gap:6px}
+  .sources a{text-decoration-color:#bbb;text-underline-offset:3px}
+  .hide{display:none!important}
+
+  @media(max-width:980px){
+    .hero-grid{grid-template-columns:1fr}
+  }
+  @media(max-width:820px){
+    .hero{grid-template-columns:1fr;padding-top:52px}
+    .hero-copy{max-width:620px}
+    .today{grid-template-columns:1fr}
+    .today .badge{width:auto;height:auto;border-radius:16px;transform:none;justify-self:start}
+    .grid{grid-template-columns:1fr 1fr}
+    footer{grid-template-columns:1fr}
+  }
+  @media(max-width:560px){
+    .wrap{width:min(100% - 20px,1120px)}
+    .grid,.calendar{grid-template-columns:1fr}
+    .card{min-height:235px}
+    h1{font-size:58px}
+    .section-head{display:block}
+    .section-head p{margin-top:10px}
+    .moon-day{min-height:54px}
+    .moon-note{white-space:normal}
+  }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="topline">
+    <div class="brand">БЮРО БЫТОВОЙ МАГИИ</div>
+    <div class="pill"><span class="dot"></span><span id="dateTop">сверяемся со Вселенной</span></div>
+  </div>
+
+  <div class="hero">
+    <h1>Когда что<br>колдовать</h1>
+    <div class="hero-copy">
+      Календарь современной бытовой магии: <strong>корица, мусор, кошелёк, красные трусы и другие финансовые технологии</strong>, которые интернет отказывается забывать.
+    </div>
+  </div>
+
+  <div class="hero-grid">
+    <div class="today">
+      <div>
+        <div class="eyebrow">Что делать сегодня</div>
+        <h2 id="todayTitle">Проверяем календарь…</h2>
+        <p id="todayText">Секунда, вычисляем уровень бытовой магии на сегодня.</p>
+      </div>
+      <div class="badge" id="todayBadge">магия<br>загружается</div>
+    </div>
+
+    <aside class="moon-box">
+      <div class="moon-top">
+        <div>
+          <div class="eyebrow" style="opacity:1;color:var(--muted)">Лунный календарь</div>
+          <div class="moon-title" id="moonMonth">Текущий месяц</div>
+          <div class="moon-sub">Точные основные фазы месяца · время по часовому поясу устройства</div>
+        </div>
+        <div class="moon-status">
+          <div class="moon-emoji" id="moonEmoji">🌙</div>
+          <div class="moon-phase" id="moonPhase">Определяем фазу</div>
+        </div>
+      </div>
+
+      <div class="moon-calendar" id="moonCalendar"></div>
+
+      <div class="moon-notes" id="moonNotes"></div>
+    </aside>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="nav">
+    <button class="filter active" data-filter="all">Всё</button>
+    <button class="filter" data-filter="weekly">По дням недели</button>
+    <button class="filter" data-filter="monthly">По датам</button>
+    <button class="filter" data-filter="anytime">В любой день</button>
+  </div>
+
+  <section class="ritual-section" data-group="weekly">
+    <div class="section-head">
+      <h2>Еженедельно</h2>
+      <p>Большая часть интернет-магии подозрительно любит четверг. Видимо, финансовый отдел Вселенной принимает именно в этот день.</p>
+    </div>
+
+    <div class="grid">
+      <article class="card highlight" data-weekday="4">
+        <div class="icon">☕</div>
+        <div class="when">Каждый четверг</div>
+        <h3>Кофе с корицей</h3>
+        <p>Добавить щепотку корицы в кофе, какао или другой любимый напиток. В популярных версиях — размешать по часовой стрелке.</p>
+        <div class="spell">«Как корица вкус прибавляет, так и денежки ко мне прирастают».</div>
+        <span class="tag">главный хит</span>
+      </article>
+
+      <article class="card" data-weekday="4">
+        <div class="icon">🍃</div>
+        <div class="when">Четверг</div>
+        <h3>Лавр в кошелёк</h3>
+        <p>Целый сухой лавровый лист кладут в отделение с деньгами как символ «изобилия».</p>
+        <div class="muted">Есть версии без привязки ко дню, но в свежих подборках талисманы для кошелька часто советуют класть именно в четверг.</div>
+      </article>
+
+      <article class="card" data-weekday="4">
+        <div class="icon">🩲</div>
+        <div class="when">Четверг — денежная версия</div>
+        <h3>Красные трусы на люстру</h3>
+        <p>Симоронская классика. Интернет предлагает забросить красное бельё наверх с денежным намерением.</p>
+        <div class="spell">«Трусы на люстру — деньги в дом!»</div>
+        <div class="muted">Не кидай на горячий светильник и не лезь ради этого на шаткую мебель.</div>
+      </article>
+
+      <article class="card" data-weekday="5">
+        <div class="icon">❤️</div>
+        <div class="when">Каждую пятницу</div>
+        <h3>Красное бельё — light</h3>
+        <p>Для тех, у кого люстра не подписывалась на эту историю: облегчённая версия — просто надевать красное бельё по пятницам.</p>
+        <div class="muted">Минимум акробатики, максимум символизма.</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="ritual-section" data-group="monthly">
+    <div class="section-head">
+      <h2>По календарю</h2>
+      <p>Ритуалы для людей, которым обычного календаря недостаточно и нужен календарь с корицей.</p>
+    </div>
+
+    <div class="calendar">
+      <article class="wide" data-monthly="first">
+        <div class="when">1-е число каждого месяца</div>
+        <h3>Вдуть корицу в дом</h3>
+        <p>Встать за порогом лицом в квартиру, взять немного молотой корицы и символически сдуть её внутрь. В вирусной версии это делают утром и оставляют корицу ненадолго перед уборкой.</p>
+        <div class="countdown" id="firstCountdown"></div>
+      </article>
+
+      <article class="wide">
+        <div class="when">Растущая Луна</div>
+        <h3>Показать Луне деньги</h3>
+        <p>В интернет-версиях на растущую Луну показывают купюры или открытый кошелёк и проговаривают намерение на рост дохода. Компактный лунный календарь слева поможет не промахнуться с фазой.</p>
+        <div class="countdown" id="moonTip">Сегодня смотрим, какая Луна.</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="ritual-section" data-group="anytime">
+    <div class="section-head">
+      <h2>Когда угодно</h2>
+      <p>Не требует ждать нужную фазу Луны. Требует только достаточно серьёзного лица.</p>
+    </div>
+
+    <div class="grid">
+      <article class="card">
+        <div class="icon">🗑️</div>
+        <div class="when">При каждом выносе мусора · днём</div>
+        <h3>Отходы → доходы</h3>
+        <p>Выбрасывая мусор, произнести вслух или про себя главную формулу бытовой экономики.</p>
+        <div class="spell">«Меняю отходы на доходы».</div>
+        <div class="muted">Старая примета отдельно советует не выносить мусор после захода солнца.</div>
+      </article>
+
+      <article class="card">
+        <div class="icon">🔌</div>
+        <div class="when">На несколько ночей</div>
+        <h3>Кошелёк на зарядку</h3>
+        <p>Положить внутрь деньги и изобразить зарядку кошелька — кабелем или батарейками. В популярных пересказах оставляют так на несколько ночей.</p>
+        <div class="muted">К электричеству сам кошелёк подключать, конечно, не надо.</div>
+      </article>
+
+      <article class="card">
+        <div class="icon">🪙</div>
+        <div class="when">Постоянно</div>
+        <h3>Монета под коврик</h3>
+        <p>Положить монету под коврик у входной двери — она должна символически «заманивать» деньги в дом.</p>
+        <div class="muted">Периодически монету предлагают менять.</div>
+      </article>
+
+      <article class="card">
+        <div class="icon">🪴</div>
+        <div class="when">При посадке / поливе</div>
+        <h3>Монетка в цветок</h3>
+        <p>Закопать монету в горшок толстянки или замиокулькаса. Симоронская версия разрешает назначить «капустой» вообще любое быстрорастущее растение.</p>
+        <div class="spell">«Поливаю я капусту, чтоб водилась густо-густо».</div>
+      </article>
+
+      <article class="card">
+        <div class="icon">🧹</div>
+        <div class="when">Постоянно</div>
+        <h3>Веник — ручкой вниз</h3>
+        <p>Веник, метлу или швабру в денежной примете советуют хранить черенком вниз, чтобы не «выметать» достаток.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">💸</div>
+        <div class="when">Когда передаёшь деньги</div>
+        <h3>Правая отдаёт, левая берёт</h3>
+        <p>Наличку предлагают не передавать прямо из рук в руки: сначала положить на поверхность. Отдавать — правой, принимать — левой.</p>
+      </article>
+    </div>
+  </section>
+
+  <div class="rule">
+    <strong>Дисклеймер отдела магического комплаенса:</strong> это современные суеверия, интернет-ритуалы и фольклор, а не финансовые инструменты. Сами ритуалы — развлекательный фольклор. А лунные фазы здесь рассчитываются астрономически: основные моменты фаз вычисляются по формулам Жана Мееуса и переводятся в часовой пояс устройства.
+  </div>
+</main>
+
+<footer class="wrap">
+  <div>
+    <div class="brand">БЮРО БЫТОВОЙ МАГИИ</div>
+    <p>Собрано как развлекательный справочник по самым узнаваемым денежным ритуалам Рунета. Верить необязательно. Корица всё равно вкусная.</p>
+  </div>
+  <div class="sources">
+    <strong style="color:var(--ink)">Что использовано при сборке</strong>
+    <a href="https://liter.kz/kofe-s-koritsei-po-chetvergam-pochemu-kazakhstantsy-privlekaiut-dengi-magiei-1782208178/" target="_blank" rel="noreferrer">Liter.kz — кофе с корицей, мусор и лавр</a>
+    <a href="https://www.izh.kp.ru/daily/277808/5291846/" target="_blank" rel="noreferrer">КП — популярные денежные ритуалы</a>
+    <a href="https://izhlife.ru/psychology/krasnye-trusy-monetka-v-tsvetke-i-pravilnyy-vynos-musora-samye-izvestnye-i-strannye-sovremennye-ritu.html" target="_blank" rel="noreferrer">IZHLIFE — красные трусы, растения, мусор, кошелёк</a>
+    <a href="https://styler.rbc.ua/ukr/horoscopes/moneta-pid-kilimkom-i-lavroviy-list-gamantsi-1788620563.html" target="_blank" rel="noreferrer">RBC Styler — монета под ковриком и лавр</a>
+    <a href="https://www.timeanddate.com/news/astronomy/moon-september-2026" target="_blank" rel="noreferrer">Timeanddate — контрольная сверка астрономических фаз</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const now = new Date();
+  const weekdays = ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'];
+  const months = ['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'];
+  const monthsGen = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  const wd = now.getDay();
+  const fmt = new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'long'});
+  document.getElementById('dateTop').textContent = fmt.format(now) + ' · ' + weekdays[wd];
+
+  const title = document.getElementById('todayTitle');
+  const text = document.getElementById('todayText');
+  const badge = document.getElementById('todayBadge');
+  const isFirst = now.getDate() === 1;
+
+  // Astronomical principal phases based on Jean Meeus, Astronomical Algorithms.
+  // Results are calculated in Terrestrial Time, adjusted to UTC with ΔT,
+  // then displayed by Date in the device's local time zone.
+  const RAD = Math.PI / 180;
+  const sinD = x => Math.sin(x * RAD);
+  const cosD = x => Math.cos(x * RAD);
+
+  function deltaTSeconds(decimalYear){
+    // Espenak/Meeus polynomial, suitable for the contemporary years this page targets.
+    const t = decimalYear - 2000;
+    return 62.92 + 0.32217 * t + 0.005589 * t * t;
+  }
+
+  function jdToDate(jdUTC){
+    return new Date((jdUTC - 2440587.5) * 86400000);
+  }
+
+  function truePhase(k, phase){
+    const T = k / 1236.85;
+    const T2 = T*T, T3 = T2*T, T4 = T3*T;
+    let jde = 2451550.09765 + 29.530588853*k + 0.0001337*T2 - 0.000000150*T3 + 0.00000000073*T4;
+    const E = 1 - 0.002516*T - 0.0000074*T2;
+    const M  = 2.5534 + 29.10535670*k - 0.0000014*T2 - 0.00000011*T3;
+    const Mp = 201.5643 + 385.81693528*k + 0.0107582*T2 + 0.00001238*T3 - 0.000000058*T4;
+    const F  = 160.7108 + 390.67050284*k - 0.0016118*T2 - 0.00000227*T3 + 0.000000011*T4;
+    const O  = 124.7746 - 1.56375588*k + 0.0020672*T2 + 0.00000215*T3;
+    let c = 0;
+
+    if (phase === 0 || phase === 0.5){
+      const isNew = phase === 0;
+      c += (isNew ? -0.40720 : -0.40614)*sinD(Mp);
+      c += (isNew ?  0.17241 :  0.17302)*E*sinD(M);
+      c += (isNew ?  0.01608 :  0.01614)*sinD(2*Mp);
+      c += (isNew ?  0.01039 :  0.01043)*sinD(2*F);
+      c += (isNew ?  0.00739 :  0.00734)*E*sinD(Mp-M);
+      c += (isNew ? -0.00514 : -0.00515)*E*sinD(Mp+M);
+      c += (isNew ?  0.00208 :  0.00209)*E*E*sinD(2*M);
+      c += -0.00111*sinD(Mp-2*F) - 0.00057*sinD(Mp+2*F);
+      c +=  0.00056*E*sinD(2*Mp+M) - 0.00042*sinD(3*Mp);
+      c +=  0.00042*E*sinD(M+2*F) + 0.00038*E*sinD(M-2*F);
+      c += -0.00024*E*sinD(2*Mp-M) - 0.00017*sinD(O);
+      c += -0.00007*sinD(Mp+2*M) + 0.00004*sinD(2*Mp-2*F);
+      c +=  0.00004*sinD(3*M) + 0.00003*sinD(Mp+M-2*F);
+      c +=  0.00003*sinD(2*Mp+2*F) - 0.00003*sinD(Mp+M+2*F);
+      c +=  0.00003*sinD(Mp-M+2*F) - 0.00002*sinD(Mp-M-2*F);
+      c += -0.00002*sinD(3*Mp+M) + 0.00002*sinD(4*Mp);
+    } else {
+      c += -0.62801*sinD(Mp) + 0.17172*E*sinD(M) - 0.01183*E*sinD(Mp+M);
+      c +=  0.00862*sinD(2*Mp) + 0.00804*sinD(2*F) + 0.00454*E*sinD(Mp-M);
+      c +=  0.00204*E*E*sinD(2*M) - 0.00180*sinD(Mp-2*F) - 0.00070*sinD(Mp+2*F);
+      c += -0.00040*sinD(3*Mp) - 0.00034*E*sinD(2*Mp-M);
+      c +=  0.00032*E*sinD(M+2*F) + 0.00032*E*sinD(M-2*F);
+      c += -0.00028*E*E*sinD(Mp+2*M) + 0.00027*E*sinD(2*Mp+M);
+      c += -0.00017*sinD(O) - 0.00005*sinD(Mp-M-2*F) + 0.00004*sinD(2*Mp+2*F);
+      c += -0.00004*sinD(Mp+M+2*F) + 0.00004*sinD(Mp-2*M);
+      c +=  0.00003*sinD(Mp+M-2*F) + 0.00003*sinD(3*M) + 0.00002*sinD(2*Mp-2*F);
+      c +=  0.00002*sinD(Mp-M+2*F) - 0.00002*sinD(3*Mp+M);
+      const W = 0.00306 - 0.00038*E*cosD(M) + 0.00026*cosD(Mp)
+              - 0.00002*cosD(Mp-M) + 0.00002*cosD(Mp+M) + 0.00002*cosD(2*F);
+      c += phase === 0.25 ? W : -W;
+    }
+
+    const A = [
+      299.77+0.107408*k-0.009173*T2,
+      251.88+0.016321*k,
+      251.83+26.651886*k,
+      349.42+36.412478*k,
+      84.66+18.206239*k,
+      141.74+53.303771*k,
+      207.14+2.453732*k,
+      154.84+7.306860*k,
+      34.52+27.261239*k,
+      207.19+0.121824*k,
+      291.34+1.844379*k,
+      161.72+24.198154*k,
+      239.56+25.513099*k,
+      331.55+3.592518*k
+    ];
+    const weights = [.000325,.000165,.000164,.000126,.000110,.000062,.000060,.000056,.000047,.000042,.000040,.000037,.000035,.000023];
+    for (let i=0;i<A.length;i++) c += weights[i]*sinD(A[i]);
+
+    jde += c;
+    const decimalYear = 2000 + k/12.3685;
+    const jdUTC = jde - deltaTSeconds(decimalYear)/86400;
+    return jdToDate(jdUTC);
+  }
+
+  const phaseDefs = [
+    {f:0,    key:'new',   name:'Новолуние',            icon:'🌑', short:'нов.'},
+    {f:0.25, key:'first', name:'Первая четверть',       icon:'🌓', short:'1/4'},
+    {f:0.5,  key:'full',  name:'Полнолуние',            icon:'🌕', short:'полн.'},
+    {f:0.75, key:'last',  name:'Последняя четверть',    icon:'🌗', short:'3/4'}
+  ];
+
+  function eventsAround(date){
+    const y = date.getFullYear();
+    const m = date.getMonth();
+    const decimal = y + (m + 0.5)/12;
+    const n0 = Math.round((decimal - 2000)*12.3685);
+    const out = [];
+    for(let n=n0-3; n<=n0+3; n++){
+      for(const p of phaseDefs){
+        out.push({...p, date:truePhase(n+p.f, p.f)});
+      }
+    }
+    out.sort((a,b)=>a.date-b.date);
+    return out;
+  }
+
+  const events = eventsAround(now);
+
+  function sameLocalDay(a,b){
+    return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
+  }
+
+  function phaseAt(date){
+    let prev = events[0], next = events[events.length-1];
+    for(let i=0;i<events.length;i++){
+      if(events[i].date <= date) prev = events[i];
+      if(events[i].date > date){ next = events[i]; break; }
+    }
+    if(prev.key==='new')   return {name:'Растущий серп',     icon:'🌒', tip:'Растущая Луна: интернет-ритуалы обычно назначают на «прибавление».'};
+    if(prev.key==='first') return {name:'Растущая Луна',     icon:'🌔', tip:'Растущая Луна: время символически «увеличивать» деньги и планы.'};
+    if(prev.key==='full')  return {name:'Убывающая Луна',    icon:'🌖', tip:'Убывающая Луна: в суевериях её связывают с уборкой и избавлением от лишнего.'};
+    return {name:'Убывающий серп', icon:'🌘', tip:'Убывающий серп: закрываем хвосты, расхламляемся и готовимся к новому циклу.'};
+  }
+
+  const exactNearNow = events.find(e => Math.abs(e.date-now) < 30*60*1000);
+  let moonToday = exactNearNow
+    ? {name:exactNearNow.name, icon:exactNearNow.icon, tip:'Точный момент основной лунной фазы приходится примерно на сейчас.'}
+    : phaseAt(now);
+
+  const todaysPrincipal = events.find(e=>sameLocalDay(e.date, now));
+  const timeFmt = new Intl.DateTimeFormat('ru-RU',{hour:'2-digit',minute:'2-digit'});
+  const moonStatusExtra = todaysPrincipal
+    ? ' · ' + todaysPrincipal.name.toLowerCase() + ' сегодня в ' + timeFmt.format(todaysPrincipal.date)
+    : '';
+
+  if (wd === 4 && isFirst){
+    title.textContent = 'Комбо-день: корица вообще везде';
+    text.textContent = 'Кофе с корицей — в тебя. Корица с порога — в квартиру. Луна сейчас: ' + moonToday.name.toLowerCase() + '.';
+    badge.innerHTML = 'уровень<br>магии ×2';
+  } else if (wd === 4){
+    title.textContent = 'Четверг. Несите кофе и корицу';
+    text.textContent = 'Сегодня главный еженедельный денежный ритуал: корица в напиток. Луна сейчас: ' + moonToday.name.toLowerCase() + moonStatusExtra + '.';
+    badge.innerHTML = 'денежный<br>четверг';
+  } else if (wd === 5){
+    title.textContent = 'Пятница красного белья';
+    text.textContent = 'Лайт-версия ритуала с красными трусами: ничего никуда не забрасываем, просто надеваем. Луна сейчас: ' + moonToday.name.toLowerCase() + moonStatusExtra + '.';
+    badge.innerHTML = 'без<br>акробатики';
+  } else if (isFirst){
+    title.textContent = 'Первое число. Пора дуть корицу';
+    text.textContent = 'По вирусной традиции сегодня корицу сдувают с порога внутрь дома. Луна сейчас: ' + moonToday.name.toLowerCase() + moonStatusExtra + '.';
+    badge.innerHTML = 'новый<br>месяц';
+  } else {
+    title.textContent = 'Спецритуалов нет. Но мусор никто не отменял';
+    text.textContent = 'Если сегодня выносишь мусор — делай это днём и не забудь про «меняю отходы на доходы». Луна сейчас: ' + moonToday.name.toLowerCase() + moonStatusExtra + '.';
+    badge.innerHTML = 'свободный<br>режим';
+  }
+
+  let nextFirst = new Date(now.getFullYear(), now.getMonth()+1, 1);
+  if (isFirst) nextFirst = new Date(now.getFullYear(), now.getMonth(), 1);
+  const diff = Math.ceil((nextFirst - new Date(now.getFullYear(),now.getMonth(),now.getDate())) / 86400000);
+  document.getElementById('firstCountdown').textContent = isFirst ? 'Сегодня — тот самый день.' : 'До ближайшего 1-го числа: ' + diff + ' дн.';
+  document.getElementById('moonTip').textContent = moonToday.tip;
+  document.getElementById('moonEmoji').textContent = moonToday.icon;
+  document.getElementById('moonPhase').textContent = moonToday.name;
+  document.getElementById('moonMonth').textContent = months[now.getMonth()] + ' ' + now.getFullYear();
+
+  const moonCalendar = document.getElementById('moonCalendar');
+  const moonNotes = document.getElementById('moonNotes');
+  ['пн','вт','ср','чт','пт','сб','вс'].forEach(d=>{
+    const el=document.createElement('div'); el.className='moon-weekday'; el.textContent=d; moonCalendar.appendChild(el);
+  });
+
+  const year=now.getFullYear(), month=now.getMonth();
+  const firstDay=new Date(year,month,1);
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  let startIndex=firstDay.getDay(); startIndex=startIndex===0?6:startIndex-1;
+  for(let i=0;i<startIndex;i++){
+    const empty=document.createElement('div'); empty.className='moon-day empty'; moonCalendar.appendChild(empty);
+  }
+
+  const monthEvents = events.filter(e=>e.date.getFullYear()===year && e.date.getMonth()===month);
+
+  function intermediateFor(date){
+    const principal=monthEvents.find(e=>sameLocalDay(e.date,date));
+    if(principal) return {icon:principal.icon, short:principal.short, major:true};
+    const p=phaseAt(date);
+    if(p.name==='Растущий серп') return {icon:'🌒',short:'рост'};
+    if(p.name==='Растущая Луна') return {icon:'🌔',short:'рост'};
+    if(p.name==='Убывающая Луна') return {icon:'🌖',short:'убыль'};
+    return {icon:'🌘',short:'убыль'};
+  }
+
+  for(let day=1;day<=daysInMonth;day++){
+    const noon=new Date(year,month,day,12,0,0);
+    const info=intermediateFor(noon);
+    const cell=document.createElement('div'); cell.className='moon-day';
+    if(day===now.getDate()) cell.classList.add('today');
+    if(info.major) cell.classList.add('major');
+    cell.innerHTML='<div class="num">'+day+'</div><div class="micon">'+info.icon+'</div><div class="mini">'+info.short+'</div>';
+    moonCalendar.appendChild(cell);
+  }
+
+  function addMoonNote(e){
+    const note=document.createElement('div'); note.className='moon-note';
+    note.textContent=e.name+': '+e.date.getDate()+' '+monthsGen[e.date.getMonth()]+' · '+timeFmt.format(e.date);
+    moonNotes.appendChild(note);
+  }
+  monthEvents.forEach(addMoonNote);
+
+  document.querySelectorAll('.filter').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));
+      btn.classList.add('active');
+      const filter=btn.dataset.filter;
+      document.querySelectorAll('.ritual-section').forEach(sec=>{
+        sec.classList.toggle('hide', filter!=='all' && sec.dataset.group!==filter);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
