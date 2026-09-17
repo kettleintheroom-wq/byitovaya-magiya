@@ -1,96 +1,922 @@
-<!doctype html>
-<html lang="ru">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f4efe7">
-<meta name="description" content="Бюро бытовой магии: приметы, ритуалы и лунный календарь по расписанию.">
-<title>Бюро бытовой магии — по расписанию</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#f4efe7;--paper:#fffdf8;--ink:#171714;--muted:#746f67;--line:#dcd5cb;--accent:#d95932;--soft:#f3d6ca;--green:#365b44;--yellow:#f0c762;--moon:#756b8f;--shadow:0 14px 44px #251e1514;--r:24px;--mono:"IBM Plex Mono",ui-monospace,monospace}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 10% 8%,#f0c7622e,transparent 30rem),radial-gradient(circle at 92% 14%,#d9593218,transparent 28rem),var(--bg)}body.lock{overflow:hidden}button{font:inherit;color:inherit}a{color:inherit}.wrap{width:min(1160px,calc(100% - 32px));margin:auto}.mono,.eyebrow,.meta,.tag,.filter-label{font-family:var(--mono)}
-header{padding-top:26px}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;color:var(--muted);font-size:14px}.brand{display:flex;align-items:center;gap:9px;font-weight:850;color:var(--ink)}.mark{width:12px;height:12px;border:2px solid currentColor;border-radius:50%;position:relative}.mark:after{content:"";position:absolute;width:3px;height:3px;border-radius:50%;background:var(--accent);right:-5px;top:-5px}.date-pill{padding:9px 12px;border:1px solid var(--line);background:#fffdf8b8;border-radius:999px}.hero{padding:70px 0 36px;display:grid;grid-template-columns:1.25fr .75fr;gap:32px;align-items:end}h1{margin:0;font-size:clamp(54px,8.6vw,112px);line-height:.87;letter-spacing:-.072em}.hero p{margin:0;color:var(--muted);font-size:18px;line-height:1.52;max-width:450px}.hero p strong{color:var(--ink)}.subline{margin-top:17px;color:var(--muted);font:500 10px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase}
-.dash{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.brief{background:var(--ink);color:#fff;border-radius:var(--r);padding:28px;box-shadow:var(--shadow)}.brief-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.11em;opacity:.64}.brief h2{font-size:clamp(30px,4vw,48px);line-height:.98;letter-spacing:-.045em;margin:8px 0 6px}.brief-date{color:#bbb7af}.stamp{width:124px;height:124px;border-radius:50%;background:var(--yellow);color:var(--ink);display:grid;place-items:center;text-align:center;padding:12px;font-weight:900;line-height:1.05;transform:rotate(4deg);flex:none}.stamp small{display:block;font:600 9px var(--mono);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}.brief-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:24px}.brief-cell{border:1px solid #ffffff24;border-radius:16px;padding:12px;min-height:88px}.brief-cell .meta{font-size:9px;color:#aaa69e;text-transform:uppercase;letter-spacing:.07em}.brief-cell b{display:block;margin-top:7px;font-size:15px;line-height:1.25}
-.moonbox{background:#fffdf8e8;border:1px solid var(--line);border-radius:var(--r);padding:19px;box-shadow:0 5px 18px #251e1509}.moonhead{display:flex;justify-content:space-between;gap:12px}.moontitle{font-size:22px;font-weight:850;letter-spacing:-.035em;margin-top:5px}.moonsub{font-size:12px;color:var(--muted);line-height:1.35;max-width:270px}.moonstatus{text-align:right}.moonsym{font-size:26px}.moonphase{font-size:13px;font-weight:800}.mooncal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:14px}.wd{text-align:center;color:var(--muted);font:600 9px var(--mono);text-transform:uppercase}.mday{border:1px solid var(--line);background:var(--paper);border-radius:11px;min-height:51px;padding:5px 2px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px}.mday.blank{border:0;background:transparent}.mday.today{box-shadow:inset 0 0 0 1px var(--ink);border-color:var(--ink);color:var(--ink)}.mday.major{background:#e5e0ed}.mmini{font:500 8px var(--mono);color:var(--muted)}.moonnotes{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}.moonnote{border:1px solid var(--line);border-radius:999px;padding:5px 7px;color:var(--muted);font:500 8px var(--mono)}
-.quick{display:grid;grid-template-columns:1.35fr .65fr;gap:12px;margin:16px 0 52px}.box{border:1px solid var(--line);background:#fffdf8b8;border-radius:20px;padding:17px 18px}.random{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.random strong{font-size:18px}.muted{font-size:13px;color:var(--muted);line-height:1.4}.btn{border:0;border-radius:999px;padding:10px 14px;background:var(--ink);color:#fff;font-weight:800;cursor:pointer}.btn.accent{background:var(--accent)}.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}.random-result{display:none;grid-column:1/-1;border-top:1px dashed var(--line);padding-top:13px;grid-template-columns:1fr auto;gap:12px;align-items:center}.random-result.show{display:grid}.actions{display:flex;gap:7px;flex-wrap:wrap}.achbox{display:flex;justify-content:space-between;align-items:center;gap:12px;cursor:pointer}.achcount{font-size:30px;font-weight:900}.achcopy{text-align:right;color:var(--muted);font-size:12px}
-.filters{border:1px solid var(--line);background:#fffdf8ad;border-radius:22px;padding:16px 18px}.frow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.frow+.frow{margin-top:10px}.filter-label{min-width:118px;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.08em}.filter{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:8px 11px;font-size:12px;font-weight:750;cursor:pointer}.filter.active{background:var(--ink);color:#fff;border-color:var(--ink)}.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:15px;margin:25px 0 16px}.section-head h2{font-size:clamp(34px,5vw,58px);letter-spacing:-.05em;line-height:1;margin:0}.count{font:500 10px var(--mono);color:var(--muted);text-transform:uppercase}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{--cat:var(--accent);background:#fffdf8e8;border:1px solid var(--line);border-radius:22px;padding:19px;min-height:320px;display:flex;flex-direction:column;position:relative;overflow:hidden;cursor:pointer;transition:.2s}.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cat)}.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}.cardtop{display:flex;justify-content:space-between;align-items:start}.ritualno{font:500 10px var(--mono);color:var(--muted);letter-spacing:.07em;text-transform:uppercase}.icon{font-size:28px}.tags{display:flex;gap:5px;flex-wrap:wrap;margin:16px 0 13px}.tag{border:1px solid var(--line);border-radius:999px;padding:5px 7px;font-size:8px;text-transform:uppercase;letter-spacing:.05em;background:transparent}.tag.origin{color:var(--muted);cursor:pointer}.dotcat{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--c);margin-right:5px}.schedule{display:inline-block;width:max-content;background:#f4f0e9;margin-bottom:11px}.card h3{font-size:25px;line-height:1.02;letter-spacing:-.04em;margin:0 0 9px}.card p{margin:0;color:#5f5a54;line-height:1.42;font-size:14px}.cardfoot{margin-top:auto;padding-top:17px}.hint{font-size:11px;color:var(--muted);margin-bottom:9px}.rowbtn{display:flex;gap:7px}.donebtn,.sharebtn{border:0;border-radius:999px;padding:8px 10px;font-size:11px;font-weight:800;cursor:pointer}.donebtn{background:var(--ink);color:#fff;flex:1}.donebtn.done{background:var(--green)}.sharebtn{border:1px solid var(--line);background:transparent;width:36px}.last{font:500 9px var(--mono);color:var(--green);margin-top:7px}.more{text-align:center;padding:22px 0 54px}.empty{display:none;padding:35px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:22px;background:var(--paper)}
-.author{display:grid;grid-template-columns:.8fr 1.2fr;gap:22px;background:var(--ink);color:#fff;border-radius:var(--r);padding:28px;margin:15px 0 34px;position:relative;overflow:hidden}.author:after{content:"БЮРО";position:absolute;right:-20px;bottom:-22px;color:#ffffff0a;font:600 88px var(--mono)}.author h2{font-size:34px;margin:7px 0 0;letter-spacing:-.04em}.author p{margin:0;color:#c7c3bb;line-height:1.52;position:relative;z-index:1}.socials{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;position:relative;z-index:1}.socials a{text-decoration:none;border:1px solid #ffffff30;border-radius:999px;padding:8px 11px;font:500 10px var(--mono);text-transform:uppercase}.socials a:hover{background:#fff;color:var(--ink)}.rule{background:var(--soft);color:#5d2b1d;padding:20px 22px;border-radius:18px;margin-bottom:46px;line-height:1.45;font-size:14px}footer{border-top:1px solid var(--line);padding:30px 0 60px;display:grid;grid-template-columns:1fr 1.25fr;gap:30px;color:var(--muted);font-size:12px;line-height:1.5}.sources{display:grid;gap:6px}.sources a{text-underline-offset:3px}
-.overlay{position:fixed;inset:0;z-index:1000;display:none;place-items:center;background:#17171485;backdrop-filter:blur(6px);padding:18px}.overlay.open{display:grid}.modal{width:min(720px,100%);max-height:90vh;overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:26px;box-shadow:0 30px 90px #0003}.close{float:right;position:sticky;top:12px;margin:12px 12px 0 0;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fffdf8ed;font-size:20px;cursor:pointer}.modalbody{padding:25px 28px 30px}.modalbody h2{font-size:clamp(34px,6vw,58px);line-height:.95;letter-spacing:-.055em;margin:12px 0}.short{background:#f3efe8;border-radius:14px;padding:13px 15px;font-weight:800;margin:17px 0 22px}.detail{display:grid;grid-template-columns:1fr 1fr;gap:12px}.dblock{border-top:1px solid var(--line);padding-top:12px;min-height:90px}.dblock.full{grid-column:1/-1}.dblock h4{font:600 9px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 7px}.dblock p{font-size:14px;line-height:1.48;margin:0}.modal-actions{display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:18px;margin-top:22px}.achgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.achievement{border:1px solid var(--line);border-radius:17px;padding:15px;min-height:108px;background:#faf7f1}.achievement.locked{background:#f2eee7;color:#a49e95}.achievement b{font-size:17px}.achievement p{font-size:12px;color:var(--muted);margin:7px 0 0}.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);opacity:0;z-index:1300;background:var(--ink);color:#fff;border-radius:999px;padding:11px 16px;font-size:13px;transition:.25s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
-@media(max-width:980px){.hero,.dash{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.hero p{max-width:700px}}@media(max-width:760px){.brief-head{display:block}.stamp{width:auto;height:auto;border-radius:999px;transform:none;display:inline-block;margin-top:15px}.brief-grid{grid-template-columns:1fr}.quick,.author,footer{grid-template-columns:1fr}.filter-label{width:100%;min-width:0}.detail{grid-template-columns:1fr}.dblock.full{grid-column:auto}}@media(max-width:560px){.wrap{width:min(100% - 20px,1160px)}h1{font-size:59px}.hero{padding-top:48px}.hero p{font-size:16px}.grid{grid-template-columns:1fr}.random,.random-result{grid-template-columns:1fr}.achgrid{grid-template-columns:1fr}.modalbody{padding:18px 18px 26px}.overlay{padding:8px}.mday{min-height:49px}}
-</style></head><body>
-<header class="wrap"><div class="top"><div class="brand"><span class="mark"></span>БЮРО БЫТОВОЙ МАГИИ</div><div class="date-pill" id="dateTop">сверяемся со Вселенной</div></div>
-<div class="hero"><div><h1>Бытовая магия<br>по расписанию</h1><div class="subline">регламент · приметы · луна · интернет-фольклор</div></div><p>Приметы, ритуалы и странные практики из интернета — <strong>с календарём, фазами Луны и понятной инструкцией, когда что делать.</strong></p></div>
-<div class="dash"><section class="brief"><div class="brief-head"><div><div class="eyebrow">Магическая сводка дня</div><h2 id="briefTitle">Вселенная загружается…</h2><div class="brief-date" id="briefDate"></div></div><div class="stamp" id="stamp"><div><small>активность</small><b>считаем</b></div></div></div><div class="brief-grid"><div class="brief-cell"><div class="meta">Луна</div><b id="briefMoon">—</b></div><div class="brief-cell"><div class="meta">Сегодня</div><b id="briefRitual">—</b></div><div class="brief-cell"><div class="meta">Бытовой регламент</div><b>Мусор — по примете лучше до заката</b></div></div></section>
-<aside class="moonbox"><div class="moonhead"><div><div class="eyebrow" style="opacity:1;color:var(--muted)">Лунный календарь</div><div class="moontitle" id="moonMonth"></div><div class="moonsub">Основные фазы считаются астрономически · время по часовому поясу устройства</div></div><div class="moonstatus"><div class="moonsym" id="moonSym">☾</div><div class="moonphase" id="moonPhase"></div></div></div><div class="mooncal" id="moonCal"></div><div class="moonnotes" id="moonNotes"></div></aside></div>
-<div class="quick"><div class="box random"><div><strong>Мне срочно нужна бытовая магия</strong><div class="muted">Выдадим случайный ритуал, который не требует ждать специального дня.</div></div><button class="btn accent" id="randomBtn">Выдать ритуал ✦</button><div class="random-result" id="randomResult"><div><div class="eyebrow" style="opacity:1;color:var(--muted)">Вселенная рекомендует</div><strong id="randomTitle"></strong><div class="muted" id="randomCopy"></div></div><div class="actions"><button class="btn" id="randomOpen">Поколдовать</button><button class="btn alt" id="randomAgain">Дайте другой</button></div></div></div><button class="box achbox" id="achOpen"><div><div class="eyebrow" style="opacity:1;color:var(--muted)">Личный архив</div><div class="achcount"><span id="achCount">0</span>/8</div></div><div class="achcopy">достижений<br>разблокировано →</div></button></div></header>
-<main class="wrap"><div class="filters"><div class="frow"><div class="filter-label">По теме</div><button class="filter active" data-category="all">Всё</button><button class="filter" data-category="money">Деньги</button><button class="filter" data-category="home">Дом</button><button class="filter" data-category="luck">Удача</button><button class="filter" data-category="love">Любовь</button><button class="filter" data-category="work">Работа и дела</button><button class="filter" data-category="moon">Луна</button></div><div class="frow"><div class="filter-label">По времени</div><button class="filter active" data-time="all">Любое</button><button class="filter" data-time="today">Сегодня</button><button class="filter" data-time="weekly">По дням недели</button><button class="filter" data-time="date">По датам</button><button class="filter" data-time="anytime">Когда угодно</button><button class="filter" data-time="moon">По Луне</button></div><div class="frow"><div class="filter-label">Происхождение</div><button class="filter active" data-origin="all">Любое</button><button class="filter" data-origin="folk">Народная примета</button><button class="filter" data-origin="internet">Интернет-ритуал</button><button class="filter" data-origin="simoron">Симорон</button><button class="filter" data-origin="esoteric">Эзотерика</button><button class="filter" data-origin="tradition">Традиция</button><button class="filter" data-origin="fengshui">Фэншуй</button></div></div>
-<div class="section-head"><h2>Картотека ритуалов</h2><div class="count" id="resultCount"></div></div><div class="grid" id="grid"></div><div class="empty" id="empty">По этим фильтрам ничего не нашлось. Даже Вселенная иногда отвечает «нет данных».</div><div class="more" id="more"><button class="btn alt" id="moreBtn">Показать все ритуалы</button></div>
-<section class="author"><div><div class="eyebrow">Кто отвечает за всё это</div><h2>Соня</h2></div><div><p>Соня — SMM-специалист, пользователь интернета и по совместительству неофициальный сотрудник финансового отдела Вселенной. Собираю приметы, ритуалы и прочую бытовую магию, чтобы всё важное было в одном месте.</p><div class="socials"><a href="https://www.threads.com/@thesonyaverse" target="_blank">Threads ↗</a><a href="https://www.instagram.com/thesonyaverse" target="_blank">Instagram ↗</a><a href="https://t.me/+TuggSgpHp6g2MTJi" target="_blank">Telegram ↗</a></div></div></section>
-<div class="rule"><strong>Дисклеймер отдела магического комплаенса:</strong> здесь собраны суеверия, приметы, интернет-ритуалы и элементы фольклора — не доказанные способы повлиять на деньги, отношения, карьеру или события. Лунные фазы — единственная часть, где мы действительно считаем астрономию: основные моменты фаз вычисляются по алгоритмам Жана Мееуса и переводятся в часовой пояс устройства.</div></main>
-<footer class="wrap"><div><div class="brand"><span class="mark"></span>БЮРО БЫТОВОЙ МАГИИ</div><p>Архив бытовых примет, интернет-ритуалов и культурных странностей. Верить необязательно. Корица всё равно вкусная.</p></div><div class="sources"><strong style="color:var(--ink)">Основные источники</strong><a href="https://liter.kz/kofe-s-koritsei-po-chetvergam-pochemu-kazakhstantsy-privlekaiut-dengi-magiei-1782208178/" target="_blank">Liter.kz — корица, мусор и лавр</a><a href="https://www.izh.kp.ru/daily/277808/5291846/" target="_blank">КП — денежные ритуалы</a><a href="https://izhlife.ru/psychology/krasnye-trusy-monetka-v-tsvetke-i-pravilnyy-vynos-musora-samye-izvestnye-i-strannye-sovremennye-ritu.html" target="_blank">IZHLIFE — современные ритуалы</a><a href="https://styler.rbc.ua/ukr/horoscopes/moneta-pid-kilimkom-i-lavroviy-list-gamantsi-1788620563.html" target="_blank">RBC Styler — монета и лавр</a><a href="https://lisa.ru/goroskop/892252-podarit-kruzhku-nezamuzhnej-podruge-primeta-i-ee-sovremennoe-tolkovanie/" target="_blank">Lisa.ru — кружка от замужней подруги</a><a href="https://www.nur.kz/esoterics/signs/1857923-spatifillum-primety-svazannye-s-cvetkom/" target="_blank">NUR.KZ — спатифиллум</a><a href="https://www.inmyroom.ru/posts/11391-fenshuy-v-interiere-10-proverennyh-sposobov-privlech-dengi-i-lyubov" target="_blank">INMYROOM — фэншуй и парные предметы</a><a href="https://www.timeanddate.com/news/astronomy/moon-september-2026" target="_blank">Timeanddate — сверка лунных фаз</a></div></footer>
-<div class="overlay" id="ritualOverlay"><div class="modal"><button class="close" id="closeRitual">×</button><div class="modalbody" id="modalBody"></div></div></div><div class="overlay" id="achOverlay"><div class="modal"><button class="close" id="closeAch">×</button><div class="modalbody"><div class="eyebrow" style="opacity:1;color:var(--muted)">Личный архив</div><h2>Достижения</h2><p class="muted">Невыполненные достижения скрыты. Так интереснее.</p><div class="achgrid" id="achGrid"></div></div></div></div><div class="toast" id="toast"></div>
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f4efe7"><meta name="description" content="Бюро бытовой магии: приметы, ритуалы и лунный календарь по расписанию."><title>Бюро бытовой магии — по расписанию</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"><style>
+:root{--bg:#f4efe7;--paper:#fffdf8;--ink:#171714;--muted:#746f67;--line:#dcd5cb;--accent:#d95932;--soft:#f3d6ca;--green:#365b44;--yellow:#f0c762;--moon:#756b8f;--shadow:0 14px 44px #251e1514;--r:22px;--mono:"IBM Plex Mono",ui-monospace,monospace}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 8% 5%,#f0c76225,transparent 28rem),var(--bg)}body.lock{overflow:hidden}button{font:inherit;color:inherit}a{color:inherit}.wrap{width:min(1080px,calc(100% - 32px));margin:auto}.mono,.eyebrow,.meta,.nav,.filter-label{font-family:var(--mono)}.hide{display:none!important}
+header{padding-top:22px}.top{display:flex;justify-content:space-between;align-items:center;gap:14px;color:var(--muted);font-size:13px}.brand{display:flex;align-items:center;gap:9px;color:var(--ink);font-weight:850}.mark{width:12px;height:12px;border:2px solid currentColor;border-radius:50%;position:relative}.mark:after{content:"";position:absolute;width:3px;height:3px;border-radius:50%;background:var(--accent);right:-5px;top:-5px}.date{border:1px solid var(--line);background:#fffdf8aa;border-radius:999px;padding:8px 11px}.nav{display:flex;gap:4px;overflow:auto;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:18px;padding:7px 0;scrollbar-width:none}.nav::-webkit-scrollbar{display:none}.nav button{border:0;background:transparent;padding:9px 12px;border-radius:999px;text-transform:uppercase;letter-spacing:.05em;font-size:10px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap}.nav button.active{background:var(--ink);color:#fff}.page{display:none;padding:42px 0 62px}.page.active{display:block}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:end;padding:8px 0 34px}.hero h1{font-size:clamp(48px,6.5vw,76px);line-height:.9;letter-spacing:-.065em;margin:0}.hero p{margin:0;color:var(--muted);font-size:17px;line-height:1.5;max-width:430px}.hero strong{color:var(--ink)}.subline{margin-top:14px;font:500 9px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.todaygrid{display:grid;grid-template-columns:1.35fr .65fr;gap:14px}.brief{background:var(--ink);color:#fff;border-radius:var(--r);padding:25px;box-shadow:var(--shadow)}.briefhead{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.eyebrow{font-size:9px;text-transform:uppercase;letter-spacing:.1em;opacity:.64}.brief h2{font-size:clamp(29px,4vw,44px);line-height:.98;letter-spacing:-.045em;margin:8px 0 5px}.briefdate{color:#bbb7af;font-size:14px}.stamp{min-width:112px;min-height:112px;border-radius:50%;background:var(--yellow);color:var(--ink);display:grid;place-items:center;text-align:center;padding:12px;font-weight:900;line-height:1.05;transform:rotate(3deg)}.stamp small{display:block;font:600 8px var(--mono);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}.lines{margin-top:22px;border-top:1px solid #ffffff20}.line{display:grid;grid-template-columns:95px 1fr;gap:12px;padding:11px 0;border-bottom:1px solid #ffffff17}.line:last-child{border-bottom:0}.line .meta{font-size:8px;color:#aaa69e;text-transform:uppercase;letter-spacing:.06em}.line b{font-size:14px;line-height:1.3}.quick{border:1px solid var(--line);background:var(--paper);border-radius:var(--r);padding:21px;display:flex;flex-direction:column}.quick h3{font-size:25px;line-height:1;letter-spacing:-.04em;margin:8px 0 8px}.quick p{font-size:13px;color:var(--muted);line-height:1.45;margin:0}.btn{border:0;border-radius:999px;padding:10px 14px;background:var(--ink);color:#fff;font-weight:800;cursor:pointer}.btn.accent{background:var(--accent)}.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}.quick>.btn{margin-top:auto}.randres{display:none;border-top:1px dashed var(--line);margin-top:16px;padding-top:15px}.randres.show{display:block}.randres b{display:block;font-size:19px;margin:5px 0}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.shortcuts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:13px}.shortcut{border:1px solid var(--line);background:#fffdf8a8;border-radius:17px;padding:14px;text-align:left;cursor:pointer}.shortcut .meta{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}.shortcut b{display:block;margin-top:6px;font-size:15px}
+.pagehead{display:flex;justify-content:space-between;gap:26px;align-items:end;margin-bottom:27px}.pagetitle{font-size:clamp(40px,6vw,68px);line-height:.93;letter-spacing:-.06em;margin:0}.pagelead{max-width:430px;color:var(--muted);font-size:15px;line-height:1.48;margin:0}
+.filters{border:1px solid var(--line);background:#fffdf8a5;border-radius:19px;padding:14px 16px;margin-bottom:20px}.frow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.filter-label{min-width:108px;font-size:8px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}.filter{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:8px 10px;font-size:12px;font-weight:750;cursor:pointer}.filter.active{background:var(--ink);color:#fff;border-color:var(--ink)}details.advanced{border-top:1px solid var(--line);margin-top:10px;padding-top:10px}details.advanced summary{font-size:12px;font-weight:800;color:var(--muted);cursor:pointer;list-style:none}details.advanced summary:after{content:" +"}details.advanced[open] summary:after{content:" −"}.advanced .frow{margin-top:10px}.count{font:500 9px var(--mono);color:var(--muted);text-transform:uppercase;margin-bottom:14px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.card{--cat:var(--accent);background:#fffdf8e8;border:1px solid var(--line);border-radius:19px;padding:17px;min-height:245px;display:flex;flex-direction:column;position:relative;overflow:hidden;cursor:pointer;transition:.18s}.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--cat)}.card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}.cardtop{display:flex;justify-content:space-between}.ritualno{font:500 9px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.07em}.icon{font-size:24px}.kicker{margin:15px 0 8px;font:500 8px/1.25 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}.card h3{font-size:23px;line-height:1.02;letter-spacing:-.04em;margin:0 0 8px}.card p{font-size:13px;line-height:1.42;color:#625d57;margin:0}.morelink{margin-top:auto;padding-top:16px;font-size:12px;font-weight:850}.more{text-align:center;padding-top:18px}.empty{display:none;padding:32px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:19px;background:var(--paper)}
+.callayout{display:grid;grid-template-columns:1fr .72fr;gap:15px}.moonbox,.schedule{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:21px}.moonhead{display:flex;justify-content:space-between;gap:14px}.moontitle{font-size:27px;font-weight:850;letter-spacing:-.04em;margin-top:4px}.moonsub{font-size:12px;color:var(--muted);line-height:1.4}.moonstatus{text-align:right}.moonsym{font-size:27px}.moonphase{font-size:13px;font-weight:800;margin-top:4px}.mooncal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:15px}.wd{text-align:center;color:var(--muted);font:600 9px var(--mono);text-transform:uppercase}.mday{border:1px solid var(--line);background:#fffefa;border-radius:11px;min-height:54px;padding:5px 2px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px}.mday.blank{border:0;background:transparent}.mday.today{box-shadow:inset 0 0 0 1px var(--ink);border-color:var(--ink);color:var(--ink)}.mday.major{background:#e7e2ed}.mmini{font:500 8px var(--mono);color:var(--muted)}.moonnotes{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}.moonnote{border:1px solid var(--line);border-radius:999px;padding:5px 7px;color:var(--muted);font:500 8px var(--mono)}.schedule h3{font-size:27px;letter-spacing:-.04em;margin:6px 0 5px}.schedule>p{font-size:13px;color:var(--muted);line-height:1.4;margin:0 0 15px}.scheditem{display:grid;grid-template-columns:86px 1fr;gap:11px;padding:12px 0;border-top:1px solid var(--line)}.scheddate{font:600 9px/1.3 var(--mono);color:var(--muted);text-transform:uppercase}.scheditem b{font-size:14px;line-height:1.3}
+.progress{background:var(--ink);color:#fff;border-radius:var(--r);padding:22px;display:flex;justify-content:space-between;align-items:end;margin-bottom:14px}.prognum{font-size:55px;font-weight:900;letter-spacing:-.06em;line-height:.9}.progcopy{font-size:13px;color:#c6c1b9;text-align:right;line-height:1.4}.achgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.achievement{border:1px solid var(--line);background:var(--paper);border-radius:17px;padding:16px;min-height:112px}.achievement.locked{background:#efebe4;color:#aaa39a}.achievement b{font-size:17px}.achievement p{font-size:12px;color:var(--muted);line-height:1.4;margin:7px 0 0}.achievement.locked b{font-family:var(--mono);letter-spacing:.12em}
+.aboutgrid{display:grid;grid-template-columns:.8fr 1.2fr;gap:15px}.author,.aboutcard{border:1px solid var(--line);border-radius:var(--r);padding:22px;background:var(--paper)}.author{background:var(--ink);color:#fff}.author h2{font-size:35px;letter-spacing:-.05em;margin:7px 0 11px}.author p{color:#c6c1b9;line-height:1.5;margin:0}.socials{display:flex;gap:7px;flex-wrap:wrap;margin-top:17px}.socials a{color:#fff;text-decoration:none;border:1px solid #ffffff30;border-radius:999px;padding:8px 10px;font:500 9px var(--mono);text-transform:uppercase}.aboutcard h3{font-size:25px;letter-spacing:-.04em;margin:6px 0 9px}.aboutcard p{font-size:14px;color:var(--muted);line-height:1.48}.method{border-top:1px solid var(--line);padding-top:13px;margin-top:14px}.method summary{font-weight:850;cursor:pointer}.sources{display:grid;gap:7px;margin-top:11px;font-size:12px;color:var(--muted)}.disclaimer{background:var(--soft);color:#5d2b1d;padding:18px 20px;border-radius:17px;margin-top:15px;font-size:13px;line-height:1.45}
+.overlay{position:fixed;inset:0;z-index:1000;display:none;place-items:center;background:#17171485;backdrop-filter:blur(6px);padding:16px}.overlay.open{display:grid}.modal{width:min(690px,100%);max-height:90vh;overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:24px;box-shadow:0 30px 90px #0003}.close{float:right;position:sticky;top:11px;margin:11px 11px 0 0;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fffdf8ee;font-size:20px;cursor:pointer}.modalbody{padding:24px 27px 28px}.modalbody h2{font-size:clamp(34px,6vw,54px);line-height:.95;letter-spacing:-.055em;margin:10px 0}.short{padding:13px 14px;background:#f0ece5;border-radius:13px;font-size:14px;font-weight:800;margin:15px 0 20px}.detail{display:grid;grid-template-columns:1fr 1fr;gap:12px}.dblock{border-top:1px solid var(--line);padding-top:12px;min-height:84px}.dblock.full{grid-column:1/-1}.dblock h4{margin:0 0 7px;font:600 9px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}.dblock p{margin:0;font-size:14px;line-height:1.47}.modal-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}.last{font:500 9px var(--mono);color:var(--green);margin-top:8px}.toast{position:fixed;left:50%;bottom:24px;z-index:1300;transform:translate(-50%,30px);opacity:0;background:var(--ink);color:#fff;border-radius:999px;padding:11px 16px;font-size:13px;box-shadow:var(--shadow);transition:.25s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:900px){.hero,.todaygrid{grid-template-columns:1fr}.hero p{max-width:650px}.callayout{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}}@media(max-width:680px){.pagehead{display:block}.pagelead{margin-top:12px}.briefhead{display:block}.stamp{min-width:0;min-height:0;width:max-content;border-radius:999px;transform:none;margin-top:14px;padding:9px 12px}.stamp small{display:inline;margin-right:5px}.shortcuts,.aboutgrid,.achgrid{grid-template-columns:1fr}.filter-label{width:100%;min-width:0}.detail{grid-template-columns:1fr}.dblock.full{grid-column:auto}}@media(max-width:520px){.wrap{width:min(100% - 20px,1080px)}.page{padding-top:31px}.hero h1{font-size:50px}.grid{grid-template-columns:1fr}.brief,.quick,.moonbox,.schedule,.author,.aboutcard{padding:18px}.line{grid-template-columns:84px 1fr}.modalbody{padding:18px 18px 25px}.overlay{padding:7px}}
+</style></head><body><header class="wrap"><div class="top"><div class="brand"><span class="mark"></span>БЮРО БЫТОВОЙ МАГИИ</div><div class="date" id="dateTop">сверяемся со Вселенной</div></div><nav class="nav"><button class="active" data-route="today">Сегодня</button><button data-route="rituals">Ритуалы</button><button data-route="calendar">Календарь</button><button data-route="achievements">Достижения</button><button data-route="about">О проекте</button></nav></header><main class="wrap">
+
+<section class="page active" id="today">
+<div class="hero"><div><h1>Бытовая магия<br>по расписанию</h1><div class="subline">приметы · ритуалы · луна · интернет-фольклор</div></div><p>Приметы, ритуалы и странные практики из интернета — <strong>с календарём, фазами Луны и понятной инструкцией, когда что делать.</strong></p></div>
+
+<div class="todaygrid">
+<div class="brief"><div class="briefhead"><div><div class="eyebrow">Магическая сводка дня</div><h2 id="briefTitle">Проверяем регламент…</h2><div class="briefdate" id="briefDate"></div></div><div class="stamp" id="stamp"><div><small>активность</small><b>считаем</b></div></div></div><div class="lines"><div class="line"><span class="meta">Луна</span><b id="briefMoon">—</b></div><div class="line"><span class="meta">Сегодня</span><b id="briefRitual">—</b></div><div class="line"><span class="meta">Регламент</span><b>Мусор — по примете лучше до заката</b></div></div></div>
+
+<div class="quick"><div class="eyebrow" style="opacity:1;color:var(--muted)">Экстренный запрос</div><h3>Мне срочно нужна бытовая магия</h3><p>Выдадим только ритуал, который можно выполнить прямо сейчас. Лунные ритуалы проверяются по текущей фазе.</p><button class="btn accent" id="randomBtn">Выдать ритуал ✦</button><div class="randres" id="randomResult"><div class="eyebrow" style="opacity:1;color:var(--muted)">Вселенная рекомендует</div><b id="randomTitle"></b><p id="randomCopy"></p><div class="actions"><button class="btn" id="randomOpen">Подробнее</button><button class="btn alt" id="randomAgain">Дайте другой</button></div></div></div>
+</div>
+
+<div class="shortcuts"><button class="shortcut" data-route="rituals"><span class="meta">Картотека</span><b>Все ритуалы →</b></button><button class="shortcut" data-route="calendar"><span class="meta">Расписание</span><b>Луна и ближайшие даты →</b></button><button class="shortcut" data-route="achievements"><span class="meta">Личный архив</span><b><span id="achShortcut">0</span>/8 достижений →</b></button></div>
+</section>
+
+<section class="page" id="rituals">
+<div class="pagehead"><div><div class="eyebrow" style="opacity:1;color:var(--muted)">Архив Бюро</div><h2 class="pagetitle">Картотека<br>ритуалов</h2></div><p class="pagelead">Выбирайте тему. Дополнительные фильтры по времени и происхождению спрятаны, чтобы картотека не выглядела как панель управления самолётом.</p></div>
+
+<div class="filters">
+<div class="frow"><span class="filter-label">По теме</span><button class="filter active" data-category="all">Всё</button><button class="filter" data-category="money">Деньги</button><button class="filter" data-category="home">Дом</button><button class="filter" data-category="luck">Удача</button><button class="filter" data-category="love">Любовь</button><button class="filter" data-category="work">Работа и дела</button><button class="filter" data-category="moon">Луна</button></div>
+<details class="advanced"><summary>Дополнительные фильтры</summary><div class="frow"><span class="filter-label">По времени</span><button class="filter active" data-time="all">Любое</button><button class="filter" data-time="today">Сегодня</button><button class="filter" data-time="weekly">По дням недели</button><button class="filter" data-time="date">По датам</button><button class="filter" data-time="anytime">Когда угодно</button><button class="filter" data-time="moon">По Луне</button></div><div class="frow"><span class="filter-label">Происхождение</span><button class="filter active" data-origin="all">Любое</button><button class="filter" data-origin="folk">Народная примета</button><button class="filter" data-origin="internet">Интернет-ритуал</button><button class="filter" data-origin="simoron">Симорон</button><button class="filter" data-origin="esoteric">Эзотерика</button><button class="filter" data-origin="tradition">Традиция</button><button class="filter" data-origin="fengshui">Фэншуй</button></div></details>
+</div>
+
+<div class="count" id="resultCount"></div>
+<div class="grid" id="grid"></div>
+<div class="empty" id="empty">По этим фильтрам ничего не нашлось.</div>
+<div class="more" id="more"><button class="btn alt" id="moreBtn">Показать все ритуалы</button></div>
+</section>
+
+<section class="page" id="calendar">
+<div class="pagehead"><div><div class="eyebrow" style="opacity:1;color:var(--muted)">Отдел планирования</div><h2 class="pagetitle">Магический<br>календарь</h2></div><p class="pagelead">Фазы Луны, ближайшие четверги и специальные даты — отдельным разделом, а не поверх всей остальной жизни.</p></div>
+<div class="callayout"><div class="moonbox"><div class="moonhead"><div><div class="eyebrow" style="opacity:1;color:var(--muted)">Лунный календарь</div><div class="moontitle" id="moonMonth"></div><div class="moonsub">Основные фазы рассчитываются астрономически · время по часовому поясу устройства</div></div><div class="moonstatus"><div class="moonsym" id="moonSym">☾</div><div class="moonphase" id="moonPhase"></div></div></div><div class="mooncal" id="moonCal"></div><div class="moonnotes" id="moonNotes"></div></div><aside class="schedule"><div class="eyebrow" style="opacity:1;color:var(--muted)">Ближайшее по расписанию</div><h3>Что дальше</h3><p>Регулярные ритуалы и ключевые лунные фазы на ближайшие недели.</p><div id="schedule"></div></aside></div>
+</section>
+
+<section class="page" id="achievements">
+<div class="pagehead"><div><div class="eyebrow" style="opacity:1;color:var(--muted)">Личный архив</div><h2 class="pagetitle">Достижения</h2></div><p class="pagelead">Отметки хранятся только в этом браузере. Никакого аккаунта и отдельного магического облака.</p></div>
+<div class="progress"><div><div class="eyebrow">Разблокировано</div><div class="prognum"><span id="achCount">0</span>/8</div></div><div class="progcopy"><span id="doneCount">0</span> выполнений<br>зафиксировано Бюро</div></div>
+<div class="achgrid" id="achGrid"></div>
+</section>
+
+<section class="page" id="about">
+<div class="pagehead"><div><div class="eyebrow" style="opacity:1;color:var(--muted)">Служебная информация</div><h2 class="pagetitle">О проекте</h2></div><p class="pagelead">Кто всё это собрал, зачем здесь методология и почему сайт не обещает, что кружка действительно организует свадьбу.</p></div>
+
+<div class="aboutgrid">
+<div class="author"><div class="eyebrow">Кто отвечает за всё это</div><h2>Соня</h2><p>Соня — SMM-специалист, пользователь интернета и по совместительству неофициальный сотрудник финансового отдела Вселенной. Собираю приметы, ритуалы и прочую бытовую магию, чтобы всё важное было в одном месте.</p><div class="socials"><a href="https://www.threads.com/@thesonyaverse" target="_blank" rel="noreferrer">Threads ↗</a><a href="https://www.instagram.com/thesonyaverse" target="_blank" rel="noreferrer">Instagram ↗</a><a href="https://t.me/+TuggSgpHp6g2MTJi" target="_blank" rel="noreferrer">Telegram ↗</a></div></div>
+
+<div class="aboutcard"><div class="eyebrow" style="opacity:1;color:var(--muted)">Методология Бюро</div><h3>Что здесь считается источником</h3><p>Открытые публикации и материалы об интернет-фольклоре нужны здесь, чтобы фиксировать распространённость ритуала, а не подтверждать его действие.</p><p>Поэтому в карточках и подробных инструкциях показывается только <strong>тип происхождения</strong>, а конкретные издания вынесены сюда.</p><details class="method"><summary>Источники и технические детали</summary><div class="sources"><a href="https://liter.kz/kofe-s-koritsei-po-chetvergam-pochemu-kazakhstantsy-privlekaiut-dengi-magiei-1782208178/" target="_blank" rel="noreferrer">Liter.kz — современные денежные ритуалы</a><a href="https://izhlife.ru/psychology/krasnye-trusy-monetka-v-tsvetke-i-pravilnyy-vynos-musora-samye-izvestnye-i-strannye-sovremennye-ritu.html" target="_blank" rel="noreferrer">IZHLIFE — современные бытовые ритуалы</a><a href="https://styler.rbc.ua/ukr/horoscopes/moneta-pid-kilimkom-i-lavroviy-list-gamantsi-1788620563.html" target="_blank" rel="noreferrer">RBC Styler — денежные приметы</a><a href="https://lisa.ru/goroskop/892252-podarit-kruzhku-nezamuzhnej-podruge-primeta-i-ee-sovremennoe-tolkovanie/" target="_blank" rel="noreferrer">Lisa.ru — кружка от замужней подруги</a><a href="https://www.nur.kz/esoterics/signs/1857923-spatifillum-primety-svazannye-s-cvetkom/" target="_blank" rel="noreferrer">NUR.KZ — приметы о спатифиллуме</a><a href="https://www.inmyroom.ru/posts/11391-fenshuy-v-interiere-10-proverennyh-sposobov-privlech-dengi-i-lyubov" target="_blank" rel="noreferrer">INMYROOM — популярные рекомендации фэншуй</a><a href="https://www.timeanddate.com/news/astronomy/moon-september-2026" target="_blank" rel="noreferrer">Timeanddate — контрольная сверка лунных фаз</a></div><p style="font-size:12px">Лунные фазы вычисляются в браузере по формулам для основных фаз Луны на основе алгоритмов Жана Мееуса.</p></details></div>
+</div>
+
+<div class="disclaimer"><b>Дисклеймер отдела магического комплаенса:</b> здесь собраны суеверия, приметы, интернет-ритуалы и фольклор. Это не доказанные способы повлиять на деньги, отношения, карьеру или события.</div>
+</section>
+</main>
+
+<div class="overlay" id="ritualOverlay"><div class="modal"><button class="close" id="closeRitual">×</button><div class="modalbody" id="modalBody"></div></div></div>
+<div class="toast" id="toast"></div>
+
 <script>
 (function(){"use strict";
-const SOURCE={liter:"https://liter.kz/kofe-s-koritsei-po-chetvergam-pochemu-kazakhstantsy-privlekaiut-dengi-magiei-1782208178/",kp:"https://www.izh.kp.ru/daily/277808/5291846/",izhlife:"https://izhlife.ru/psychology/krasnye-trusy-monetka-v-tsvetke-i-pravilnyy-vynos-musora-samye-izvestnye-i-strannye-sovremennye-ritu.html",rbc:"https://styler.rbc.ua/ukr/horoscopes/moneta-pid-kilimkom-i-lavroviy-list-gamantsi-1788620563.html",mug:"https://lisa.ru/goroskop/892252-podarit-kruzhku-nezamuzhnej-podruge-primeta-i-ee-sovremennoe-tolkovanie/",spath:"https://www.nur.kz/esoterics/signs/1857923-spatifillum-primety-svazannye-s-cvetkom/",feng:"https://www.inmyroom.ru/posts/11391-fenshuy-v-interiere-10-proverennyh-sposobov-privlech-dengi-i-lyubov",moon:"https://horo.mail.ru/article/15551-ritualy-i-obryady-na-privlechenie-deneg/",luck:"https://www.izh.kp.ru/daily/27765.4/5223170/"};
-const OR={folk:"народная примета",internet:"интернет-ритуал",simoron:"симорон",esoteric:"эзотерическая практика",tradition:"международная традиция",fengshui:"фэншуй"};
-const CAT={money:{n:"Деньги",c:"#365b44"},home:{n:"Дом",c:"#a55c43"},luck:{n:"Удача",c:"#c39624"},love:{n:"Любовь",c:"#bf6670"},work:{n:"Работа и дела",c:"#40506c"},moon:{n:"Луна",c:"#756b8f"}};
+
+const OR={
+  folk:"народная примета",
+  internet:"интернет-ритуал",
+  simoron:"симорон",
+  esoteric:"эзотерическая практика",
+  tradition:"международная традиция",
+  fengshui:"фэншуй"
+};
+
+const CAT={
+  money:{n:"Деньги",c:"#365b44"},
+  home:{n:"Дом",c:"#a55c43"},
+  luck:{n:"Удача",c:"#c39624"},
+  love:{n:"Любовь",c:"#bf6670"},
+  work:{n:"Работа и дела",c:"#40506c"},
+  moon:{n:"Луна",c:"#756b8f"}
+};
+
 const rituals=[
 {id:"coffee-cinnamon",no:"001",title:"Кофе с корицей",icon:"☕",cat:["money"],origin:"internet",time:"weekly",when:"Каждый четверг",short:"Корица + любимый напиток + четверг. Финансовый отдел Вселенной принимает заявку.",do:"Добавить щепотку корицы в кофе, какао или другой любимый напиток. В популярных версиях напиток размешивают по часовой стрелке.",need:"Напиток и щепотка корицы.",say:"«Как корица вкус прибавляет, так и денежки ко мне прирастают».",src:"liter",srcn:"Liter.kz",rule:"thursday",act:"Я это сделала",done:"Вселенная уведомлена",random:1},
+
 {id:"laurel-wallet",no:"002",title:"Лавр в кошелёк",icon:"⌁",cat:["money"],origin:"internet",time:"weekly",when:"Четверг / без строгой привязки",short:"Сухой лавровый лист отправляется работать в отделение с деньгами.",do:"Целый сухой лавровый лист кладут в отделение кошелька с деньгами как символ достатка. В части современных подборок ритуал привязывают к четвергу.",need:"Сухой лавровый лист и кошелёк.",say:"Специальная устойчивая фраза не обязательна.",src:"rbc",srcn:"RBC Styler",rule:"thursday",act:"Положила лавр",done:"Лавр на службе"},
+
 {id:"red-chandelier",no:"003",title:"Красные трусы на люстру",icon:"◒",cat:["money","luck"],origin:"simoron",time:"weekly",when:"Четверг — денежная версия",short:"Симоронская классика: красное бельё отправляется наверх, денежное намерение — вслед за ним.",do:"В современных пересказах симоронского ритуала красное бельё забрасывают на люстру или другое высокое место с намерением привлечь деньги и удачу.",need:"Красное бельё и безопасное место. Не используйте горячий светильник и шаткую мебель.",say:"«Трусы на люстру — деньги в дом!»",src:"izhlife",srcn:"IZHLIFE",rule:"thursday",act:"Забросила",done:"Ритуал принят"},
+
 {id:"red-friday",no:"004",title:"Красное бельё — light",icon:"♥",cat:["luck","love"],origin:"internet",time:"weekly",when:"Каждую пятницу",short:"Для тех, у кого люстра не подписывалась на эту историю.",do:"Облегчённая интернет-версия: по пятницам просто надевать красное бельё как символ удачи, привлекательности и уверенности.",need:"Красное бельё.",say:"Никакой обязательной формулы — версия без акробатики.",src:"izhlife",srcn:"IZHLIFE",rule:"friday",act:"Сегодня красное",done:"Пятница соблюдена"},
+
 {id:"cinnamon-door",no:"005",title:"Вдуть корицу в дом",icon:"✦",cat:["money","home"],origin:"internet",time:"date",when:"1-е число каждого месяца",short:"Корица остаётся снаружи ровно до момента, когда вы символически приглашаете достаток внутрь.",do:"Встать за порогом лицом в квартиру, взять немного молотой корицы и сдуть её внутрь дома. В вирусных версиях корицу оставляют ненадолго перед уборкой.",need:"Немного молотой корицы.",say:"Формулировки отличаются; можно ограничиться собственным пожеланием достатка дому.",src:"kp",srcn:"КП",rule:"first",act:"Вдула корицу",done:"Корица доставлена"},
+
 {id:"moon-money",no:"006",title:"Показать Луне деньги",icon:"☾",cat:["money","moon"],origin:"esoteric",time:"moon",when:"Растущая Луна / молодой месяц",short:"Открытый кошелёк или купюру показывают молодой или растущей Луне — символически на рост.",do:"В эзотерических и интернет-версиях на растущую Луну показывают купюры или открытый кошелёк и проговаривают намерение на увеличение дохода.",need:"Купюра или кошелёк и видимая Луна — если погода согласна участвовать.",say:"Единой формулы нет: обычно проговаривают пожелание роста дохода.",src:"moon",srcn:"Гороскопы Mail",rule:"waxing",act:"Показала деньги",done:"Луна в курсе"},
+
 {id:"waste-income",no:"007",title:"Отходы → доходы",icon:"↗",cat:["money","home"],origin:"internet",time:"anytime",when:"Когда выносите мусор · по примете лучше днём",short:"Главная формула бытовой экономики: отходы наружу, доходы — внутрь.",do:"Выбрасывая мусор, произнести вслух или про себя фразу «меняю отходы на доходы». Отдельная старая примета советует не выносить мусор после захода солнца.",need:"Мусор, который действительно пора вынести.",say:"«Меняю отходы на доходы».",src:"liter",srcn:"Liter.kz",act:"Обмен состоялся",done:"Отходы обменяны",random:1},
+
 {id:"wallet-charge",no:"008",title:"Кошелёк на зарядку",icon:"⌁",cat:["money"],origin:"internet",time:"anytime",when:"На несколько ночей",short:"Не подключаем к розетке. Изображаем, что финансовая батарея заряжается.",do:"Положить в кошелёк деньги и символически «поставить его на зарядку» — рядом с кабелем или батарейками. В интернет-пересказах оставляют так на несколько ночей.",need:"Кошелёк, деньги и реквизит для символической «зарядки».",say:"Фиксированной формулы нет.",src:"izhlife",srcn:"IZHLIFE",act:"Поставила на зарядку",done:"Кошелёк заряжается",random:1},
+
 {id:"coin-doormat",no:"009",title:"Монета под коврик",icon:"◉",cat:["money","home"],origin:"folk",time:"anytime",when:"Постоянно",short:"Монета у входа должна символически «заманивать» деньги в дом.",do:"Монету кладут под коврик у входной двери как денежный талисман. В некоторых версиях её периодически заменяют.",need:"Одна монета и входной коврик.",say:"Не требуется.",src:"rbc",srcn:"RBC Styler",act:"Монета уже лежит",done:"Монета на посту",random:1},
+
 {id:"coin-plant",no:"010",title:"Монетка в цветок",icon:"⌇",cat:["money","home"],origin:"simoron",time:"anytime",when:"При посадке / поливе",short:"Растение назначается финансовым департаментом, монета — его стартовым капиталом.",do:"Монету закапывают в горшок толстянки, замиокулькаса или другого растения. В симоронских пересказах быстрорастущее растение можно шутливо назначить «капустой».",need:"Комнатное растение и монета.",say:"«Поливаю я капусту, чтоб водилась густо-густо».",src:"izhlife",srcn:"IZHLIFE",act:"Монета посажена",done:"Капитал растёт",random:1},
+
 {id:"broom-down",no:"011",title:"Веник — ручкой вниз",icon:"╱",cat:["home","money"],origin:"folk",time:"anytime",when:"Постоянно",short:"Бытовой регламент хранения веника, чтобы символически не «выметать» достаток.",do:"В денежных приметах веник или метлу советуют хранить определённым образом — в популярных версиях черенком вниз / метущей частью вверх.",need:"Веник, метла или швабра.",say:"Не требуется.",src:"kp",srcn:"КП",act:"Так и стоит",done:"Регламент соблюдён",random:1},
+
 {id:"right-left",no:"012",title:"Правая отдаёт, левая берёт",icon:"↔",cat:["money","luck"],origin:"folk",time:"anytime",when:"Когда передаёте деньги",short:"Наличку по примете отдают правой рукой, принимают левой.",do:"Одна из распространённых денежных примет: отдавать наличные правой рукой, принимать левой; иногда деньги сначала кладут на поверхность, а не передают из рук в руки.",need:"Наличные и желание соблюдать примету.",say:"Не требуется.",src:"kp",srcn:"КП",act:"Соблюла примету",done:"Руки распределены",random:1},
+
 {id:"knock-wood",no:"013",title:"Постучать по дереву",icon:"✳",cat:["luck"],origin:"folk",time:"anytime",when:"После слишком смелого заявления",short:"Классический способ символически не сглазить то, что только что похвалили или предсказали.",do:"Если вслух сказали что-то хорошее о будущем или похвастались удачей, в распространённой примете стучат по дереву, чтобы «не сглазить».",need:"Деревянная поверхность. Или хотя бы убедительный стол.",say:"Часто сопровождают словами «тьфу-тьфу-тьфу, чтобы не сглазить».",src:"luck",srcn:"КП",act:"Постучала",done:"Сглаз перенаправлен",random:1},
+
 {id:"road",no:"014",title:"Присесть на дорожку",icon:"—",cat:["luck","home"],origin:"folk",time:"anytime",when:"Перед дальней дорогой",short:"Собрались, оделись, а потом на минуту снова сели. Всё по протоколу.",do:"Перед дальней дорогой принято ненадолго присесть в тишине. Сегодня это часто воспринимается одновременно как примета и практичный способ вспомнить, всё ли взяли.",need:"Минута и место, куда можно присесть.",say:"Не требуется.",src:"luck",srcn:"КП",act:"Присела",done:"Дорога согласована",random:1},
+
 {id:"mirror-return",no:"015",title:"Вернулась — посмотри в зеркало",icon:"◇",cat:["luck","home"],origin:"folk",time:"anytime",when:"Если пришлось вернуться домой",short:"Забыли ключи? По примете перед вторым выходом нужно показать зеркалу, что план всё ещё в силе.",do:"Согласно распространённой примете, если пришлось вернуться домой после выхода, перед повторным уходом стоит посмотреться в зеркало.",need:"Зеркало и причина, по которой пришлось вернуться.",say:"Не требуется.",src:"luck",srcn:"КП",act:"Посмотрела",done:"Маршрут восстановлен",random:1},
+
 {id:"right-foot",no:"016",title:"С правой ноги",icon:"→",cat:["luck","work"],origin:"folk",time:"anytime",when:"Перед важным местом или делом",short:"Переступить порог правой ногой — маленькая примета «на удачу».",do:"В разных бытовых приметах важное место, встречу или новое пространство советуют начинать с правой ноги.",need:"Правая нога и порог.",say:"Не требуется.",src:"luck",srcn:"КП",act:"Шагнула правильно",done:"Старт засчитан",random:1},
+
 {id:"grapes",no:"017",title:"12 виноградин",icon:"•••",cat:["luck","love"],origin:"tradition",time:"date",when:"Новый год · 12 ударов часов",short:"По виноградине на каждый удар — и заодно пожелание на каждый месяц нового года.",do:"Испанская новогодняя традиция: съесть двенадцать виноградин под двенадцать ударов часов. В современных версиях практику связывают с удачей и исполнением желаний.",need:"12 виноградин. Безопасность важнее скорости.",say:"Можно загадать желание; обязательной формулы нет.",src:"luck",srcn:"КП",rule:"newyear",act:"12/12",done:"Год согласован"},
+
 {id:"marriage-mug",no:"018",title:"Кружка от замужней подруги",icon:"○",cat:["love"],origin:"internet",time:"anytime",when:"Когда подруга решила ускорить бюрократию Вселенной",short:"Одна замужняя подруга, одна новая кружка. Остальное, предположительно, берёт на себя Вселенная.",do:"Современная примета гласит: кружка, подаренная замужней женщиной незамужней подруге, символически передаёт семейное благополучие и сулит встречу с будущим супругом или замужество.",need:"Замужняя подруга и новая кружка. В некоторых версиях советуют не дарить её пустой.",say:"Устойчивой общей формулы нет — достаточно доброго пожелания.",src:"mug",srcn:"Lisa.ru",act:"Кружка получена",done:"Заявка на свадьбу принята",random:1},
+
 {id:"paired",no:"019",title:"Парные предметы",icon:"Ⅱ",cat:["love","home"],origin:"fengshui",time:"anytime",when:"Когда наводите порядок в спальне",short:"Две подушки, две лампы, две тумбы — интерьер символически перестаёт жить в режиме single.",do:"В популярных рекомендациях фэншуй для отношений советуют использовать в спальне парные предметы и оставлять символическое пространство для партнёра.",need:"Парные предметы: две подушки, два светильника или две декоративные вещи.",say:"Не требуется.",src:"feng",srcn:"INMYROOM",act:"Создала пару",done:"Парность соблюдена",random:1},
+
 {id:"spath",no:"020",title:"Спатифиллум «Женское счастье»",icon:"⌇",cat:["love","home"],origin:"folk",time:"anytime",when:"Пока растение живёт и цветёт",short:"Комнатное растение с отдельной должностью в народной мифологии — отвечать за любовь и семейное благополучие.",do:"Со спатифиллумом связано современное бытовое поверье: его называют «женским счастьем», а цветение связывают с любовью, гармонией и иногда скорой свадьбой.",need:"Спатифиллум и нормальный уход за живым растением.",say:"Не требуется.",src:"spath",srcn:"NUR.KZ",act:"Цветок дома",done:"Женское счастье на месте",random:1},
+
 {id:"desk-coin",no:"021",title:"Монета на рабочем месте",icon:"◉",cat:["work","money"],origin:"esoteric",time:"anytime",when:"Постоянно на рабочем месте",short:"Рабочий стол получает собственный микрофонд.",do:"В эзотерических и фэншуй-подборках встречаются монеты или металлические символы на рабочем столе как талисман финансовой удачи и карьерного роста.",need:"Монета или небольшой металлический талисман.",say:"Не требуется.",src:"feng",srcn:"Фэншуй-подборки",act:"Монета на столе",done:"Микрофонд открыт",random:1},
+
 {id:"desk-plant",no:"022",title:"Растение на рабочем столе",icon:"⌇",cat:["work","home"],origin:"fengshui",time:"anytime",when:"Постоянно",short:"Зелёный коллега, который не пишет «есть минутка?» и символически поддерживает рост.",do:"В фэншуй и офисных суевериях живые растения используют как символ роста, новых возможностей и благоприятной атмосферы рабочего пространства.",need:"Живое растение, которому подходят условия вашего рабочего места.",say:"Не требуется.",src:"feng",srcn:"INMYROOM / фэншуй-подборки",act:"Растение на месте",done:"Рост запущен",random:1},
+
 {id:"newmoon",no:"023",title:"Намерение на новолуние",icon:"●",cat:["moon","luck","work"],origin:"esoteric",time:"moon",when:"Новолуние",short:"Новый лунный цикл — популярный повод сформулировать, что хочется начать.",do:"В современной эзотерике новолуние часто используют как символическую точку нового цикла: записывают намерения, планы или желания на ближайший месяц.",need:"Бумага, заметки в телефоне или просто ясная формулировка.",say:"Своими словами — конкретно и без обещаний Вселенной, которые потом сложно администрировать.",src:"moon",srcn:"Гороскопы Mail",rule:"newmoon",act:"Намерение записано",done:"Новый цикл открыт"},
+
 {id:"waxing",no:"024",title:"Запустить на растущую Луну",icon:"◔",cat:["moon","work","money"],origin:"esoteric",time:"moon",when:"Растущая Луна",short:"То, что должно расти, символически стартует вместе с Луной.",do:"В лунной эзотерике растущую фазу связывают с действиями «на прибавление»: новые проекты, накопления, планы и привычки.",need:"Любое дело, которому хочется назначить символический старт.",say:"Не требуется.",src:"moon",srcn:"Гороскопы Mail",rule:"waxing",act:"Запустила дело",done:"Рост синхронизирован"},
+
 {id:"fullmoon",no:"025",title:"Список на полнолуние",icon:"○",cat:["moon","luck"],origin:"esoteric",time:"moon",when:"Полнолуние",short:"Записать то, что хочется завершить или оставить позади. Без огня и драматических спецэффектов.",do:"В современных лунных практиках полнолуние часто используют как символическую точку завершения: фиксируют, что хочется отпустить или закрыть.",need:"Лист бумаги или заметка в телефоне.",say:"Не требуется.",src:"moon",srcn:"Гороскопы Mail",rule:"fullmoon",act:"Список готов",done:"Закрытие зафиксировано"},
+
 {id:"waning",no:"026",title:"Расхламление на убывающую Луну",icon:"◕",cat:["moon","home"],origin:"esoteric",time:"moon",when:"Убывающая Луна",short:"Идеальная магия для скептика: в конце ритуала дома действительно становится меньше хлама.",do:"Убывающую Луну в эзотерических традициях связывают с избавлением от лишнего. Бытовая версия — разобрать вещи, выбросить ненужное и закрыть старые хвосты.",need:"Ящик, шкаф или хотя бы одна полка, которую давно пора разобрать.",say:"Не требуется.",src:"moon",srcn:"Гороскопы Mail",rule:"waning",act:"Расхламила",done:"Лишнее ушло",random:1}
 ];
-const now=new Date(),weekdays=['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'],months=['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'],monthsGen=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
-const df=new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'long'}),fdf=new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'long',year:'numeric'}),tf=new Intl.DateTimeFormat('ru-RU',{hour:'2-digit',minute:'2-digit'});const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-dateTop.textContent=`${df.format(now)} · ${weekdays[now.getDay()]}`;briefDate.textContent=`${fdf.format(now)} · ${weekdays[now.getDay()]}`;
-/* Луна: основные фазы по Jean Meeus */
-const R=Math.PI/180,s=x=>Math.sin(x*R),c=x=>Math.cos(x*R);function dt(y){const t=y-2000;return 62.92+.32217*t+.005589*t*t}function jdDate(j){return new Date((j-2440587.5)*86400000)}
-function phase(k,p){const T=k/1236.85,T2=T*T,T3=T2*T,T4=T3*T,E=1-.002516*T-.0000074*T2,M=2.5534+29.10535670*k-.0000014*T2-.00000011*T3,Mp=201.5643+385.81693528*k+.0107582*T2+.00001238*T3-.000000058*T4,F=160.7108+390.67050284*k-.0016118*T2-.00000227*T3+.000000011*T4,O=124.7746-1.56375588*k+.0020672*T2+.00000215*T3;let j=2451550.09765+29.530588853*k+.0001337*T2-.000000150*T3+.00000000073*T4,q=0;if(p===0||p===.5){const n=p===0;q+=(n?-.40720:-.40614)*s(Mp)+(n?.17241:.17302)*E*s(M)+(n?.01608:.01614)*s(2*Mp)+(n?.01039:.01043)*s(2*F)+(n?.00739:.00734)*E*s(Mp-M)+(n?-.00514:-.00515)*E*s(Mp+M)+(n?.00208:.00209)*E*E*s(2*M)-.00111*s(Mp-2*F)-.00057*s(Mp+2*F)+.00056*E*s(2*Mp+M)-.00042*s(3*Mp)+.00042*E*s(M+2*F)+.00038*E*s(M-2*F)-.00024*E*s(2*Mp-M)-.00017*s(O)-.00007*s(Mp+2*M)+.00004*s(2*Mp-2*F)+.00004*s(3*M)+.00003*s(Mp+M-2*F)+.00003*s(2*Mp+2*F)-.00003*s(Mp+M+2*F)+.00003*s(Mp-M+2*F)-.00002*s(Mp-M-2*F)-.00002*s(3*Mp+M)+.00002*s(4*Mp)}else{q+=-.62801*s(Mp)+.17172*E*s(M)-.01183*E*s(Mp+M)+.00862*s(2*Mp)+.00804*s(2*F)+.00454*E*s(Mp-M)+.00204*E*E*s(2*M)-.00180*s(Mp-2*F)-.00070*s(Mp+2*F)-.00040*s(3*Mp)-.00034*E*s(2*Mp-M)+.00032*E*s(M+2*F)+.00032*E*s(M-2*F)-.00028*E*E*s(Mp+2*M)+.00027*E*s(2*Mp+M)-.00017*s(O)-.00005*s(Mp-M-2*F)+.00004*s(2*Mp+2*F)-.00004*s(Mp+M+2*F)+.00004*s(Mp-2*M)+.00003*s(Mp+M-2*F)+.00003*s(3*M)+.00002*s(2*Mp-2*F)+.00002*s(Mp-M+2*F)-.00002*s(3*Mp+M);const W=.00306-.00038*E*c(M)+.00026*c(Mp)-.00002*c(Mp-M)+.00002*c(Mp+M)+.00002*c(2*F);q+=p===.25?W:-W}const A=[299.77+.107408*k-.009173*T2,251.88+.016321*k,251.83+26.651886*k,349.42+36.412478*k,84.66+18.206239*k,141.74+53.303771*k,207.14+2.453732*k,154.84+7.306860*k,34.52+27.261239*k,207.19+.121824*k,291.34+1.844379*k,161.72+24.198154*k,239.56+25.513099*k,331.55+3.592518*k],w=[.000325,.000165,.000164,.000126,.000110,.000062,.000060,.000056,.000047,.000042,.000040,.000037,.000035,.000023];A.forEach((a,i)=>q+=w[i]*s(a));j+=q;return jdDate(j-dt(2000+k/12.3685)/86400)}
-const defs=[{f:0,key:'new',name:'Новолуние',icon:'●',short:'нов.'},{f:.25,key:'first',name:'Первая четверть',icon:'◐',short:'1/4'},{f:.5,key:'full',name:'Полнолуние',icon:'○',short:'полн.'},{f:.75,key:'last',name:'Последняя четверть',icon:'◑',short:'3/4'}];function around(d){const n0=Math.round((d.getFullYear()+(d.getMonth()+.5)/12-2000)*12.3685),a=[];for(let n=n0-3;n<=n0+3;n++)for(const x of defs)a.push({...x,date:phase(n+x.f,x.f)});return a.sort((a,b)=>a.date-b.date)}const events=around(now);function same(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate()}function moonAt(d){let prev=events[0];for(const e of events){if(e.date<=d)prev=e;else break}if(prev.key==='new')return{key:'waxing',name:'Растущий серп',icon:'◔'};if(prev.key==='first')return{key:'waxing',name:'Растущая Луна',icon:'◕'};if(prev.key==='full')return{key:'waning',name:'Убывающая Луна',icon:'◖'};return{key:'waning',name:'Убывающий серп',icon:'◗'}}
-const principal=events.find(e=>same(e.date,now)),exact=events.find(e=>Math.abs(e.date-now)<1800000),moon=exact?{key:exact.key==='new'?'newmoon':exact.key==='full'?'fullmoon':exact.key,name:exact.name,icon:exact.icon}:moonAt(now);briefMoon.textContent=principal?`${moon.name}; ${principal.name.toLowerCase()} в ${tf.format(principal.date)}`:moon.name;moonSym.textContent=moon.icon;moonPhase.textContent=moon.name;moonMonth.textContent=`${months[now.getMonth()]} ${now.getFullYear()}`;
-function matchRule(r){if(!r)return false;if(r==='thursday')return now.getDay()===4;if(r==='friday')return now.getDay()===5;if(r==='first')return now.getDate()===1;if(r==='newyear')return now.getMonth()===11&&now.getDate()===31;if(r==='waxing')return moon.key==='waxing';if(r==='waning')return moon.key==='waning';if(r==='newmoon')return principal?.key==='new';if(r==='fullmoon')return principal?.key==='full';return false}
-const todaySpecial=rituals.filter(r=>r.rule&&matchRule(r.rule));let activity='спокойно',title='Спокойный магический день';if(todaySpecial.length===1){activity='есть чем заняться';title='Вселенная выдала одно поручение'}if(todaySpecial.length>=2&&todaySpecial.length<=3){activity='магия активна';title='Сегодня есть магическая программа'}if(todaySpecial.length>=4){activity='магический аврал';title='Финансовый отдел Вселенной перегружен'}briefTitle.textContent=title;stamp.innerHTML=`<div><small>активность</small><b>${activity}</b></div>`;briefRitual.textContent=todaySpecial.length?todaySpecial.slice(0,2).map(r=>r.title).join(' · '):'Спецритуалов нет — можно выбрать что-то из «Когда угодно»';
-['пн','вт','ср','чт','пт','сб','вс'].forEach(x=>{const e=document.createElement('div');e.className='wd';e.textContent=x;moonCal.appendChild(e)});const y=now.getFullYear(),m=now.getMonth(),days=new Date(y,m+1,0).getDate();let st=new Date(y,m,1).getDay();st=st===0?6:st-1;for(let i=0;i<st;i++){const e=document.createElement('div');e.className='mday blank';moonCal.appendChild(e)}const monthEvents=events.filter(e=>e.date.getFullYear()===y&&e.date.getMonth()===m);for(let d=1;d<=days;d++){const date=new Date(y,m,d,12),p=monthEvents.find(e=>same(e.date,date)),m0=p?{icon:p.icon,short:p.short,major:1}:(moonAt(date).key==='waxing'?{icon:'◔',short:'рост'}:{icon:'◖',short:'убыль'}),e=document.createElement('div');e.className='mday'+(d===now.getDate()?' today':'')+(m0.major?' major':'');e.innerHTML=`<b>${d}</b><span>${m0.icon}</span><span class="mmini">${m0.short}</span>`;moonCal.appendChild(e)}monthEvents.forEach(e=>{const n=document.createElement('div');n.className='moonnote';n.textContent=`${e.name}: ${e.date.getDate()} ${monthsGen[e.date.getMonth()]} · ${tf.format(e.date)}`;moonNotes.appendChild(n)});
-/* localStorage + достижения */
-function load(){try{return JSON.parse(localStorage.getItem('bbm-v3'))||{log:[]}}catch(e){return{log:[]}}}function save(){try{localStorage.setItem('bbm-v3',JSON.stringify(state))}catch(e){}}let state=load();if(!Array.isArray(state.log))state.log=[];function logs(id){return state.log.filter(x=>x.id===id)}function last(id){const a=logs(id);return a[a.length-1]}function todayDone(id){return last(id)?.date===iso(now)}function pretty(v){const[a,b,c]=v.split('-').map(Number);return new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'long',year:'numeric'}).format(new Date(a,b-1,c))}function catsDone(){const z=new Set();state.log.forEach(x=>rituals.find(r=>r.id===x.id)?.cat.forEach(c=>z.add(c)));return z}
-const ach=[{n:'Первый контакт',d:'Выполнить первый ритуал.',t:()=>state.log.length>=1},{n:'Вселенная на связи',d:'Зафиксировать 3 выполнения.',t:()=>state.log.length>=3},{n:'Бытовая ведьма',d:'Зафиксировать 5 выполнений.',t:()=>state.log.length>=5},{n:'Финансовый отдел уведомлён',d:'Зафиксировать 10 выполнений.',t:()=>state.log.length>=10},{n:'Человек системы',d:'Отметиться минимум в 4 разных категориях.',t:()=>catsDone().size>=4},{n:'Лунный сотрудник месяца',d:'Выполнить хотя бы один лунный ритуал.',t:()=>state.log.some(x=>rituals.find(r=>r.id===x.id)?.cat.includes('moon'))},{n:'Четверговый специалист',d:'Отметить кофе с корицей в 3 разные даты.',t:()=>new Set(logs('coffee-cinnamon').map(x=>x.date)).size>=3},{n:'Магический универсал',d:'Отметиться во всех 6 категориях.',t:()=>catsDone().size===6}];function unlocked(){return ach.filter(a=>a.t())}function drawAch(){achCount.textContent=unlocked().length;achGrid.innerHTML='';ach.forEach(a=>{const ok=a.t(),e=document.createElement('div');e.className='achievement'+(ok?'':' locked');e.innerHTML=ok?`<b>${esc(a.n)}</b><p>${esc(a.d)}</p>`:`<b>???</b><p>Условие пока засекречено Бюро.</p>`;achGrid.appendChild(e)})}
-let current=null;function complete(id){if(todayDone(id))return;const before=unlocked().map(x=>x.n);state.log.push({id,date:iso(now),ts:Date.now()});save();render();if(current===id)openRitual(id,false);const fresh=unlocked().filter(x=>!before.includes(x.n));toast(fresh.length?`Достижение разблокировано: «${fresh[0].n}»`:'Вселенная уведомлена')}
-/* карточки и фильтры */
-const f={category:'all',time:'all',origin:'all'};let showAll=false;function applies(r){return r.time==='anytime'||(r.rule&&matchRule(r.rule))}function list(){return rituals.filter(r=>(f.category==='all'||r.cat.includes(f.category))&&(f.origin==='all'||r.origin===f.origin)&&(f.time==='all'||(f.time==='today'?applies(r):r.time===f.time)))}function tags(r){return r.cat.map(x=>`<span class="tag" style="--c:${CAT[x].c}"><span class="dotcat"></span>${CAT[x].n}</span>`).join('')}
-function card(r){const l=last(r.id),d=todayDone(r.id);return `<div class="cardtop"><span class="ritualno">Ритуал №${r.no}</span><span class="icon">${r.icon}</span></div><div class="tags">${tags(r)}<button class="tag origin" data-oj="${r.origin}">${OR[r.origin]}</button></div><span class="tag schedule">${esc(r.when)}</span><h3>${esc(r.title)}</h3><p>${esc(r.short)}</p><div class="cardfoot"><div class="hint">Нажмите на карточку — откроется полная инструкция.</div><div class="rowbtn"><button class="donebtn ${d?'done':''}" data-done="${r.id}">${d?'✓ '+esc(r.done):esc(r.act)}</button><button class="sharebtn" data-share="${r.id}">↗</button></div>${l?`<div class="last">Последний раз: ${pretty(l.date)}</div>`:''}</div>`}
-function render(){const all=list(),limited=!showAll&&f.category==='all'&&f.time==='all'&&f.origin==='all',vis=limited?all.slice(0,12):all;grid.innerHTML='';vis.forEach(r=>{const e=document.createElement('article');e.className='card';e.tabIndex=0;e.style.setProperty('--cat',CAT[r.cat[0]].c);e.innerHTML=card(r);e.onclick=x=>{if(!x.target.closest('button'))openRitual(r.id)};e.onkeydown=x=>{if((x.key==='Enter'||x.key===' ')&&!x.target.closest('button')){x.preventDefault();openRitual(r.id)}};grid.appendChild(e)});resultCount.textContent=`найдено: ${all.length}`;empty.style.display=all.length?'none':'block';more.style.display=limited&&all.length>12?'block':'none';drawAch();document.querySelectorAll('[data-done]').forEach(b=>b.onclick=e=>{e.stopPropagation();complete(b.dataset.done)});document.querySelectorAll('[data-share]').forEach(b=>b.onclick=e=>{e.stopPropagation();share(b.dataset.share)});document.querySelectorAll('[data-oj]').forEach(b=>b.onclick=e=>{e.stopPropagation();setF('origin',b.dataset.oj);document.querySelector('.filters').scrollIntoView({behavior:'smooth'})})}
-function setF(k,v){f[k]=v;showAll=true;const a=k==='category'?'data-category':k==='time'?'data-time':'data-origin';document.querySelectorAll(`[${a}]`).forEach(b=>b.classList.toggle('active',b.getAttribute(a)===v));render()}document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>setF('category',b.dataset.category));document.querySelectorAll('[data-time]').forEach(b=>b.onclick=()=>setF('time',b.dataset.time));document.querySelectorAll('[data-origin]').forEach(b=>b.onclick=()=>setF('origin',b.dataset.origin));moreBtn.onclick=()=>{showAll=true;render()};
-/* модалки */
-function openRitual(id,hash=true){const r=rituals.find(x=>x.id===id);if(!r)return;current=id;const l=last(id),d=todayDone(id);modalBody.innerHTML=`<span class="ritualno">Ритуал №${r.no}</span><div class="tags">${tags(r)}<span class="tag origin">${OR[r.origin]}</span></div><h2>${esc(r.title)}</h2><div class="short">${esc(r.short)}</div><div class="detail"><div class="dblock"><h4>Когда</h4><p>${esc(r.when)}</p></div><div class="dblock"><h4>Что понадобится</h4><p>${esc(r.need)}</p></div><div class="dblock full"><h4>Что делать</h4><p>${esc(r.do)}</p></div><div class="dblock full"><h4>Что говорить</h4><p>${esc(r.say)}</p></div><div class="dblock"><h4>Происхождение</h4><p>${OR[r.origin]}</p></div><div class="dblock"><h4>Источник</h4><p>${esc(r.srcn)}</p><a href="${SOURCE[r.src]}" target="_blank">Проверить источник ↗</a></div></div><div class="modal-actions"><button class="btn ${d?'':'accent'}" id="modalDone" ${d?'disabled':''}>${d?'✓ '+esc(r.done):esc(r.act)}</button><button class="btn alt" id="modalShare">↗ Поделиться</button></div>${l?`<div class="last">Последний раз: ${pretty(l.date)}</div>`:''}`;ritualOverlay.classList.add('open');document.body.classList.add('lock');modalDone.onclick=()=>complete(id);modalShare.onclick=()=>share(id);if(hash)history.replaceState(null,'','#'+id)}function closeR(){ritualOverlay.classList.remove('open');document.body.classList.remove('lock');current=null;if(location.hash)history.replaceState(null,'',location.pathname+location.search)}closeRitual.onclick=closeR;ritualOverlay.onclick=e=>{if(e.target===ritualOverlay)closeR()};
-/* шаринг */
-function shareText(r){const x={'coffee-cinnamon':'Сегодняшний регламент Бюро: по четвергам кофе полагается снабжать корицей.','marriage-mug':'Нашла важный административный ритуал: для заявки на замужество нужна кружка от замужней подруги.','waste-income':'Главная формула бытовой экономики: «меняю отходы на доходы».','wallet-charge':'На всякий случай напоминаю: кошелёк тоже иногда отправляют «на зарядку».'};return x[r.id]||`Нашла для тебя ритуал из Бюро бытовой магии: «${r.title}».`}async function share(id){const r=rituals.find(x=>x.id===id),url=location.origin+location.pathname+'#'+id,data={title:r.title,text:shareText(r),url};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(`${data.text}\n${url}`);toast('Ссылка скопирована')}}catch(e){if(e.name!=='AbortError')toast('Скопируйте ссылку из адресной строки')}}
-/* случайный */
-let rand=null;function pick(){const p=rituals.filter(r=>r.random);do{rand=p[Math.floor(Math.random()*p.length)]}while(p.length>1&&rand?.id===randomTitle.dataset.id);randomTitle.textContent=rand.title;randomTitle.dataset.id=rand.id;randomCopy.textContent=rand.short;randomResult.classList.add('show')}randomBtn.onclick=pick;randomAgain.onclick=pick;randomOpen.onclick=()=>rand&&openRitual(rand.id);
-/* достижения */achOpen.onclick=()=>{drawAch();achOverlay.classList.add('open');document.body.classList.add('lock')};function closeA(){achOverlay.classList.remove('open');document.body.classList.remove('lock')}closeAch.onclick=closeA;achOverlay.onclick=e=>{if(e.target===achOverlay)closeA()};
-function esc(v){return String(v??'').replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[x]))}let tt;function toast(v){const t=document.getElementById('toast');t.textContent=v;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400)}document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(ritualOverlay.classList.contains('open'))closeR();if(achOverlay.classList.contains('open'))closeA()}});
-render();const h=decodeURIComponent(location.hash.slice(1));if(h&&rituals.some(r=>r.id===h))setTimeout(()=>openRitual(h,false),40);
+
+const now=new Date(),
+weekdays=['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'],
+months=['январь','февраль','март','апрель','май','июнь','июль','август','сентябрь','октябрь','ноябрь','декабрь'],
+monthsGen=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+
+const df=new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'long'}),
+ff=new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'long',year:'numeric'}),
+sf=new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'short'}),
+tf=new Intl.DateTimeFormat('ru-RU',{hour:'2-digit',minute:'2-digit'}),
+iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+
+dateTop.textContent=`${df.format(now)} · ${weekdays[now.getDay()]}`;
+briefDate.textContent=`${ff.format(now)} · ${weekdays[now.getDay()]}`;
+
+/* lunar */
+
+const RAD=Math.PI/180,
+sinD=x=>Math.sin(x*RAD),
+cosD=x=>Math.cos(x*RAD);
+
+function dt(y){
+  const t=y-2000;
+  return 62.92+.32217*t+.005589*t*t
+}
+
+function jd(j){
+  return new Date((j-2440587.5)*86400000)
+}
+
+function phase(k,p){
+  const T=k/1236.85,T2=T*T,T3=T2*T,T4=T3*T;
+
+  let z=2451550.09765+29.530588853*k+.0001337*T2-.000000150*T3+.00000000073*T4,
+  E=1-.002516*T-.0000074*T2,
+  M=2.5534+29.10535670*k-.0000014*T2-.00000011*T3,
+  Mp=201.5643+385.81693528*k+.0107582*T2+.00001238*T3-.000000058*T4,
+  F=160.7108+390.67050284*k-.0016118*T2-.00000227*T3+.000000011*T4,
+  O=124.7746-1.56375588*k+.0020672*T2+.00000215*T3,
+  c=0;
+
+  if(p===0||p===.5){
+    const n=p===0;
+    c+=(n?-.40720:-.40614)*sinD(Mp)
+    +(n?.17241:.17302)*E*sinD(M)
+    +(n?.01608:.01614)*sinD(2*Mp)
+    +(n?.01039:.01043)*sinD(2*F)
+    +(n?.00739:.00734)*E*sinD(Mp-M)
+    +(n?-.00514:-.00515)*E*sinD(Mp+M)
+    +(n?.00208:.00209)*E*E*sinD(2*M)
+    -.00111*sinD(Mp-2*F)
+    -.00057*sinD(Mp+2*F)
+    +.00056*E*sinD(2*Mp+M)
+    -.00042*sinD(3*Mp)
+    +.00042*E*sinD(M+2*F)
+    +.00038*E*sinD(M-2*F)
+    -.00024*E*sinD(2*Mp-M)
+    -.00017*sinD(O)
+    -.00007*sinD(Mp+2*M)
+    +.00004*sinD(2*Mp-2*F)
+    +.00004*sinD(3*M)
+    +.00003*sinD(Mp+M-2*F)
+    +.00003*sinD(2*Mp+2*F)
+    -.00003*sinD(Mp+M+2*F)
+    +.00003*sinD(Mp-M+2*F)
+    -.00002*sinD(Mp-M-2*F)
+    -.00002*sinD(3*Mp+M)
+    +.00002*sinD(4*Mp)
+  }else{
+    c+=-.62801*sinD(Mp)
+    +.17172*E*sinD(M)
+    -.01183*E*sinD(Mp+M)
+    +.00862*sinD(2*Mp)
+    +.00804*sinD(2*F)
+    +.00454*E*sinD(Mp-M)
+    +.00204*E*E*sinD(2*M)
+    -.00180*sinD(Mp-2*F)
+    -.00070*sinD(Mp+2*F)
+    -.00040*sinD(3*Mp)
+    -.00034*E*sinD(2*Mp-M)
+    +.00032*E*sinD(M+2*F)
+    +.00032*E*sinD(M-2*F)
+    -.00028*E*E*sinD(Mp+2*M)
+    +.00027*E*sinD(2*Mp+M)
+    -.00017*sinD(O)
+    -.00005*sinD(Mp-M-2*F)
+    +.00004*sinD(2*Mp+2*F)
+    -.00004*sinD(Mp+M+2*F)
+    +.00004*sinD(Mp-2*M)
+    +.00003*sinD(Mp+M-2*F)
+    +.00003*sinD(3*M)
+    +.00002*sinD(2*Mp-2*F)
+    +.00002*sinD(Mp-M+2*F)
+    -.00002*sinD(3*Mp+M);
+
+    const W=.00306-.00038*E*cosD(M)+.00026*cosD(Mp)-.00002*cosD(Mp-M)+.00002*cosD(Mp+M)+.00002*cosD(2*F);
+    c+=p===.25?W:-W
+  }
+
+  const A=[
+    299.77+.107408*k-.009173*T2,
+    251.88+.016321*k,
+    251.83+26.651886*k,
+    349.42+36.412478*k,
+    84.66+18.206239*k,
+    141.74+53.303771*k,
+    207.14+2.453732*k,
+    154.84+7.306860*k,
+    34.52+27.261239*k,
+    207.19+.121824*k,
+    291.34+1.844379*k,
+    161.72+24.198154*k,
+    239.56+25.513099*k,
+    331.55+3.592518*k
+  ];
+
+  const w=[.000325,.000165,.000164,.000126,.000110,.000062,.000060,.000056,.000047,.000042,.000040,.000037,.000035,.000023];
+
+  A.forEach((a,i)=>c+=w[i]*sinD(a));
+
+  z+=c;
+  return jd(z-dt(2000+k/12.3685)/86400)
+}
+
+const defs=[
+  {f:0,key:'new',name:'Новолуние',icon:'●',short:'нов.'},
+  {f:.25,key:'first',name:'Первая четверть',icon:'◐',short:'1/4'},
+  {f:.5,key:'full',name:'Полнолуние',icon:'○',short:'полн.'},
+  {f:.75,key:'last',name:'Последняя четверть',icon:'◑',short:'3/4'}
+];
+
+function around(d){
+  const dec=d.getFullYear()+(d.getMonth()+.5)/12,
+  n=Math.round((dec-2000)*12.3685),
+  o=[];
+
+  for(let q=n-7;q<=n+7;q++){
+    for(const p of defs){
+      o.push({...p,date:phase(q+p.f,p.f)})
+    }
+  }
+
+  return o.sort((a,b)=>a.date-b.date)
+}
+
+const events=around(now);
+
+function same(a,b){
+  return a.getFullYear()===b.getFullYear()
+  &&a.getMonth()===b.getMonth()
+  &&a.getDate()===b.getDate()
+}
+
+function moonAt(d){
+  let prev=events[0];
+
+  for(const e of events){
+    if(e.date<=d)prev=e;
+    else break
+  }
+
+  if(prev.key==='new')return{key:'waxing',name:'Растущий серп',icon:'◔'};
+  if(prev.key==='first')return{key:'waxing',name:'Растущая Луна',icon:'◕'};
+  if(prev.key==='full')return{key:'waning',name:'Убывающая Луна',icon:'◖'};
+  return{key:'waning',name:'Убывающий серп',icon:'◗'}
+}
+
+const principal=events.find(e=>same(e.date,now)),
+exact=events.find(e=>Math.abs(e.date-now)<1800000),
+moon=exact
+?{key:exact.key==='new'?'newmoon':exact.key==='full'?'fullmoon':exact.key,name:exact.name,icon:exact.icon}
+:moonAt(now);
+
+briefMoon.textContent=principal
+?`${moon.name}; ${principal.name.toLowerCase()} в ${tf.format(principal.date)}`
+:moon.name;
+
+moonSym.textContent=moon.icon;
+moonPhase.textContent=moon.name;
+moonMonth.textContent=`${months[now.getMonth()]} ${now.getFullYear()}`;
+
+function matchRule(rule,d=now){
+  if(!rule)return false;
+  if(rule==='thursday')return d.getDay()===4;
+  if(rule==='friday')return d.getDay()===5;
+  if(rule==='first')return d.getDate()===1;
+  if(rule==='newyear')return d.getMonth()===11&&d.getDate()===31;
+
+  const p=moonAt(d),
+  pr=events.find(e=>same(e.date,d));
+
+  if(rule==='waxing')return p.key==='waxing';
+  if(rule==='waning')return p.key==='waning';
+  if(rule==='newmoon')return pr?.key==='new';
+  if(rule==='fullmoon')return pr?.key==='full';
+
+  return false
+}
+
+function applies(r){
+  return r.time==='anytime'||(r.rule&&matchRule(r.rule))
+}
+
+const todaySpecial=rituals.filter(r=>r.rule&&matchRule(r.rule));
+
+let activity='спокойно',
+title='Спокойный магический день';
+
+if(todaySpecial.length===1){
+  activity='есть чем заняться';
+  title='Вселенная выдала одно поручение'
+}
+
+if(todaySpecial.length>=2&&todaySpecial.length<=3){
+  activity='магия активна';
+  title='Сегодня есть магическая программа'
+}
+
+if(todaySpecial.length>=4){
+  activity='магический аврал';
+  title='Финансовый отдел Вселенной перегружен'
+}
+
+briefTitle.textContent=title;
+stamp.innerHTML=`<div><small>активность</small><b>${activity}</b></div>`;
+
+briefRitual.textContent=todaySpecial.length
+?todaySpecial.slice(0,3).map(r=>r.title).join(' · ')
+:'Спецритуалов нет — можно выбрать что-то из «Когда угодно»';
+
+/* moon calendar */
+
+['пн','вт','ср','чт','пт','сб','вс'].forEach(x=>{
+  const e=document.createElement('div');
+  e.className='wd';
+  e.textContent=x;
+  moonCal.appendChild(e)
+});
+
+const y=now.getFullYear(),
+m=now.getMonth(),
+days=new Date(y,m+1,0).getDate();
+
+let st=new Date(y,m,1).getDay();
+st=st===0?6:st-1;
+
+for(let i=0;i<st;i++){
+  const e=document.createElement('div');
+  e.className='mday blank';
+  moonCal.appendChild(e)
+}
+
+const monthEvents=events.filter(e=>e.date.getFullYear()===y&&e.date.getMonth()===m);
+
+for(let d=1;d<=days;d++){
+  const date=new Date(y,m,d,12),
+  p=monthEvents.find(e=>same(e.date,date)),
+  mi=p
+  ?{icon:p.icon,short:p.short,major:1}
+  :(moonAt(date).key==='waxing'
+    ?{icon:'◔',short:'рост'}
+    :{icon:'◖',short:'убыль'}),
+  e=document.createElement('div');
+
+  e.className='mday'
+  +(d===now.getDate()?' today':'')
+  +(mi.major?' major':'');
+
+  e.innerHTML=`<b>${d}</b><span>${mi.icon}</span><span class="mmini">${mi.short}</span>`;
+  moonCal.appendChild(e)
+}
+
+monthEvents.forEach(e=>{
+  const n=document.createElement('div');
+  n.className='moonnote';
+  n.textContent=`${e.name}: ${e.date.getDate()} ${monthsGen[e.date.getMonth()]} · ${tf.format(e.date)}`;
+  moonNotes.appendChild(n)
+});
+
+/* upcoming */
+
+const startDay=new Date(now.getFullYear(),now.getMonth(),now.getDate()),
+up=[];
+
+for(let i=0;i<35;i++){
+  const d=new Date(startDay);
+  d.setDate(d.getDate()+i);
+
+  if(d.getDay()===4)up.push({d,t:'Денежный четверг: кофе с корицей'});
+  if(d.getDay()===5)up.push({d,t:'Пятничная версия: красное бельё'});
+  if(d.getDate()===1)up.push({d,t:'1-е число: корица через порог'});
+  if(d.getMonth()===11&&d.getDate()===31)up.push({d,t:'12 виноградин под Новый год'})
+}
+
+events
+.filter(e=>e.date>=startDay&&e.date<=new Date(startDay.getTime()+35*86400000))
+.forEach(e=>up.push({d:e.date,t:e.name}));
+
+up.sort((a,b)=>a.d-b.d);
+
+up.slice(0,9).forEach(x=>{
+  const e=document.createElement('div');
+  e.className='scheditem';
+  e.innerHTML=`<span class="scheddate">${sf.format(x.d)}</span><b>${esc(x.t)}</b>`;
+  schedule.appendChild(e)
+});
+
+/* storage + achievements */
+
+function load(){
+  try{
+    const raw=
+    localStorage.getItem('bbm-v4')
+    ||localStorage.getItem('bbm-v3')
+    ||localStorage.getItem('bbm-state-v2');
+
+    return JSON.parse(raw)||{log:[]}
+  }catch(e){
+    return{log:[]}
+  }
+}
+
+let state=load();
+
+if(!Array.isArray(state.log))state.log=[];
+
+function save(){
+  try{
+    localStorage.setItem('bbm-v4',JSON.stringify(state))
+  }catch(e){}
+}
+
+function logs(id){
+  return state.log.filter(x=>x.id===id)
+}
+
+function last(id){
+  const a=logs(id);
+  return a[a.length-1]
+}
+
+function todayDone(id){
+  return last(id)?.date===iso(now)
+}
+
+function pretty(v){
+  const[a,b,c]=v.split('-').map(Number);
+
+  return new Intl.DateTimeFormat('ru-RU',{
+    day:'numeric',
+    month:'long',
+    year:'numeric'
+  }).format(new Date(a,b-1,c))
+}
+
+function catsDone(){
+  const z=new Set();
+
+  state.log.forEach(x=>{
+    rituals.find(r=>r.id===x.id)?.cat.forEach(c=>z.add(c))
+  });
+
+  return z
+}
+
+const ach=[
+  {n:'Первый контакт',d:'Выполнить первый ритуал.',t:()=>state.log.length>=1},
+  {n:'Вселенная на связи',d:'Зафиксировать 3 выполнения.',t:()=>state.log.length>=3},
+  {n:'Бытовая ведьма',d:'Зафиксировать 5 выполнений.',t:()=>state.log.length>=5},
+  {n:'Финансовый отдел уведомлён',d:'Зафиксировать 10 выполнений.',t:()=>state.log.length>=10},
+  {n:'Человек системы',d:'Отметиться минимум в 4 разных категориях.',t:()=>catsDone().size>=4},
+  {n:'Лунный сотрудник месяца',d:'Выполнить хотя бы один лунный ритуал.',t:()=>state.log.some(x=>rituals.find(r=>r.id===x.id)?.cat.includes('moon'))},
+  {n:'Четверговый специалист',d:'Отметить кофе с корицей в 3 разные даты.',t:()=>new Set(logs('coffee-cinnamon').map(x=>x.date)).size>=3},
+  {n:'Магический универсал',d:'Отметиться во всех 6 категориях.',t:()=>catsDone().size===6}
+];
+
+function unlocked(){
+  return ach.filter(a=>a.t())
+}
+
+function drawAch(){
+  achCount.textContent=unlocked().length;
+  achShortcut.textContent=unlocked().length;
+  doneCount.textContent=state.log.length;
+  achGrid.innerHTML='';
+
+  ach.forEach(a=>{
+    const ok=a.t(),
+    e=document.createElement('div');
+
+    e.className='achievement'+(ok?'':' locked');
+
+    e.innerHTML=ok
+    ?`<b>${esc(a.n)}</b><p>${esc(a.d)}</p>`
+    :`<b>???</b><p>Условие пока засекречено Бюро.</p>`;
+
+    achGrid.appendChild(e)
+  })
+}
+
+let current=null;
+
+function complete(id){
+  if(todayDone(id))return;
+
+  const before=unlocked().map(x=>x.n);
+
+  state.log.push({
+    id,
+    date:iso(now),
+    ts:Date.now()
+  });
+
+  save();
+  drawAch();
+
+  if(current===id)openRitual(id,false);
+
+  const fresh=unlocked().filter(x=>!before.includes(x.n));
+
+  toast(
+    fresh.length
+    ?`Достижение: «${fresh[0].n}»`
+    :'Вселенная уведомлена'
+  )
+}
+
+/* cards */
+
+const f={
+  category:'all',
+  time:'all',
+  origin:'all'
+};
+
+let showAll=false;
+
+function list(){
+  return rituals.filter(r=>
+    (f.category==='all'||r.cat.includes(f.category))
+    &&(f.origin==='all'||r.origin===f.origin)
+    &&(
+      f.time==='all'
+      ||(f.time==='today'?applies(r):r.time===f.time)
+    )
+  )
+}
+
+function render(){
+  const all=list(),
+  limited=!showAll
+  &&f.category==='all'
+  &&f.time==='all'
+  &&f.origin==='all',
+  vis=limited?all.slice(0,12):all;
+
+  grid.innerHTML='';
+
+  vis.forEach(r=>{
+    const e=document.createElement('article');
+
+    e.className='card';
+    e.tabIndex=0;
+    e.style.setProperty('--cat',CAT[r.cat[0]].c);
+
+    e.innerHTML=`
+      <div class="cardtop">
+        <span class="ritualno">Ритуал №${r.no}</span>
+        <span class="icon">${r.icon}</span>
+      </div>
+      <div class="kicker">${r.cat.map(c=>CAT[c].n).join(' · ')} · ${OR[r.origin]}</div>
+      <h3>${esc(r.title)}</h3>
+      <p>${esc(r.short)}</p>
+      <div class="morelink">Подробнее →</div>
+    `;
+
+    e.onclick=()=>openRitual(r.id);
+
+    e.onkeydown=x=>{
+      if(x.key==='Enter'||x.key===' '){
+        x.preventDefault();
+        openRitual(r.id)
+      }
+    };
+
+    grid.appendChild(e)
+  });
+
+  resultCount.textContent=`найдено: ${all.length}`;
+  empty.style.display=all.length?'none':'block';
+  more.style.display=limited&&all.length>12?'block':'none'
+}
+
+function setF(k,v){
+  f[k]=v;
+  showAll=true;
+
+  const a=
+  k==='category'
+  ?'data-category'
+  :k==='time'
+  ?'data-time'
+  :'data-origin';
+
+  document.querySelectorAll(`[${a}]`).forEach(b=>{
+    b.classList.toggle('active',b.getAttribute(a)===v)
+  });
+
+  render()
+}
+
+document.querySelectorAll('[data-category]').forEach(b=>{
+  b.onclick=()=>setF('category',b.dataset.category)
+});
+
+document.querySelectorAll('[data-time]').forEach(b=>{
+  b.onclick=()=>setF('time',b.dataset.time)
+});
+
+document.querySelectorAll('[data-origin]').forEach(b=>{
+  b.onclick=()=>setF('origin',b.dataset.origin)
+});
+
+moreBtn.onclick=()=>{
+  showAll=true;
+  render()
+};
+
+/* modal WITHOUT sources */
+
+function openRitual(id,hash=true){
+  const r=rituals.find(x=>x.id===id);
+
+  if(!r)return;
+
+  current=id;
+
+  const l=last(id),
+  d=todayDone(id);
+
+  modalBody.innerHTML=`
+    <span class="ritualno">Ритуал №${r.no}</span>
+
+    <div class="kicker">
+      ${r.cat.map(c=>CAT[c].n).join(' · ')} · ${OR[r.origin]}
+    </div>
+
+    <h2>${esc(r.title)}</h2>
+
+    <div class="short">${esc(r.short)}</div>
+
+    <div class="detail">
+      <div class="dblock">
+        <h4>Когда</h4>
+        <p>${esc(r.when)}</p>
+      </div>
+
+      <div class="dblock">
+        <h4>Что понадобится</h4>
+        <p>${esc(r.need)}</p>
+      </div>
+
+      <div class="dblock full">
+        <h4>Что делать</h4>
+        <p>${esc(r.do)}</p>
+      </div>
+
+      <div class="dblock full">
+        <h4>Что говорить</h4>
+        <p>${esc(r.say)}</p>
+      </div>
+
+      <div class="dblock">
+        <h4>Происхождение</h4>
+        <p>${OR[r.origin]}</p>
+      </div>
+
+      <div class="dblock">
+        <h4>Категории</h4>
+        <p>${r.cat.map(c=>CAT[c].n).join(', ')}</p>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button
+        class="btn ${d?'':'accent'}"
+        id="modalDone"
+        ${d?'disabled':''}
+      >
+        ${d?'✓ '+esc(r.done):esc(r.act)}
+      </button>
+
+      <button class="btn alt" id="modalShare">
+        ↗ Поделиться
+      </button>
+    </div>
+
+    ${l?`<div class="last">Последний раз: ${pretty(l.date)}</div>`:''}
+  `;
+
+  ritualOverlay.classList.add('open');
+  document.body.classList.add('lock');
+
+  modalDone.onclick=()=>complete(id);
+  modalShare.onclick=()=>share(id);
+
+  if(hash){
+    history.replaceState(null,'','#ritual-'+id)
+  }
+}
+
+function closeR(){
+  ritualOverlay.classList.remove('open');
+  document.body.classList.remove('lock');
+  current=null;
+
+  if(location.hash.startsWith('#ritual-')){
+    history.replaceState(null,'','#rituals')
+  }
+}
+
+closeRitual.onclick=closeR;
+
+ritualOverlay.onclick=e=>{
+  if(e.target===ritualOverlay)closeR()
+};
+
+/* share */
+
+async function share(id){
+  const r=rituals.find(x=>x.id===id),
+  url=location.origin+location.pathname+'#ritual-'+id,
+  data={
+    title:r.title,
+    text:`Нашла для тебя ритуал из Бюро бытовой магии: «${r.title}».`,
+    url
+  };
+
+  try{
+    if(navigator.share){
+      await navigator.share(data)
+    }else{
+      await navigator.clipboard.writeText(`${data.text}\n${url}`);
+      toast('Ссылка скопирована')
+    }
+  }catch(e){
+    if(e.name!=='AbortError'){
+      toast('Скопируйте ссылку из адресной строки')
+    }
+  }
+}
+
+/* random ONLY applicable NOW */
+
+let rand=null;
+
+function pick(){
+  const pool=rituals.filter(applies);
+
+  if(!pool.length){
+    randomTitle.textContent='Сегодня Бюро ничего не назначило';
+    randomCopy.textContent='Можно просто жить обычную жизнь. Такое тоже иногда случается.';
+    randomResult.classList.add('show');
+    rand=null;
+    return
+  }
+
+  let next;
+
+  do{
+    next=pool[Math.floor(Math.random()*pool.length)]
+  }while(pool.length>1&&next?.id===rand?.id);
+
+  rand=next;
+
+  randomTitle.textContent=rand.title;
+  randomCopy.textContent=rand.short;
+  randomResult.classList.add('show')
+}
+
+randomBtn.onclick=pick;
+randomAgain.onclick=pick;
+randomOpen.onclick=()=>rand&&openRitual(rand.id);
+
+/* routes */
+
+const routes=[
+  'today',
+  'rituals',
+  'calendar',
+  'achievements',
+  'about'
+];
+
+function route(name,write=true){
+  if(!routes.includes(name))name='today';
+
+  document.querySelectorAll('.page').forEach(p=>{
+    p.classList.toggle('active',p.id===name)
+  });
+
+  document.querySelectorAll('[data-route]').forEach(b=>{
+    if(b.closest('.nav')){
+      b.classList.toggle('active',b.dataset.route===name)
+    }
+  });
+
+  window.scrollTo({
+    top:0,
+    behavior:'instant'
+  });
+
+  if(write){
+    history.replaceState(null,'','#'+name)
+  }
+}
+
+document.querySelectorAll('[data-route]').forEach(b=>{
+  b.onclick=()=>route(b.dataset.route)
+});
+
+function initial(){
+  const h=decodeURIComponent(location.hash.slice(1));
+
+  if(h.startsWith('ritual-')){
+    route('rituals',false);
+
+    const id=h.slice(7);
+
+    if(rituals.some(r=>r.id===id)){
+      setTimeout(()=>openRitual(id,false),40)
+    }
+  }else if(routes.includes(h)){
+    route(h,false)
+  }
+}
+
+window.onhashchange=initial;
+
+function esc(v){
+  return String(v??'').replace(
+    /[&<>"']/g,
+    x=>({
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;',
+      "'":'&#039;'
+    }[x])
+  )
+}
+
+let tt;
+
+function toast(v){
+  const t=document.getElementById('toast');
+
+  t.textContent=v;
+  t.classList.add('show');
+
+  clearTimeout(tt);
+
+  tt=setTimeout(()=>{
+    t.classList.remove('show')
+  },2300)
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&ritualOverlay.classList.contains('open')){
+    closeR()
+  }
+});
+
+render();
+drawAch();
+initial();
+
 })();
-</script></body></html>
+</script>
+</body>
+</html>
