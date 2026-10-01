@@ -1346,6 +1346,119 @@ footer{
   }
 }
 
+
+/* ===== v26: custom modal scrollbar + archive back navigation ===== */
+
+.modal{
+  scrollbar-width:thin;
+  scrollbar-color:var(--pink) rgba(21,21,21,.08);
+}
+
+.modal::-webkit-scrollbar{
+  width:10px;
+}
+
+.modal::-webkit-scrollbar-track{
+  background:rgba(21,21,21,.06);
+}
+
+.modal::-webkit-scrollbar-thumb{
+  background:var(--pink);
+  border:2px solid var(--bg);
+  border-radius:999px;
+}
+
+.modal::-webkit-scrollbar-thumb:hover{
+  background:var(--accent);
+}
+
+.ritual-modal-headcopy{
+  min-width:0;
+}
+
+.ritual-back{
+  display:inline-block;
+  border:0;
+  background:transparent;
+  padding:2px 0 4px;
+  margin:0 0 10px;
+  border-bottom:1px solid currentColor;
+  font:700 12px/1.2 Arial,Helvetica,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.02em;
+}
+
+.ritual-back[hidden]{
+  display:none!important;
+}
+
+@media(max-width:680px){
+  .modal::-webkit-scrollbar{
+    width:6px;
+  }
+
+  .ritual-back{
+    font-size:11px;
+    margin-bottom:8px;
+  }
+}
+
+
+/* ===== v27: mobile week starts at today + explicit scroll control ===== */
+.week-scroll-control{
+  display:none;
+}
+
+@media(max-width:680px){
+  .week-scroll-control{
+    display:block;
+    width:100%;
+    margin:10px 0 2px;
+  }
+
+  #weekScroller{
+    display:block;
+    width:100%;
+    height:26px;
+    margin:0;
+    padding:0;
+    background:transparent;
+    appearance:none;
+    -webkit-appearance:none;
+    cursor:pointer;
+  }
+
+  #weekScroller::-webkit-slider-runnable-track{
+    height:4px;
+    border-radius:999px;
+    background:rgba(21,21,21,.14);
+  }
+
+  #weekScroller::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:38px;
+    height:12px;
+    margin-top:-4px;
+    border:2px solid var(--ink);
+    border-radius:999px;
+    background:var(--pink);
+  }
+
+  #weekScroller::-moz-range-track{
+    height:4px;
+    border-radius:999px;
+    background:rgba(21,21,21,.14);
+  }
+
+  #weekScroller::-moz-range-thumb{
+    width:38px;
+    height:12px;
+    border:2px solid var(--ink);
+    border-radius:999px;
+    background:var(--pink);
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1382,6 +1495,9 @@ footer{
 <section class="section" id="week">
   <div class="section-head"><div><div class="mono tiny">на этой неделе</div><h2>Магическая<br>неделя</h2></div><div class="section-note" id="weekNote"></div></div>
   <div class="week-grid" id="weekGrid"></div>
+  <div class="week-scroll-control">
+    <input id="weekScroller" type="range" min="0" max="100" value="0" step="1" aria-label="Прокрутить магическую неделю">
+  </div>
   <div class="week-footer"><button class="text-link" id="openCalendar">показать весь месяц →</button></div>
 </section>
 <section class="section" id="randomRitualSection">
@@ -1417,7 +1533,7 @@ footer{
 
 <div class="overlay" id="calendarOverlay"><div class="modal"><div class="modal-top"><div><div class="mono tiny">календарь</div><h2 id="calendarTitle"></h2></div><button class="close" data-close="calendar">×</button></div><div class="calendar-controls"><button id="prevMonth">←</button><button id="todayMonth">сегодня</button><button id="nextMonth">→</button></div><div class="calendar-hint">нажми на день — покажу всё, что к нему привязано</div><div class="month-grid" id="monthGrid"></div></div></div>
 <div class="overlay" id="dayOverlay"><div class="modal day-events-modal"><div class="modal-top"><div><div class="mono tiny">события дня</div><div id="dayEventsHead"></div></div><button class="close" data-close="day">×</button></div><div id="dayEventsList"></div></div></div>
-<div class="overlay" id="ritualOverlay"><div class="modal ritual-modal"><div class="modal-top"><div class="mono tiny" id="ritualModalMeta"></div><button class="close" data-close="ritual">×</button></div><div id="ritualModalBody"></div></div></div>
+<div class="overlay" id="ritualOverlay"><div class="modal ritual-modal"><div class="modal-top"><div class="ritual-modal-headcopy"><button class="ritual-back" id="ritualBack" hidden>← все ритуалы</button><div class="mono tiny" id="ritualModalMeta"></div></div><button class="close" data-close="ritual">×</button></div><div id="ritualModalBody"></div></div></div>
 <div class="overlay" id="archiveOverlay"><div class="modal archive-modal"><div class="modal-top"><div><div class="mono tiny">архив</div><h2>Все ритуалы</h2></div><button class="close" data-close="archive">×</button></div><div class="filters" id="filters"></div><div class="all-grid" id="allGrid"></div></div></div>
 <div class="toast" id="toast"></div>
 
@@ -1440,6 +1556,7 @@ const heroActionHint = $("heroActionHint");
 const tickerTrack = $("tickerTrack");
 const weekNote = $("weekNote");
 const weekGrid = $("weekGrid");
+const weekScroller = $("weekScroller");
 const openCalendar = $("openCalendar");
 const ritualObject = $("ritualObject");
 const objectLabel = $("objectLabel");
@@ -1461,6 +1578,7 @@ const dayEventsHead = $("dayEventsHead");
 const dayEventsList = $("dayEventsList");
 const ritualOverlay = $("ritualOverlay");
 const ritualModalMeta = $("ritualModalMeta");
+const ritualBack = $("ritualBack");
 const ritualModalBody = $("ritualModalBody");
 const archiveOverlay = $("archiveOverlay");
 const filters = $("filters");
@@ -2076,7 +2194,81 @@ const tickerBits=[
 tickerTrack.textContent=(tickerBits.join(" · ")+" · ").repeat(5);
 
 /* Week */
-function renderWeek(){weekGrid.innerHTML="";const start=mondayOfWeek(now);let activeDays=0;for(let i=0;i<7;i++){const d=new Date(start);d.setDate(start.getDate()+i);const sp=specialForDate(d);if(sp.length)activeDays++;const m=moonAt(d);const el=document.createElement("button");el.className="day"+(same(d,now)?" today":"")+(sp.length?" has-events":"");el.type="button";const label=sp.length?sp.slice(0,2).map(r=>r.title).join(" + "):(same(d,now)?"можно запросить ритуал":"без поручений");const sub=sp.length>2?`и ещё ${sp.length-2}`:(sp.length?sp[0].when:"свободный день");el.innerHTML=`<div class="dow">${weekdaysShort[d.getDay()]}${same(d,now)?" · сегодня":""}</div><div class="num">${String(d.getDate()).padStart(2,"0")}</div><div class="moon">${m.icon}</div><div class="event">${esc(label)}<small>${esc(sub)}</small></div>`;el.onclick=()=>openDayEvents(d);weekGrid.appendChild(el)}weekNote.textContent=activeDays?`На этой неделе ${activeDays} ${activeDays===1?"день":"дня"} с отдельными поручениями.`:"На этой неделе можно действовать без специального расписания."}
+function syncWeekScroller(){
+  if(!weekScroller)return;
+  const max=Math.max(0,weekGrid.scrollWidth-weekGrid.clientWidth);
+  weekScroller.max=String(Math.round(max));
+  weekScroller.value=String(Math.round(Math.min(max,weekGrid.scrollLeft)));
+  weekScroller.disabled=max<=0;
+}
+
+function scrollWeekToToday(behavior="auto"){
+  if(!window.matchMedia("(max-width:680px)").matches)return;
+  const todayCard=weekGrid.querySelector(".day.today");
+  if(!todayCard)return;
+  const max=Math.max(0,weekGrid.scrollWidth-weekGrid.clientWidth);
+  const target=Math.max(
+    0,
+    Math.min(
+      max,
+      todayCard.offsetLeft-(weekGrid.clientWidth-todayCard.offsetWidth)/2
+    )
+  );
+  weekGrid.scrollTo({left:target,behavior});
+  requestAnimationFrame(syncWeekScroller);
+}
+
+function renderWeek(){
+  weekGrid.innerHTML="";
+  const start=mondayOfWeek(now);
+  let activeDays=0;
+
+  for(let i=0;i<7;i++){
+    const d=new Date(start);
+    d.setDate(start.getDate()+i);
+    const sp=specialForDate(d);
+    if(sp.length)activeDays++;
+    const m=moonAt(d);
+    const el=document.createElement("button");
+    el.className="day"+(same(d,now)?" today":"")+(sp.length?" has-events":"");
+    el.type="button";
+    const label=sp.length
+      ? sp.slice(0,2).map(r=>r.title).join(" + ")
+      : (same(d,now)?"можно запросить ритуал":"без поручений");
+    const sub=sp.length>2
+      ? `и ещё ${sp.length-2}`
+      : (sp.length?sp[0].when:"свободный день");
+    el.innerHTML=`<div class="dow">${weekdaysShort[d.getDay()]}${same(d,now)?" · сегодня":""}</div><div class="num">${String(d.getDate()).padStart(2,"0")}</div><div class="moon">${m.icon}</div><div class="event">${esc(label)}<small>${esc(sub)}</small></div>`;
+    el.onclick=()=>openDayEvents(d);
+    weekGrid.appendChild(el);
+  }
+
+  weekNote.textContent=activeDays
+    ? `На этой неделе ${activeDays} ${activeDays===1?"день":"дня"} с отдельными поручениями.`
+    : "На этой неделе можно действовать без специального расписания.";
+
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      syncWeekScroller();
+      scrollWeekToToday("auto");
+    });
+  });
+}
+
+weekGrid.addEventListener("scroll",()=>{
+  if(!window.matchMedia("(max-width:680px)").matches)return;
+  syncWeekScroller();
+},{passive:true});
+
+weekScroller.addEventListener("input",()=>{
+  weekGrid.scrollLeft=Number(weekScroller.value);
+});
+
+window.addEventListener("resize",()=>{
+  if(!window.matchMedia("(max-width:680px)").matches)return;
+  syncWeekScroller();
+});
+
 renderWeek();
 
 /* current random ritual */
@@ -2148,7 +2340,13 @@ renderMeter();
 function complete(id){if(todayDone(id))return;state.log.push({id,date:iso(now),ts:Date.now()});saveState();if(currentRitual?.id===id)renderCurrentRitual();if(document.getElementById("ritualOverlay").classList.contains("open"))openRitual(id,false);toast("Вселенная уведомлена")}
 
 /* ritual modal */
-function openRitual(id,updateHash=true){const r=rituals.find(x=>x.id===id);if(!r)return;const done=todayDone(id),l=last(id);ritualModalMeta.textContent=`Ритуал №${r.no} · ${r.cat.map(c=>CAT[c].n).join(" · ")}`;ritualModalBody.innerHTML=`<h2>${esc(r.title)}</h2><p class="intro">${esc(r.short)}</p><div class="detail-grid"><div class="detail-block"><span>Когда</span><p>${esc(r.when)}</p></div><div class="detail-block"><span>Что понадобится</span><p>${esc(r.need)}</p></div><div class="detail-block full"><span>Что делать</span><p>${esc(r.do)}</p></div><div class="detail-block full"><span>Что говорить</span><p>${esc(r.say)}</p></div><div class="detail-block"><span>Происхождение</span><p>${esc(OR[r.origin])}</p></div><div class="detail-block"><span>Категории</span><p>${esc(r.cat.map(c=>CAT[c].n).join(", "))}</p></div></div><div class="modal-actions"><button class="primary" id="modalDone" ${done?"disabled":""}>${done?"✓ "+esc(r.done):esc(r.act)}</button><button class="share-btn" id="modalShare">↗ Поделиться</button></div>${l?`<div class="lastdone">Последний раз: ${pretty(l.date)}</div>`:""}`;ritualOverlay.classList.add("open");document.body.classList.add("lock");modalDone.onclick=()=>complete(id);modalShare.onclick=()=>share(r);if(updateHash)history.replaceState(null,"",`#ritual-${id}`)}
+function openRitual(id,updateHash=true,source){
+  const r=rituals.find(x=>x.id===id);
+  if(!r)return;
+  if(source!==undefined)ritualModalSource=source;
+  const done=todayDone(id),l=last(id);
+  ritualBack.hidden=ritualModalSource!=="archive";
+  ritualModalMeta.textContent=`Ритуал №${r.no} · ${r.cat.map(c=>CAT[c].n).join(" · ")}`;ritualModalBody.innerHTML=`<h2>${esc(r.title)}</h2><p class="intro">${esc(r.short)}</p><div class="detail-grid"><div class="detail-block"><span>Когда</span><p>${esc(r.when)}</p></div><div class="detail-block"><span>Что понадобится</span><p>${esc(r.need)}</p></div><div class="detail-block full"><span>Что делать</span><p>${esc(r.do)}</p></div><div class="detail-block full"><span>Что говорить</span><p>${esc(r.say)}</p></div><div class="detail-block"><span>Происхождение</span><p>${esc(OR[r.origin])}</p></div><div class="detail-block"><span>Категории</span><p>${esc(r.cat.map(c=>CAT[c].n).join(", "))}</p></div></div><div class="modal-actions"><button class="primary" id="modalDone" ${done?"disabled":""}>${done?"✓ "+esc(r.done):esc(r.act)}</button><button class="share-btn" id="modalShare">↗ Поделиться</button></div>${l?`<div class="lastdone">Последний раз: ${pretty(l.date)}</div>`:""}`;ritualOverlay.classList.add("open");document.body.classList.add("lock");modalDone.onclick=()=>complete(id);modalShare.onclick=()=>share(r);if(updateHash)history.replaceState(null,"",`#ritual-${id}`)}
 async function share(r){const url=location.origin+location.pathname+`#ritual-${r.id}`;const data={title:r.title,text:`Нашла для тебя ритуал из «Бытовой магии»: «${r.title}».`,url};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(`${data.text}\n${url}`);toast("Ссылка скопирована")}}catch(e){if(e.name!=="AbortError")toast("Скопируйте ссылку из адресной строки")}}
 
 /* day events */
@@ -2218,6 +2416,7 @@ openCalendar.onclick=showCalendar;calendarTop.onclick=showCalendar;prevMonth.onc
 
 /* archive modal */
 let archiveFilter="all";
+let ritualModalSource=null;
 function renderFilters(){const options=[{k:"all",n:"Все"},...Object.entries(CAT).map(([k,v])=>({k,n:v.n}))];filters.innerHTML="";options.forEach(o=>{const b=document.createElement("button");b.className="filter"+(archiveFilter===o.k?" active":"");b.textContent=o.n;b.onclick=()=>{archiveFilter=o.k;renderFilters();renderAll()};filters.appendChild(b)})}
 function archiveIconMarkup(r){
   if(r.id==="waste-income"){
@@ -2240,15 +2439,28 @@ function renderAll(){
     const b=document.createElement("button");
     b.className="all-card";
     b.innerHTML=`<span class="n">РИТУАЛ №${r.no}</span><span class="ico">${archiveIconMarkup(r)}</span><b>${esc(r.title)}</b><small>${esc(r.when)} · ${esc(OR[r.origin])}</small>`;
-    b.onclick=()=>{closeOverlay("archive");openRitual(r.id)};
+    b.onclick=()=>{closeOverlay("archive");openRitual(r.id,true,"archive")};
     allGrid.appendChild(b);
   });
 }
+ritualBack.onclick=()=>{
+  closeOverlay("ritual");
+  openArchive();
+};
+
 function openArchive(){renderFilters();renderAll();archiveOverlay.classList.add("open");document.body.classList.add("lock")}
 allRitualsBtn.onclick=openArchive;
 
 /* overlays */
-function closeOverlay(name){document.getElementById(name+"Overlay").classList.remove("open");if(!document.querySelector(".overlay.open"))document.body.classList.remove("lock");if(name==="ritual"&&location.hash.startsWith("#ritual-"))history.replaceState(null,"",location.pathname+location.search)}
+function closeOverlay(name){
+  document.getElementById(name+"Overlay").classList.remove("open");
+  if(!document.querySelector(".overlay.open"))document.body.classList.remove("lock");
+  if(name==="ritual"){
+    ritualModalSource=null;
+    ritualBack.hidden=true;
+    if(location.hash.startsWith("#ritual-"))history.replaceState(null,"",location.pathname+location.search);
+  }
+}
 document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>closeOverlay(b.dataset.close));document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{if(e.target===o){if(o.id==="calendarOverlay")closeOverlay("calendar");if(o.id==="dayOverlay")closeOverlay("day");if(o.id==="ritualOverlay")closeOverlay("ritual");if(o.id==="archiveOverlay")closeOverlay("archive")}}));document.addEventListener("keydown",e=>{
   if(e.key!=="Escape")return;
   const open=[...document.querySelectorAll(".overlay.open")];
