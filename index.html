@@ -8,7 +8,7 @@
 <title>Бытовая магия</title>
 <style>
 :root{
-  --bg:#f1efe9;--ink:#151515;--muted:#70706c;--pink:#ff4db8;--blue:#5f66ff;
+  --bg:#f1efe9;--ink:#151515;--muted:#5f5f5a;--pink:#ff4db8;--blue:#5f66ff;
   --accent:#ff6a3d;--accent-soft:#ffd8cd;--butter:#f4cf68;--paper:#fffefa;--line:rgba(21,21,21,.22)
 }
 *{box-sizing:border-box}
@@ -19,7 +19,7 @@ button,a{font:inherit;color:inherit}button{cursor:pointer}.wrap{width:min(1180px
 .mono{font-family:"Courier New",monospace;text-transform:uppercase;letter-spacing:.075em}.tiny{font-size:10px}
 .noise{position:fixed;inset:0;z-index:100;opacity:.045;pointer-events:none;background-image:repeating-linear-gradient(0deg,transparent 0 2px,rgba(0,0,0,.07) 3px);mix-blend-mode:multiply}
 .glow{position:fixed;border-radius:50%;filter:blur(110px);opacity:.17;pointer-events:none;z-index:-1}.glow.pink{width:420px;height:420px;background:var(--pink);left:-160px;top:-120px}.glow.blue{width:460px;height:460px;background:var(--blue);right:-170px;top:40vh}.glow.signal{width:360px;height:360px;background:var(--accent);left:30vw;bottom:-220px;opacity:.12}
-header{height:74px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--ink);position:relative;z-index:20}.brand{display:flex;align-items:center;gap:10px;font-weight:900}.brand-dot{width:12px;height:12px;background:var(--pink);border-radius:50%;position:relative}.brand-dot:after{content:"";position:absolute;width:6px;height:6px;border:2px solid var(--blue);border-radius:50%;right:-10px;top:-7px}.nav{display:flex;gap:24px;font:11px "Courier New",monospace;text-transform:uppercase}.nav a{text-decoration:none}.nav a:hover{text-decoration:underline}.date-top{font:11px "Courier New",monospace}
+header{height:74px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--ink);position:relative;z-index:20}.brand{display:flex;align-items:center;gap:10px;font-weight:900;text-decoration:none}.brand-dot{width:12px;height:12px;background:var(--pink);border-radius:50%;position:relative}.brand-dot:after{content:"";position:absolute;width:6px;height:6px;border:2px solid var(--blue);border-radius:50%;right:-10px;top:-7px}.nav{display:flex;gap:18px;font:12px "Courier New",monospace;text-transform:uppercase}.nav a{text-decoration:none;padding:8px 4px}.nav a:hover{text-decoration:underline}.date-top{font:11px "Courier New",monospace}
 .hero{min-height:760px;position:relative;display:grid;place-items:center;text-align:center;padding:80px 0 70px}.hero-inner{position:relative;z-index:3}.system{font:11px "Courier New",monospace;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}.hero h1{font-size:clamp(68px,8.8vw,122px);line-height:.84;letter-spacing:-.075em;margin:24px auto 28px;max-width:900px;text-wrap:balance}.hero-copy{max-width:620px;margin:0 auto;font-size:20px;line-height:1.46}.hero-action{margin-top:42px;display:flex;flex-direction:column;align-items:center;gap:12px}.orb{width:128px;height:128px;border:2px solid var(--ink);border-radius:50%;background:var(--accent);font-weight:900;line-height:1.05;transition:.18s ease;position:relative}.orb:after{content:"✦";position:absolute;right:-13px;top:-12px;font-size:26px;color:var(--pink)}.orb:hover{transform:rotate(-5deg) scale(1.05);background:var(--pink)}.scrollhint{margin-top:42px;font:10px "Courier New",monospace;color:var(--muted)}
 .floater{position:absolute;z-index:2;user-select:none;transition:transform .12s ease-out;will-change:transform;pointer-events:none}.floater .sticker{display:inline-flex;align-items:center;justify-content:center;border:1.5px solid var(--ink);background:rgba(255,254,250,.84);backdrop-filter:blur(4px)}.f1{left:1%;top:4%}.f1 .sticker{width:116px;height:68px;transform:rotate(-8deg);font-size:38px}.f2{right:1%;top:5%}.f2 .sticker{width:102px;height:102px;border-radius:50%;background:var(--blue);color:#fff;font-size:42px}.f3{left:2%;bottom:5%}.f3 .sticker{padding:11px 14px;background:var(--pink);font:9px "Courier New",monospace;transform:rotate(5deg);border-radius:999px}.f4{right:2%;bottom:5%}.f4 .sticker{padding:11px 14px;background:var(--paper);font:9px "Courier New",monospace;transform:rotate(-4deg);border-radius:999px}
 .ticker{border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);overflow:hidden;white-space:nowrap;padding:11px 0 10px}.ticker-track{display:inline-block;min-width:200%;animation:ticker 28s linear infinite;font:11px "Courier New",monospace;text-transform:uppercase;letter-spacing:.06em}@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -105,7 +105,7 @@ footer{padding:30px 0 46px;display:grid;grid-template-columns:1fr 1.5fr;gap:30px
 :root{
   --type-hero:clamp(64px,7.4vw,112px);
   --type-hero-long:clamp(58px,6.7vw,100px);
-  --type-section:clamp(46px,5.4vw,78px);
+  --type-section:clamp(40px,4.5vw,64px);
   --type-feature:clamp(42px,4.8vw,72px);
   --type-card:clamp(26px,2.5vw,36px);
   --body-lg:clamp(16px,1.25vw,19px);
@@ -256,7 +256,7 @@ footer{padding:30px 0 46px;display:grid;grid-template-columns:1fr 1.5fr;gap:30px
   :root{
     --type-hero:clamp(60px,7vw,94px);
     --type-hero-long:clamp(54px,6.1vw,84px);
-    --type-section:clamp(43px,4.8vw,67px);
+    --type-section:clamp(38px,4.2vw,58px);
     --type-feature:clamp(40px,4.3vw,62px);
   }
 
@@ -289,7 +289,7 @@ footer{padding:30px 0 46px;display:grid;grid-template-columns:1fr 1.5fr;gap:30px
   :root{
     --type-hero:clamp(58px,11vw,88px);
     --type-hero-long:clamp(52px,9.5vw,76px);
-    --type-section:clamp(42px,8vw,66px);
+    --type-section:clamp(38px,7vw,56px);
     --type-feature:clamp(40px,7.8vw,62px);
   }
 
@@ -330,7 +330,7 @@ footer{padding:30px 0 46px;display:grid;grid-template-columns:1fr 1.5fr;gap:30px
   :root{
     --type-hero:clamp(52px,15vw,72px);
     --type-hero-long:clamp(47px,13vw,64px);
-    --type-section:clamp(39px,11vw,56px);
+    --type-section:clamp(36px,10vw,50px);
     --type-feature:clamp(38px,10.5vw,54px);
   }
 
@@ -375,13 +375,119 @@ footer{padding:30px 0 46px;display:grid;grid-template-columns:1fr 1.5fr;gap:30px
   }
 }
 
+
+/* accessibility + interaction */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible{
+  outline:3px solid var(--blue);
+  outline-offset:4px;
+}
+
+.mono,.tiny,
+.day .dow,.day .event small,
+.cal-cell .ctext,.archive-piece .n,
+.all-card .n,.all-card small,
+.day-event-meta,.date-top{
+  font-size:max(11px,0.68rem);
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,
+  *::before,
+  *::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+  .ticker-track{animation:none!important}
+}
+
+
+.hero-kicker{
+  margin:16px auto 0;
+  font:600 12px/1.35 "Courier New",monospace;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  color:var(--muted);
+}
+
+
+.hero-secondary{
+  border:0;
+  background:transparent;
+  padding:6px 0 2px;
+  border-bottom:1px solid currentColor;
+  font-weight:800;
+}
+
+
+footer{
+  grid-template-columns:.8fr 1.2fr;
+  align-items:end;
+  border-top:0;
+  padding-top:54px;
+}
+.footer-meter{min-width:0}
+.footer-meter-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin:10px 0 6px;
+}
+.footer-meter-row strong{
+  font-size:32px;
+  letter-spacing:-.05em;
+}
+.footer-bar{
+  width:min(240px,100%);
+  height:10px;
+  background:rgba(21,21,21,.1);
+  overflow:hidden;
+  border-radius:999px;
+}
+.footer-bar span{
+  display:block;
+  height:100%;
+  background:var(--pink);
+  border-radius:inherit;
+}
+.footer-meta{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+
+@media(max-width:680px){
+  .week-grid{
+    display:flex;
+    overflow-x:auto;
+    overscroll-behavior-inline:contain;
+    scroll-snap-type:x mandatory;
+    gap:10px;
+    border:0;
+    padding:4px 2px 12px;
+    scrollbar-width:none;
+  }
+  .week-grid::-webkit-scrollbar{display:none}
+  .day{
+    flex:0 0 152px;
+    min-height:180px;
+    border:1px solid var(--ink);
+    scroll-snap-align:start;
+  }
+}
+
 </style>
 </head>
 <body>
 <div class="noise"></div><div class="glow pink"></div><div class="glow blue"></div><div class="glow signal"></div>
 <div class="wrap">
 <header>
-  <div class="brand"><span class="brand-dot"></span>БЫТОВАЯ МАГИЯ</div>
+  <a class="brand" href="#today" aria-label="На главную"><span class="brand-dot"></span>БЫТОВАЯ МАГИЯ</a>
   <nav class="nav"><a href="#today">сегодня</a><a href="#week">неделя</a><a href="#archive">ритуалы</a><a href="#" id="calendarTop">календарь</a></nav>
   <div class="date-top" id="dateTop"></div>
 </header>
@@ -393,9 +499,14 @@ footer{padding:30px 0 46px;display:grid;grid-template-columns:1fr 1.5fr;gap:30px
   <div class="floater f4" data-depth="10"><div class="sticker" id="statusSticker">✦ статус: штатно</div></div>
   <div class="hero-inner">
     <div class="system" id="heroDate"></div>
+    <div class="hero-kicker">приметы, ритуалы и бытовая магия по расписанию</div>
     <h1 id="heroTitle"></h1>
     <p class="hero-copy" id="heroCopy"></p>
-    <div class="hero-action"><button class="orb" id="heroRitual">ВЫДАТЬ<br>РИТУАЛ</button><div class="mono tiny">если хочется немного вмешаться</div></div>
+    <div class="hero-action">
+      <button class="orb" id="heroPrimary">ВЫДАТЬ<br>РИТУАЛ</button>
+      <button class="hero-secondary" id="heroSecondary" hidden>или выдать случайный →</button>
+      <div class="mono tiny" id="heroActionHint">если хочется немного вмешаться</div>
+    </div>
     <div class="scrollhint">↓ что дальше по расписанию</div>
   </div>
 </section>
@@ -430,16 +541,27 @@ footer{padding:30px 0 46px;display:grid;grid-template-columns:1fr 1.5fr;gap:30px
 <section class="section" id="archive">
   <div class="archive">
     <div class="mono tiny">без расписания</div>
-    <h2 class="archive-title">Бытовая магия, которую можно держать под рукой</h2>
-    <p class="archive-lead">Лавр, монетки, мусор, красные трусы и прочие практики без строгой календарной даты.</p>
+    <h2 class="archive-title">Магия без даты</h2>
+    <p class="archive-lead">Лавр, монетки, мусор, красные трусы и другие практики, которым не нужен особый день.</p>
     <button class="archive-cta" id="allRitualsBtn">ВСЕ РИТУАЛЫ →</button>
     <div id="archivePieces"></div>
   </div>
 </section>
-<section class="section">
-  <div class="magic-meter"><div><div class="mono tiny">магическая обстановка</div><div class="meter-big" id="meterBig">61%</div><div class="bar"><span id="meterBar"></span></div><div class="meter-note" id="meterNote"></div></div><div class="section-note">Цифра условная. Просто сегодня Вселенная выглядит примерно настолько странно.</div></div>
-</section>
-<footer><span>БЫТОВАЯ МАГИЯ © <span id="footerYear"></span> · <a href="https://www.threads.com/@thesonyaverse" target="_blank" rel="noreferrer">THESONYAVERSE</a></span><span>Здесь собраны приметы, суеверия и интернет-ритуалы. Подтверждений, что они действительно влияют на деньги, отношения, карьеру или другие события, нет.</span></footer>
+
+<footer>
+  <div class="footer-meter">
+    <div class="mono tiny">магическая обстановка</div>
+    <div class="footer-meter-row">
+      <strong id="meterBig">61%</strong>
+      <div class="footer-bar"><span id="meterBar"></span></div>
+    </div>
+    <div class="meter-note" id="meterNote"></div>
+  </div>
+  <div class="footer-meta">
+    <span>БЫТОВАЯ МАГИЯ © <span id="footerYear"></span> · <a href="https://www.threads.com/@thesonyaverse" target="_blank" rel="noreferrer">THESONYAVERSE</a></span>
+    <span>Здесь собраны приметы, суеверия и интернет-ритуалы. Подтверждений, что они действительно влияют на деньги, отношения, карьеру или другие события, нет.</span>
+  </div>
+</footer>
 </div>
 
 <div class="overlay" id="calendarOverlay"><div class="modal"><div class="modal-top"><div><div class="mono tiny">календарь</div><h2 id="calendarTitle"></h2></div><button class="close" data-close="calendar">×</button></div><div class="calendar-controls"><button id="prevMonth">←</button><button id="todayMonth">сегодня</button><button id="nextMonth">→</button></div><div class="month-grid" id="monthGrid"></div></div></div>
@@ -451,6 +573,53 @@ footer{padding:30px 0 46px;display:grid;grid-template-columns:1fr 1.5fr;gap:30px
 <script>
 (function(){
 "use strict";
+
+const $ = id => document.getElementById(id);
+const calendarTop = $("calendarTop");
+const dateTop = $("dateTop");
+const heroMoonIcon = $("heroMoonIcon");
+const financeSticker = $("financeSticker");
+const statusSticker = $("statusSticker");
+const heroDate = $("heroDate");
+const heroTitle = $("heroTitle");
+const heroCopy = $("heroCopy");
+const heroPrimary = $("heroPrimary");
+const heroSecondary = $("heroSecondary");
+const heroActionHint = $("heroActionHint");
+const tickerTrack = $("tickerTrack");
+const weekNote = $("weekNote");
+const weekGrid = $("weekGrid");
+const openCalendar = $("openCalendar");
+const ritualObject = $("ritualObject");
+const objectLabel = $("objectLabel");
+const ritualCopy = $("ritualCopy");
+const moonNowVisual = $("moonNowVisual");
+const moonNowPhase = $("moonNowPhase");
+const moonNowTitle = $("moonNowTitle");
+const moonNowText = $("moonNowText");
+const moonNowAction = $("moonNowAction");
+const allRitualsBtn = $("allRitualsBtn");
+const archivePieces = $("archivePieces");
+const meterBig = $("meterBig");
+const meterBar = $("meterBar");
+const meterNote = $("meterNote");
+const footerYear = $("footerYear");
+const calendarOverlay = $("calendarOverlay");
+const calendarTitle = $("calendarTitle");
+const prevMonth = $("prevMonth");
+const todayMonth = $("todayMonth");
+const nextMonth = $("nextMonth");
+const monthGrid = $("monthGrid");
+const dayOverlay = $("dayOverlay");
+const dayEventsHead = $("dayEventsHead");
+const dayEventsList = $("dayEventsList");
+const ritualOverlay = $("ritualOverlay");
+const ritualModalMeta = $("ritualModalMeta");
+const ritualModalBody = $("ritualModalBody");
+const archiveOverlay = $("archiveOverlay");
+const filters = $("filters");
+const allGrid = $("allGrid");
+const toastEl = $("toast");
 const OR={folk:"народная примета",internet:"интернет-ритуал",simoron:"симорон",esoteric:"эзотерическая практика",tradition:"международная традиция",fengshui:"фэншуй"};
 const CAT={money:{n:"Деньги"},home:{n:"Дом"},luck:{n:"Удача"},love:{n:"Любовь"},work:{n:"Работа и дела"},moon:{n:"Луна"}};
 const rituals=[
@@ -469,7 +638,7 @@ const rituals=[
   need:"Напиток и щепотка корицы.",
   say:"«Как корица вкус прибавляет, так и денежки ко мне прирастают».",
   rule:"thursday",
-  act:"Я это сделала",
+  act:"Готово",
   done:"Вселенная уведомлена",
   random:1
 },
@@ -488,7 +657,7 @@ const rituals=[
   need:"Сухой лавровый лист и кошелёк.",
   say:"Специальная устойчивая фраза не обязательна.",
   rule:"thursday",
-  act:"Положила лавр",
+  act:"Лавр на месте",
   done:"Лавр на службе"
 },
 
@@ -506,7 +675,7 @@ const rituals=[
   need:"Красное бельё и безопасное место. Не используйте горячий светильник и шаткую мебель.",
   say:"«Трусы на люстру — деньги в дом!»",
   rule:"thursday",
-  act:"Забросила",
+  act:"Готово",
   done:"Ритуал принят"
 },
 
@@ -524,8 +693,8 @@ const rituals=[
   need:"Красное бельё.",
   say:"Никакой обязательной формулы — версия без акробатики.",
   rule:"friday",
-  act:"Сегодня красное",
-  done:"Пятница соблюдена"
+  act:"Красное — сегодня",
+  done:"Пятничный ритуал соблюдён"
 },
 
 {
@@ -542,7 +711,7 @@ const rituals=[
   need:"Немного молотой корицы.",
   say:"Формулировки отличаются; можно ограничиться собственным пожеланием достатка дому.",
   rule:"first",
-  act:"Вдула корицу",
+  act:"Корица в доме",
   done:"Корица доставлена"
 },
 
@@ -560,7 +729,7 @@ const rituals=[
   need:"Купюра или кошелёк и видимая Луна — если погода согласна участвовать.",
   say:"Единой формулы нет: обычно проговаривают пожелание роста дохода.",
   rule:"waxing",
-  act:"Показала деньги",
+  act:"Деньги показаны",
   done:"Луна в курсе"
 },
 
@@ -595,7 +764,7 @@ const rituals=[
   do:"Положить в кошелёк деньги и символически «поставить его на зарядку» — рядом с кабелем или батарейками. В интернет-пересказах оставляют так на несколько ночей.",
   need:"Кошелёк, деньги и реквизит для символической «зарядки».",
   say:"Фиксированной формулы нет.",
-  act:"Поставила на зарядку",
+  act:"Кошелёк на зарядке",
   done:"Кошелёк заряжается",
   random:1
 },
@@ -613,7 +782,7 @@ const rituals=[
   do:"Монету кладут под коврик у входной двери как денежный талисман. В некоторых версиях её периодически заменяют.",
   need:"Одна монета и входной коврик.",
   say:"Не требуется.",
-  act:"Монета уже лежит",
+  act:"Монета на месте",
   done:"Монета на посту",
   random:1
 },
@@ -631,7 +800,7 @@ const rituals=[
   do:"Монету закапывают в горшок толстянки, замиокулькаса или другого растения. В симоронских пересказах быстрорастущее растение можно шутливо назначить «капустой».",
   need:"Комнатное растение и монета.",
   say:"«Поливаю я капусту, чтоб водилась густо-густо».",
-  act:"Монета посажена",
+  act:"Монета в горшке",
   done:"Капитал растёт",
   random:1
 },
@@ -649,7 +818,7 @@ const rituals=[
   do:"В денежных приметах веник или метлу советуют хранить определённым образом — в популярных версиях черенком вниз / метущей частью вверх.",
   need:"Веник, метла или швабра.",
   say:"Не требуется.",
-  act:"Так и стоит",
+  act:"Всё по регламенту",
   done:"Регламент соблюдён",
   random:1
 },
@@ -667,7 +836,7 @@ const rituals=[
   do:"Одна из распространённых денежных примет: отдавать наличные правой рукой, принимать левой; иногда деньги сначала кладут на поверхность, а не передают из рук в руки.",
   need:"Наличные и желание соблюдать примету.",
   say:"Не требуется.",
-  act:"Соблюла примету",
+  act:"Примета соблюдена",
   done:"Руки распределены",
   random:1
 },
@@ -685,7 +854,7 @@ const rituals=[
   do:"Если вслух сказали что-то хорошее о будущем или похвастались удачей, в распространённой примете стучат по дереву, чтобы «не сглазить».",
   need:"Деревянная поверхность. Или хотя бы убедительный стол.",
   say:"Часто сопровождают словами «тьфу-тьфу-тьфу, чтобы не сглазить».",
-  act:"Постучала",
+  act:"По дереву постучали",
   done:"Сглаз перенаправлен",
   random:1
 },
@@ -703,7 +872,7 @@ const rituals=[
   do:"Перед дальней дорогой принято ненадолго присесть в тишине. Сегодня это часто воспринимается одновременно как примета и практичный способ вспомнить, всё ли взяли.",
   need:"Минута и место, куда можно присесть.",
   say:"Не требуется.",
-  act:"Присела",
+  act:"На дорожку присели",
   done:"Дорога согласована",
   random:1
 },
@@ -711,7 +880,7 @@ const rituals=[
 {
   id:"mirror-return",
   no:"015",
-  title:"Вернулась — посмотри в зеркало",
+  title:"Вернулись — сначала в зеркало",
   icon:"◇",
   cat:["luck","home"],
   origin:"folk",
@@ -721,7 +890,7 @@ const rituals=[
   do:"Согласно распространённой примете, если пришлось вернуться домой после выхода, перед повторным уходом стоит посмотреться в зеркало.",
   need:"Зеркало и причина, по которой пришлось вернуться.",
   say:"Не требуется.",
-  act:"Посмотрела",
+  act:"В зеркало посмотрели",
   done:"Маршрут восстановлен",
   random:1
 },
@@ -739,7 +908,7 @@ const rituals=[
   do:"В разных бытовых приметах важное место, встречу или новое пространство советуют начинать с правой ноги.",
   need:"Правая нога и порог.",
   say:"Не требуется.",
-  act:"Шагнула правильно",
+  act:"Шаг сделан правильно",
   done:"Старт засчитан",
   random:1
 },
@@ -758,7 +927,7 @@ const rituals=[
   need:"12 виноградин. Безопасность важнее скорости.",
   say:"Можно загадать желание; обязательной формулы нет.",
   rule:"newyear",
-  act:"12/12",
+  act:"12/12 — готово",
   done:"Год согласован"
 },
 
@@ -772,10 +941,10 @@ const rituals=[
   time:"anytime",
   when:"Когда подруга решила ускорить бюрократию Вселенной",
   short:"Одна замужняя подруга, одна новая кружка. Остальное, предположительно, берёт на себя Вселенная.",
-  do:"Современная примета гласит: кружка, подаренная замужней женщиной незамужней подруге, символически передаёт семейное благополучие и сулит встречу с будущим супругом или замужество.",
+  do:"В распространённой женской версии этой современной приметы кружка от замужней подруги символически передаёт семейное благополучие и сулит встречу с партнёром. Сам ритуал можно воспринимать шире — как пожелание удачи в личной жизни.",
   need:"Замужняя подруга и новая кружка. В некоторых версиях советуют не дарить её пустой.",
   say:"Устойчивой общей формулы нет — достаточно доброго пожелания.",
-  act:"Кружка получена",
+  act:"Кружка на месте",
   done:"Заявка на свадьбу принята",
   random:1
 },
@@ -793,7 +962,7 @@ const rituals=[
   do:"В популярных рекомендациях фэншуй для отношений советуют использовать в спальне парные предметы и оставлять символическое пространство для партнёра.",
   need:"Парные предметы: две подушки, два светильника или две декоративные вещи.",
   say:"Не требуется.",
-  act:"Создала пару",
+  act:"Пара собрана",
   done:"Парность соблюдена",
   random:1
 },
@@ -811,8 +980,8 @@ const rituals=[
   do:"Со спатифиллумом связано современное бытовое поверье: его называют «женским счастьем», а цветение связывают с любовью, гармонией и иногда скорой свадьбой.",
   need:"Спатифиллум и нормальный уход за живым растением.",
   say:"Не требуется.",
-  act:"Цветок дома",
-  done:"Женское счастье на месте",
+  act:"Цветок на месте",
+  done:"Растение на месте",
   random:1
 },
 
@@ -829,7 +998,7 @@ const rituals=[
   do:"В эзотерических и фэншуй-подборках встречаются монеты или металлические символы на рабочем столе как талисман финансовой удачи и карьерного роста.",
   need:"Монета или небольшой металлический талисман.",
   say:"Не требуется.",
-  act:"Монета на столе",
+  act:"Монета на месте",
   done:"Микрофонд открыт",
   random:1
 },
@@ -884,7 +1053,7 @@ const rituals=[
   need:"Любое дело, которому хочется назначить символический старт.",
   say:"Не требуется.",
   rule:"waxing",
-  act:"Запустила дело",
+  act:"Дело запущено",
   done:"Рост синхронизирован"
 },
 
@@ -920,7 +1089,7 @@ const rituals=[
   need:"Ящик, шкаф или хотя бы одна полка, которую давно пора разобрать.",
   say:"Не требуется.",
   rule:"waning",
-  act:"Расхламила",
+  act:"Расхламление готово",
   done:"Лишнее ушло",
   random:1
 }
@@ -986,7 +1155,10 @@ const todaySpecial=specialForDate(now), moon=moonAt(now), principal=principalOn(
 dateTop.textContent=`${String(now.getDate()).padStart(2,"0")}.${String(now.getMonth()+1).padStart(2,"0")}.${String(now.getFullYear()).slice(-2)} / ${moon.icon}`;footerYear.textContent=now.getFullYear();
 heroDate.textContent=`${weekdays[now.getDay()]} · ${ff.format(now)}`;
 heroMoonIcon.textContent=moon.icon;
-let title="Сегодня ничего особенного", copy=`${moon.name}. Срочных поручений от Вселенной нет. Но это не запрещает немного вмешаться в происходящее.`, status="✦ статус: штатно";
+let title="Сегодня ничего особенного",
+    copy=`${moon.name}. Срочных поручений от Вселенной нет. Но это не запрещает немного вмешаться в происходящее.`,
+    status="✦ статус: штатно";
+
 if(todaySpecial.length===1){
   title="Сегодня у Вселенной одно поручение";
   copy=`${moon.name}. По расписанию сегодня: ${todaySpecial[0].title}.`;
@@ -994,7 +1166,7 @@ if(todaySpecial.length===1){
 }
 if(todaySpecial.length>=2&&todaySpecial.length<=3){
   title="Сегодня есть магическая программа";
-  copy=`${moon.name}. На сегодня назначено ${todaySpecial.length} ритуала. Можно выбрать один или посмотреть все в календаре.`;
+  copy=`${moon.name}. На сегодня назначено ${todaySpecial.length} ритуала. Можно выбрать один или посмотреть все.`;
   status=`✦ поручений: ${todaySpecial.length}`;
 }
 if(todaySpecial.length>=4){
@@ -1002,15 +1174,60 @@ if(todaySpecial.length>=4){
   copy=`${moon.name}. На одну дату совпало ${todaySpecial.length} событий. Полный список — в календаре.`;
   status="✦ высокая активность";
 }
+
 heroTitle.textContent=title;
 heroTitle.classList.toggle("is-long",title.length>29);
 heroCopy.textContent=copy;
 statusSticker.textContent=status;
 financeSticker.textContent=todaySpecial.some(r=>r.cat.includes("money"))?"FINANCIAL DEPARTMENT ONLINE":"ВСЕЛЕННАЯ НА СВЯЗИ";
 
+if(todaySpecial.length===0){
+  heroPrimary.innerHTML="ВЫДАТЬ<br>РИТУАЛ";
+  heroActionHint.textContent="если хочется немного вмешаться";
+  heroSecondary.hidden=true;
+  heroPrimary.onclick=()=>{
+    pickRitual(true);
+    document.getElementById("randomRitualSection").scrollIntoView({behavior:"smooth",block:"center"});
+  };
+}else if(todaySpecial.length===1){
+  heroPrimary.innerHTML="СМОТРЕТЬ<br>РИТУАЛ";
+  heroActionHint.textContent=todaySpecial[0].title;
+  heroSecondary.hidden=false;
+  heroPrimary.onclick=()=>openDayEvents(now);
+  heroSecondary.onclick=()=>{
+    pickRitual(true);
+    document.getElementById("randomRitualSection").scrollIntoView({behavior:"smooth",block:"center"});
+  };
+}else if(todaySpecial.length<=3){
+  heroPrimary.innerHTML=`СМОТРЕТЬ<br>${todaySpecial.length} РИТУАЛА`;
+  heroActionHint.textContent="все события на сегодня";
+  heroSecondary.hidden=false;
+  heroPrimary.onclick=()=>openDayEvents(now);
+  heroSecondary.onclick=()=>{
+    pickRitual(true);
+    document.getElementById("randomRitualSection").scrollIntoView({behavior:"smooth",block:"center"});
+  };
+}else{
+  heroPrimary.innerHTML="РАЗОБРАТЬСЯ,<br>ЧТО ДЕЛАТЬ";
+  heroActionHint.textContent=`событий на сегодня: ${todaySpecial.length}`;
+  heroSecondary.hidden=false;
+  heroPrimary.onclick=()=>openDayEvents(now);
+  heroSecondary.onclick=()=>{
+    pickRitual(true);
+    document.getElementById("randomRitualSection").scrollIntoView({behavior:"smooth",block:"center"});
+  };
+}
+
 /* ticker */
 function nextOccurrences(limit=4){const out=[];const start=new Date(now.getFullYear(),now.getMonth(),now.getDate(),12);for(let i=0;i<45;i++){const d=new Date(start);d.setDate(d.getDate()+i);specialForDate(d).forEach(r=>out.push({d,r}));}return out.filter((x,i,a)=>a.findIndex(y=>iso(y.d)===iso(x.d)&&y.r.id===x.r.id)===i).slice(0,limit)}
-const tickerBits=[`ВСЕЛЕННАЯ ONLINE`,`ЛУНА: ${moon.name.toUpperCase()}`, ...nextOccurrences(4).map(x=>`${sf.format(x.d).toUpperCase()} · ${x.r.title.toUpperCase()}`),`ПОДТВЕРЖДЕНИЙ ЭФФЕКТИВНОСТИ НЕТ`];tickerTrack.textContent=(tickerBits.join(" · ")+" · ").repeat(4);
+const tickerBits=[
+  "ВСЕЛЕННАЯ ONLINE",
+  todaySpecial.length?`СЕГОДНЯ ПОРУЧЕНИЙ: ${todaySpecial.length}`:"СЕГОДНЯ МОЖНО ЖИТЬ ОБЫЧНУЮ ЖИЗНЬ",
+  todaySpecial.some(r=>r.cat.includes("money"))?"ФИНАНСОВЫЙ ОТДЕЛ НА СВЯЗИ":"ФИНАНСОВЫЙ ОТДЕЛ БЕЗ ОСОБЫХ ПОРУЧЕНИЙ",
+  `ЛУНА: ${moon.name.toUpperCase()}`,
+  "НАУКА ПОКА МОЛЧИТ"
+];
+tickerTrack.textContent=(tickerBits.join(" · ")+" · ").repeat(5);
 
 /* Week */
 function renderWeek(){weekGrid.innerHTML="";const start=mondayOfWeek(now);let activeDays=0;for(let i=0;i<7;i++){const d=new Date(start);d.setDate(start.getDate()+i);const sp=specialForDate(d);if(sp.length)activeDays++;const m=moonAt(d);const el=document.createElement("button");el.className="day"+(same(d,now)?" today":"")+(sp.length?" has-events":"");el.type="button";const label=sp.length?sp.slice(0,2).map(r=>r.title).join(" + "):(same(d,now)?"можно запросить ритуал":"без поручений");const sub=sp.length>2?`и ещё ${sp.length-2}`:(sp.length?sp[0].when:"свободный день");el.innerHTML=`<div class="dow">${weekdaysShort[d.getDay()]}${same(d,now)?" · сегодня":""}</div><div class="num">${String(d.getDate()).padStart(2,"0")}</div><div class="moon">${m.icon}</div><div class="event">${esc(label)}<small>${esc(sub)}</small></div>`;el.onclick=()=>openDayEvents(d);weekGrid.appendChild(el)}weekNote.textContent=activeDays?`На этой неделе ${activeDays} ${activeDays===1?"день":"дня"} с отдельными поручениями.`:"На этой неделе можно действовать без специального расписания."}
@@ -1068,7 +1285,7 @@ ritualObject.addEventListener("keydown",e=>{
   }
 });
 
-pickRitual();heroRitual.onclick=()=>{pickRitual(true);document.querySelector(".ritual-copy").scrollIntoView({behavior:"smooth",block:"center"})};
+pickRitual();
 
 /* Moon now */
 function moonRecommendation(){
@@ -1103,7 +1320,7 @@ function complete(id){if(todayDone(id))return;state.log.push({id,date:iso(now),t
 
 /* ritual modal */
 function openRitual(id,updateHash=true){const r=rituals.find(x=>x.id===id);if(!r)return;const done=todayDone(id),l=last(id);ritualModalMeta.textContent=`Ритуал №${r.no} · ${r.cat.map(c=>CAT[c].n).join(" · ")}`;ritualModalBody.innerHTML=`<h2>${esc(r.title)}</h2><p class="intro">${esc(r.short)}</p><div class="detail-grid"><div class="detail-block"><span>Когда</span><p>${esc(r.when)}</p></div><div class="detail-block"><span>Что понадобится</span><p>${esc(r.need)}</p></div><div class="detail-block full"><span>Что делать</span><p>${esc(r.do)}</p></div><div class="detail-block full"><span>Что говорить</span><p>${esc(r.say)}</p></div><div class="detail-block"><span>Происхождение</span><p>${esc(OR[r.origin])}</p></div><div class="detail-block"><span>Категории</span><p>${esc(r.cat.map(c=>CAT[c].n).join(", "))}</p></div></div><div class="modal-actions"><button class="primary" id="modalDone" ${done?"disabled":""}>${done?"✓ "+esc(r.done):esc(r.act)}</button><button class="share-btn" id="modalShare">↗ Поделиться</button></div>${l?`<div class="lastdone">Последний раз: ${pretty(l.date)}</div>`:""}`;ritualOverlay.classList.add("open");document.body.classList.add("lock");modalDone.onclick=()=>complete(id);modalShare.onclick=()=>share(r);if(updateHash)history.replaceState(null,"",`#ritual-${id}`)}
-async function share(r){const url=location.origin+location.pathname+`#ritual-${r.id}`;const data={title:r.title,text:`Нашла для тебя ритуал из «Бытовой магии»: «${r.title}».`,url};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(`${data.text}\n${url}`);toast("Ссылка скопирована")}}catch(e){if(e.name!=="AbortError")toast("Скопируйте ссылку из адресной строки")}}
+async function share(r){const url=location.origin+location.pathname+`#ritual-${r.id}`;const data={title:r.title,text:`Вот ритуал из «Бытовой магии»: «${r.title}».`,url};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(`${data.text}\n${url}`);toast("Ссылка скопирована")}}catch(e){if(e.name!=="AbortError")toast("Скопируйте ссылку из адресной строки")}}
 
 /* day events */
 function dayTitle(d){
@@ -1145,13 +1362,29 @@ allRitualsBtn.onclick=openArchive;
 
 /* overlays */
 function closeOverlay(name){document.getElementById(name+"Overlay").classList.remove("open");if(!document.querySelector(".overlay.open"))document.body.classList.remove("lock");if(name==="ritual"&&location.hash.startsWith("#ritual-"))history.replaceState(null,"",location.pathname+location.search)}
-document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>closeOverlay(b.dataset.close));document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{if(e.target===o){if(o.id==="calendarOverlay")closeOverlay("calendar");if(o.id==="dayOverlay")closeOverlay("day");if(o.id==="ritualOverlay")closeOverlay("ritual");if(o.id==="archiveOverlay")closeOverlay("archive")}}));document.addEventListener("keydown",e=>{if(e.key==="Escape"){["calendar","day","ritual","archive"].forEach(closeOverlay)}});
+document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>closeOverlay(b.dataset.close));document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{if(e.target===o){if(o.id==="calendarOverlay")closeOverlay("calendar");if(o.id==="dayOverlay")closeOverlay("day");if(o.id==="ritualOverlay")closeOverlay("ritual");if(o.id==="archiveOverlay")closeOverlay("archive")}}));document.addEventListener("keydown",e=>{
+  if(e.key!=="Escape")return;
+  const open=[...document.querySelectorAll(".overlay.open")];
+  const top=open[open.length-1];
+  if(!top)return;
+  const name=top.id.replace("Overlay","");
+  closeOverlay(name);
+});
 
 /* parallax */
-document.addEventListener("mousemove",e=>{const cx=e.clientX/window.innerWidth-.5,cy=e.clientY/window.innerHeight-.5;document.querySelectorAll(".floater").forEach(el=>{const depth=Number(el.dataset.depth||8);el.style.transform=`translate(${cx*depth}px,${cy*depth}px)`})});
+const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+if(!reduceMotion){
+  document.addEventListener("mousemove",e=>{
+    const cx=e.clientX/window.innerWidth-.5,cy=e.clientY/window.innerHeight-.5;
+    document.querySelectorAll(".floater").forEach(el=>{
+      const depth=Number(el.dataset.depth||8);
+      el.style.transform=`translate(${cx*depth}px,${cy*depth}px)`;
+    });
+  });
+}
 
 /* toast */
-let toastTimer;function toast(v){toast.textContent=v;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),2200)}
+let toastTimer;function toast(v){if(!toastEl)return;toastEl.textContent=v;toastEl.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toastEl.classList.remove("show"),2200)}
 
 /* direct links */
 const h=decodeURIComponent(location.hash.slice(1));if(h.startsWith("ritual-")){const id=h.slice(7);if(rituals.some(r=>r.id===id))setTimeout(()=>openRitual(id,false),50)}
