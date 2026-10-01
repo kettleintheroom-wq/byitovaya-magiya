@@ -82,38 +82,11 @@ footer{padding:30px 0 46px;display:grid;grid-template-columns:1fr 1.5fr;gap:30px
 .day-event-meta{margin-top:10px;font:9px/1.35 "Courier New",monospace;color:var(--muted);text-transform:uppercase}
 .day-event-open{border:0;border-bottom:1px solid currentColor;background:transparent;padding:4px 0;font-weight:900;white-space:nowrap}
 
-.day-lunar{
-  margin-top:28px;
-  padding:18px 20px;
-  background:rgba(95,102,255,.09);
-  border-radius:18px;
-}
-.day-lunar-kicker{
-  font:11px/1.35 "Courier New",monospace;
-  text-transform:uppercase;
-  letter-spacing:.06em;
-  color:var(--muted);
-  margin-bottom:8px;
-}
-.day-lunar h4{
-  margin:0 0 8px;
-  font-size:22px;
-  line-height:1;
-  letter-spacing:-.035em;
-}
-.day-lunar p{
-  margin:0 0 12px;
-  font-size:14px;
-  line-height:1.45;
-  color:#4d4d49;
-}
-.day-lunar button{
-  border:0;
-  background:transparent;
-  border-bottom:1px solid currentColor;
-  padding:3px 0;
-  font-weight:900;
-}
+
+
+
+
+
 .day-events-empty{padding:34px 0 10px}.day-empty-title{font-size:34px;line-height:1;letter-spacing:-.04em;margin:0 0 12px}.day-empty-copy{max-width:580px;font-size:16px;line-height:1.5;color:var(--muted);margin:0 0 22px}.day-random-cta{border:0;background:var(--accent);padding:13px 17px;font-weight:900;border-radius:999px}
 @media(max-width:680px){
   .day-event-item{grid-template-columns:56px 1fr;gap:14px}
@@ -660,8 +633,421 @@ footer{
     font-size:48px;
   }
 
+  
+}
+
+
+/* ===== MOBILE REWORK v18 ===== */
+@media(max-width:680px){
+
+  /* Header */
+  .wrap{
+    width:calc(100% - 32px);
+  }
+
+  header{
+    height:70px;
+  }
+
+  .brand{
+    font-size:18px;
+    gap:8px;
+  }
+
+  .brand-dot{
+    width:10px;
+    height:10px;
+  }
+
+  .date-top{
+    font-size:10px!important;
+  }
+
+  /* Hero: separate mobile composition */
+  .hero{
+    min-height:auto!important;
+    padding:34px 0 42px!important;
+    display:block!important;
+  }
+
+  .hero-inner{
+    width:100%;
+  }
+
+  .hero .system{
+    margin:0 0 18px!important;
+    font-size:10px!important;
+    line-height:1.35;
+  }
+
+  .hero-kicker{
+    display:none!important;
+  }
+
+  .hero h1,
+  .hero h1.is-long{
+    max-width:100%!important;
+    margin:0 0 20px!important;
+    font-size:clamp(46px,12.5vw,56px)!important;
+    line-height:.96!important;
+    letter-spacing:-.052em!important;
+    text-align:left!important;
+    text-wrap:balance;
+  }
+
+  .hero-copy{
+    max-width:34ch!important;
+    margin:0!important;
+    font-size:16px!important;
+    line-height:1.45!important;
+    text-align:left!important;
+  }
+
+  .hero-action{
+    margin-top:26px!important;
+    align-items:stretch!important;
+    gap:12px!important;
+  }
+
+  .hero .orb{
+    width:100%!important;
+    min-height:60px!important;
+    height:auto!important;
+    border-radius:14px!important;
+    padding:15px 18px!important;
+    font-size:18px!important;
+    line-height:1.05!important;
+    text-align:left!important;
+  }
+
+  .hero-secondary{
+    align-self:flex-start;
+    font-size:15px!important;
+    line-height:1.25;
+  }
+
+  #heroActionHint{
+    display:none!important;
+  }
+
+  .scrollhint{
+    margin-top:28px!important;
+    font-size:10px!important;
+  }
+
+  /* Decorative desktop noise is unnecessary on mobile */
+  .ticker{
+    display:none!important;
+  }
+
+  /* Sections */
+  .section{
+    padding:46px 0!important;
+  }
+
+  .section-head{
+    margin-bottom:24px!important;
+  }
+
+  .section-head h2,
+  .archive-title{
+    max-width:100%!important;
+    font-size:clamp(38px,10.5vw,48px)!important;
+    line-height:.97!important;
+    letter-spacing:-.048em!important;
+  }
+
+  .section-note{
+    margin-top:12px!important;
+    padding-top:0!important;
+    font-size:14px!important;
+  }
+
+  /* Week = horizontal compact rail */
+  .week-grid{
+    display:flex!important;
+    grid-template-columns:none!important;
+    gap:10px!important;
+    overflow-x:auto!important;
+    padding:2px 1px 12px!important;
+    border:0!important;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:none;
+  }
+
+  .week-grid::-webkit-scrollbar{
+    display:none;
+  }
+
+  .day{
+    flex:0 0 142px!important;
+    min-height:164px!important;
+    padding:12px!important;
+    border:1px solid var(--ink)!important;
+    scroll-snap-align:start;
+  }
+
+  .day .num{
+    font-size:38px!important;
+  }
+
+  .day .event{
+    padding-top:20px!important;
+    font-size:14px!important;
+  }
+
+  /* Current random ritual: content first, blob second */
+  .now-layout{
+    display:flex!important;
+    flex-direction:column-reverse!important;
+    gap:26px!important;
+  }
+
+  .ritual-copy h3,
+  .ritual-copy h3.long-title{
+    max-width:100%!important;
+    font-size:clamp(38px,10.5vw,48px)!important;
+    line-height:.98!important;
+    letter-spacing:-.045em!important;
+  }
+
+  .ritual-copy p{
+    font-size:16px!important;
+    line-height:1.48!important;
+  }
+
+  .meta-row{
+    margin:18px 0!important;
+  }
+
+  .meta-pill{
+    font-size:10px!important;
+  }
+
+  .object-stage{
+    min-height:auto!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:flex-start!important;
+    gap:12px!important;
+  }
+
+  .object-blob{
+    width:160px!important;
+    height:160px!important;
+    font-size:58px!important;
+    justify-self:auto!important;
+  }
+
+  .object-label{
+    position:static!important;
+    max-width:100%!important;
+    margin:0!important;
+    padding:9px 11px!important;
+    transform:none!important;
+    font-size:10px!important;
+    border-radius:10px!important;
+  }
+
+  .action-row{
+    width:100%!important;
+    gap:10px!important;
+  }
+
+  .action-row .primary{
+    width:100%!important;
+    min-height:50px;
+  }
+
+  /* Archive */
+  #archivePieces{
+    gap:8px!important;
+  }
+
+  .archive-piece{
+    min-height:112px!important;
+    padding:14px 68px 16px 0!important;
+  }
+
+  .archive-piece:after{
+    width:48px!important;
+    height:48px!important;
+  }
+
+  .archive-piece b{
+    font-size:26px!important;
+    line-height:1!important;
+  }
+
+  /* Footer */
+  footer{
+    padding-top:34px!important;
+    gap:24px!important;
+  }
+
+  /* Full-screen mobile modals */
+  .overlay{
+    padding:0!important;
+    align-items:stretch!important;
+  }
+
+  .modal{
+    width:100%!important;
+    height:100dvh!important;
+    max-height:none!important;
+    border:0!important;
+    padding:18px 16px 30px!important;
+    border-radius:0!important;
+  }
+
+  .modal-top{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:var(--bg);
+    padding:2px 0 12px;
+  }
+
+  .modal-top h2{
+    font-size:40px!important;
+    line-height:.95!important;
+    margin-top:6px!important;
+  }
+
+  .close{
+    width:42px!important;
+    height:42px!important;
+  }
+
+  /* Calendar: real month grid, no text squeezed into cells */
+  .calendar-controls{
+    margin-top:12px!important;
+    gap:6px!important;
+  }
+
+  .calendar-controls button{
+    min-height:42px;
+    padding:8px 12px!important;
+  }
+
+  .calendar-hint{
+    margin-top:10px;
+    max-width:34ch;
+    font:10px/1.4 "Courier New",monospace;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:.04em;
+  }
+
+  .month-grid{
+    width:100%!important;
+    margin-top:16px!important;
+    grid-template-columns:repeat(7,minmax(0,1fr))!important;
+    overflow:visible!important;
+  }
+
+  .cal-cell{
+    min-width:0!important;
+    min-height:66px!important;
+    padding:6px!important;
+  }
+
+  .cal-cell.head{
+    min-height:32px!important;
+    padding:9px 1px!important;
+    font-size:9px!important;
+  }
+
+  .cal-cell .cnum{
+    font-size:19px!important;
+    line-height:1;
+  }
+
+  .cal-cell .cdot{
+    right:5px!important;
+    top:5px!important;
+    font-size:10px!important;
+  }
+
+  .cal-cell .ctext{
+    display:none!important;
+  }
+
+  .cal-cell.eventday:not(.today){
+    box-shadow:inset 0 3px 0 var(--accent)!important;
+  }
+
+  /* Day card */
+  .day-events-date{
+    font-size:44px!important;
+    line-height:.96!important;
+  }
+
+  .day-events-sub{
+    font-size:10px!important;
+  }
+
+  .day-event-item{
+    grid-template-columns:46px 1fr!important;
+    gap:12px!important;
+    padding:18px 0!important;
+  }
+
+  .day-event-icon{
+    width:44px!important;
+    height:44px!important;
+    font-size:21px!important;
+  }
+
+  .day-event-copy h3{
+    font-size:24px!important;
+    line-height:1!important;
+  }
+
+  .day-event-open{
+    grid-column:2!important;
+    justify-self:start!important;
+    margin-top:3px;
+  }
+
   .day-lunar{
-    margin-top:20px;
+    margin-top:18px!important;
+  }
+
+  /* Ritual modal */
+  #ritualModalBody h2,
+  .ritual-modal h2{
+    font-size:clamp(36px,10vw,46px)!important;
+    line-height:.98!important;
+    letter-spacing:-.045em!important;
+  }
+
+  .ritual-modal .intro{
+    font-size:16px!important;
+  }
+
+  .detail-block{
+    min-height:auto!important;
+    padding:14px!important;
+  }
+
+  /* Archive modal */
+  .archive-modal .filters{
+    margin:14px 0!important;
+  }
+
+  .filter{
+    min-height:38px;
+  }
+
+  .all-card{
+    min-height:120px!important;
+    padding:14px 42px 16px 0!important;
+  }
+
+  .all-card b{
+    font-size:22px!important;
+    margin-top:22px!important;
   }
 }
 
@@ -734,7 +1120,7 @@ footer{
 </footer>
 </div>
 
-<div class="overlay" id="calendarOverlay"><div class="modal"><div class="modal-top"><div><div class="mono tiny">календарь</div><h2 id="calendarTitle"></h2></div><button class="close" data-close="calendar">×</button></div><div class="calendar-controls"><button id="prevMonth">←</button><button id="todayMonth">сегодня</button><button id="nextMonth">→</button></div><div class="month-grid" id="monthGrid"></div></div></div>
+<div class="overlay" id="calendarOverlay"><div class="modal"><div class="modal-top"><div><div class="mono tiny">календарь</div><h2 id="calendarTitle"></h2></div><button class="close" data-close="calendar">×</button></div><div class="calendar-controls"><button id="prevMonth">←</button><button id="todayMonth">сегодня</button><button id="nextMonth">→</button></div><div class="calendar-hint">нажми на день — покажу всё, что к нему привязано</div><div class="month-grid" id="monthGrid"></div></div></div>
 <div class="overlay" id="dayOverlay"><div class="modal day-events-modal"><div class="modal-top"><div><div class="mono tiny">события дня</div><div id="dayEventsHead"></div></div><button class="close" data-close="day">×</button></div><div id="dayEventsList"></div></div></div>
 <div class="overlay" id="ritualOverlay"><div class="modal ritual-modal"><div class="modal-top"><div class="mono tiny" id="ritualModalMeta"></div><button class="close" data-close="ritual">×</button></div><div id="ritualModalBody"></div></div></div>
 <div class="overlay" id="archiveOverlay"><div class="modal archive-modal"><div class="modal-top"><div><div class="mono tiny">архив</div><h2>Все ритуалы</h2></div><button class="close" data-close="archive">×</button></div><div class="filters" id="filters"></div><div class="all-grid" id="allGrid"></div></div></div>
@@ -1481,16 +1867,24 @@ function openDayEvents(date){
 
   dayEventsHead.innerHTML=`<div class="day-events-date">${esc(dayTitle(d))}</div><div class="day-events-sub">${esc(weekdays[d.getDay()])} · ${esc(moonInfo.name||"лунный цикл")}${items.length?` · событий: ${items.length}`:""}</div>`;
 
-  let mainHtml="";
-
   if(!items.length){
-    mainHtml=`<div class="day-events-empty">
+    dayEventsList.innerHTML=`<div class="day-events-empty">
       <h3 class="day-empty-title">Особых ритуалов на эту дату нет</h3>
       <p class="day-empty-copy">Если всё равно хочется немного магии — можно получить ритуал без строгой даты.</p>
       <button class="day-random-cta" id="dayRandomCta">выдать ритуал →</button>
     </div>`;
+
+    const randomBtn=$("dayRandomCta");
+    if(randomBtn){
+      randomBtn.onclick=()=>{
+        closeOverlay("day");
+        closeOverlay("calendar");
+        pickRitual(true);
+        setTimeout(()=>document.getElementById("randomRitualSection").scrollIntoView({behavior:"smooth",block:"center"}),80);
+      };
+    }
   }else{
-    mainHtml=`<div class="day-events-list">${items.map(r=>`
+    dayEventsList.innerHTML=`<div class="day-events-list">${items.map(r=>`
       <article class="day-event-item">
         <div class="day-event-icon">${r.icon||"✦"}</div>
         <div class="day-event-copy">
@@ -1501,55 +1895,14 @@ function openDayEvents(date){
         <button class="day-event-open" data-day-ritual="${r.id}">подробнее →</button>
       </article>
     `).join("")}</div>`;
+
+    dayEventsList.querySelectorAll("[data-day-ritual]").forEach(btn=>{
+      btn.onclick=()=>{
+        closeOverlay("day");
+        openRitual(btn.dataset.dayRitual);
+      };
+    });
   }
-
-  let lunarHtml="";
-  const principalPhase=principalOn(d);
-
-  if(!principalPhase){
-    const phase=moonAt(d);
-    if(phase.key==="waxing"){
-      lunarHtml=`<div class="day-lunar">
-        <div class="day-lunar-kicker">по Луне</div>
-        <h4>Растущая Луна</h4>
-        <p>С ней обычно связывают начинания, рост и то, что хочется постепенно развивать.</p>
-        <button data-lunar-ritual="waxing">ритуал на растущую Луну →</button>
-      </div>`;
-    }else if(phase.key==="waning"){
-      lunarHtml=`<div class="day-lunar">
-        <div class="day-lunar-kicker">по Луне</div>
-        <h4>Убывающая Луна</h4>
-        <p>Её обычно связывают с завершением, избавлением от лишнего и расхламлением.</p>
-        <button data-lunar-ritual="waning">ритуал на убывающую Луну →</button>
-      </div>`;
-    }
-  }
-
-  dayEventsList.innerHTML=mainHtml+lunarHtml;
-
-  const randomBtn=$("dayRandomCta");
-  if(randomBtn){
-    randomBtn.onclick=()=>{
-      closeOverlay("day");
-      closeOverlay("calendar");
-      pickRitual(true);
-      setTimeout(()=>document.getElementById("randomRitualSection").scrollIntoView({behavior:"smooth",block:"center"}),80);
-    };
-  }
-
-  dayEventsList.querySelectorAll("[data-day-ritual]").forEach(btn=>{
-    btn.onclick=()=>{
-      closeOverlay("day");
-      openRitual(btn.dataset.dayRitual);
-    };
-  });
-
-  dayEventsList.querySelectorAll("[data-lunar-ritual]").forEach(btn=>{
-    btn.onclick=()=>{
-      closeOverlay("day");
-      openRitual(btn.dataset.lunarRitual);
-    };
-  });
 
   dayOverlay.classList.add("open");
   document.body.classList.add("lock");
@@ -1558,7 +1911,14 @@ function openDayEvents(date){
 /* calendar */
 let calDate=new Date(now.getFullYear(),now.getMonth(),1,12);
 function renderCalendar(){calendarTitle.innerHTML=`${months[calDate.getMonth()]}<br>${calDate.getFullYear()}`;monthGrid.innerHTML=["ПН","ВТ","СР","ЧТ","ПТ","СБ","ВС"].map(x=>`<div class="cal-cell head">${x}</div>`).join("");const y=calDate.getFullYear(),m=calDate.getMonth(),days=new Date(y,m+1,0).getDate();let st=new Date(y,m,1).getDay();st=st===0?6:st-1;for(let i=0;i<st;i++)monthGrid.insertAdjacentHTML("beforeend",'<div class="cal-cell blank"></div>');for(let d=1;d<=days;d++){const date=new Date(y,m,d,12),sp=specialForDate(date),pr=principalOn(date),mi=pr?pr.icon:moonAt(date).icon;const cell=document.createElement("div");cell.className="cal-cell clickable"+(same(date,now)?" today":"")+(sp.length?" eventday":"");cell.innerHTML=`<b class="cnum">${d}</b><span class="cdot">${mi}</span>${sp.length?`<span class="ctext">${esc(sp.map(r=>r.title).join(" · "))}</span>`:""}`;cell.onclick=()=>openDayEvents(date);monthGrid.appendChild(cell)}}
-function showCalendar(e){if(e)e.preventDefault();renderCalendar();calendarOverlay.classList.add("open");document.body.classList.add("lock")}
+function showCalendar(e){
+  if(e)e.preventDefault();
+  renderCalendar();
+  calendarOverlay.classList.add("open");
+  document.body.classList.add("lock");
+  const modal=calendarOverlay.querySelector(".modal");
+  if(modal)modal.scrollTop=0;
+}
 openCalendar.onclick=showCalendar;calendarTop.onclick=showCalendar;prevMonth.onclick=()=>{calDate=new Date(calDate.getFullYear(),calDate.getMonth()-1,1,12);renderCalendar()};nextMonth.onclick=()=>{calDate=new Date(calDate.getFullYear(),calDate.getMonth()+1,1,12);renderCalendar()};todayMonth.onclick=()=>{calDate=new Date(now.getFullYear(),now.getMonth(),1,12);renderCalendar()};
 
 /* archive modal */
