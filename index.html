@@ -1459,6 +1459,221 @@ footer{
   }
 }
 
+
+/* ===== v28: real custom modal scrollbar ===== */
+
+/* The browser scrollbar is hidden; the modal gets its own visual scrollbar. */
+.modal{
+  position:relative!important;
+  overflow:hidden!important;
+  padding:0!important;
+}
+
+.modal-scroll-content{
+  position:relative;
+  max-height:92vh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:24px;
+  scrollbar-width:none!important;
+  -ms-overflow-style:none;
+}
+
+.modal-scroll-content::-webkit-scrollbar{
+  display:none!important;
+  width:0!important;
+  height:0!important;
+}
+
+.modal-scrollbar{
+  position:absolute;
+  top:10px;
+  right:6px;
+  bottom:10px;
+  width:8px;
+  border-radius:999px;
+  background:rgba(21,21,21,.08);
+  opacity:0;
+  pointer-events:none;
+  z-index:80;
+  transition:opacity .18s ease;
+}
+
+.modal.has-custom-scroll .modal-scrollbar{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.modal-scroll-thumb{
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  min-height:42px;
+  border:1.5px solid var(--ink);
+  border-radius:999px;
+  background:var(--pink);
+  cursor:grab;
+  touch-action:none;
+}
+
+.modal-scroll-thumb:active{
+  cursor:grabbing;
+  background:var(--accent);
+}
+
+@media(max-width:680px){
+  .modal-scroll-content{
+    height:100dvh;
+    max-height:none;
+    padding:18px 16px 30px;
+  }
+
+  .modal-scrollbar{
+    top:8px;
+    right:4px;
+    bottom:8px;
+    width:6px;
+  }
+
+  .modal-scroll-thumb{
+    min-height:48px;
+    border-width:1px;
+  }
+}
+
+
+/* ===== v29: clean proportional week scrollbar ===== */
+.week-scroll-control{
+  display:none;
+}
+
+@media(max-width:680px){
+  .week-scroll-control{
+    display:block;
+    width:100%;
+    margin:14px 0 4px;
+    padding:5px 0;
+    touch-action:none;
+  }
+
+  .week-scroll-track{
+    position:relative;
+    width:100%;
+    height:4px;
+    border-radius:999px;
+    background:rgba(21,21,21,.14);
+  }
+
+  .week-scroll-thumb{
+    position:absolute;
+    top:50%;
+    left:0;
+    height:10px;
+    min-width:64px;
+    border-radius:999px;
+    background:var(--pink);
+    transform:translateY(-50%);
+    cursor:grab;
+    touch-action:none;
+    transition:height .15s ease, background .15s ease;
+  }
+
+  .week-scroll-thumb:active{
+    cursor:grabbing;
+    height:12px;
+    background:var(--accent);
+  }
+}
+
+
+/* ===== v30: brand spacing fix ===== */
+header .brand{
+  gap:14px;
+}
+
+header .brand-dot{
+  flex:0 0 auto;
+  margin-right:6px;
+}
+
+@media(max-width:680px){
+  header .brand{
+    gap:12px!important;
+    align-items:center;
+  }
+
+  header .brand-dot{
+    margin-right:8px!important;
+  }
+}
+
+
+/* ===== v31: mobile header polish ===== */
+@media(max-width:680px){
+  header{
+    height:70px!important;
+    border-bottom:1px solid rgba(21,21,21,.62)!important;
+    align-items:center!important;
+  }
+
+  header .brand{
+    display:flex!important;
+    align-items:center!important;
+    gap:10px!important;
+    font-size:18px!important;
+    line-height:1!important;
+    white-space:nowrap;
+  }
+
+  /* Reserve real space for both circles so they don't visually collide with the wordmark. */
+  header .brand-dot{
+    position:relative!important;
+    width:24px!important;
+    height:18px!important;
+    flex:0 0 24px!important;
+    margin:0!important;
+    background:transparent!important;
+    border-radius:0!important;
+  }
+
+  header .brand-dot::before{
+    content:"";
+    position:absolute;
+    width:12px;
+    height:12px;
+    left:0;
+    top:5px;
+    border-radius:50%;
+    background:var(--pink);
+  }
+
+  header .brand-dot::after{
+    content:"";
+    position:absolute;
+    width:7px;
+    height:7px;
+    left:13px;
+    top:0;
+    right:auto!important;
+    border:2px solid var(--blue);
+    border-radius:50%;
+    background:transparent;
+  }
+
+  header .date-top{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:flex-end!important;
+    margin-left:auto!important;
+    padding-left:12px!important;
+    min-width:max-content;
+    line-height:1!important;
+    transform:translateY(1px);
+    font-size:10px!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1495,8 +1710,10 @@ footer{
 <section class="section" id="week">
   <div class="section-head"><div><div class="mono tiny">на этой неделе</div><h2>Магическая<br>неделя</h2></div><div class="section-note" id="weekNote"></div></div>
   <div class="week-grid" id="weekGrid"></div>
-  <div class="week-scroll-control">
-    <input id="weekScroller" type="range" min="0" max="100" value="0" step="1" aria-label="Прокрутить магическую неделю">
+  <div class="week-scroll-control" id="weekScrollControl" aria-label="Прокрутить магическую неделю">
+    <div class="week-scroll-track">
+      <div class="week-scroll-thumb" id="weekScrollThumb"></div>
+    </div>
   </div>
   <div class="week-footer"><button class="text-link" id="openCalendar">показать весь месяц →</button></div>
 </section>
@@ -1556,7 +1773,8 @@ const heroActionHint = $("heroActionHint");
 const tickerTrack = $("tickerTrack");
 const weekNote = $("weekNote");
 const weekGrid = $("weekGrid");
-const weekScroller = $("weekScroller");
+const weekScrollControl = $("weekScrollControl");
+const weekScrollThumb = $("weekScrollThumb");
 const openCalendar = $("openCalendar");
 const ritualObject = $("ritualObject");
 const objectLabel = $("objectLabel");
@@ -2195,11 +2413,28 @@ tickerTrack.textContent=(tickerBits.join(" · ")+" · ").repeat(5);
 
 /* Week */
 function syncWeekScroller(){
-  if(!weekScroller)return;
-  const max=Math.max(0,weekGrid.scrollWidth-weekGrid.clientWidth);
-  weekScroller.max=String(Math.round(max));
-  weekScroller.value=String(Math.round(Math.min(max,weekGrid.scrollLeft)));
-  weekScroller.disabled=max<=0;
+  if(!weekScrollControl||!weekScrollThumb)return;
+
+  const track=weekScrollControl.querySelector(".week-scroll-track");
+  if(!track)return;
+
+  const visible=weekGrid.clientWidth;
+  const total=weekGrid.scrollWidth;
+  const maxScroll=Math.max(0,total-visible);
+  const trackW=track.clientWidth;
+
+  if(maxScroll<=1||trackW<=0){
+    weekScrollControl.style.display="none";
+    return;
+  }
+
+  weekScrollControl.style.display="";
+  const thumbW=Math.max(64,Math.min(trackW,trackW*(visible/total)));
+  const maxThumb=Math.max(0,trackW-thumbW);
+  const ratio=maxScroll ? weekGrid.scrollLeft/maxScroll : 0;
+
+  weekScrollThumb.style.width=`${thumbW}px`;
+  weekScrollThumb.style.transform=`translate(${maxThumb*ratio}px,-50%)`;
 }
 
 function scrollWeekToToday(behavior="auto"){
@@ -2260,9 +2495,49 @@ weekGrid.addEventListener("scroll",()=>{
   syncWeekScroller();
 },{passive:true});
 
-weekScroller.addEventListener("input",()=>{
-  weekGrid.scrollLeft=Number(weekScroller.value);
-});
+if(weekScrollControl&&weekScrollThumb){
+  const track=weekScrollControl.querySelector(".week-scroll-track");
+
+  const scrollFromThumbX=x=>{
+    const trackRect=track.getBoundingClientRect();
+    const thumbW=weekScrollThumb.getBoundingClientRect().width;
+    const maxThumb=Math.max(1,track.clientWidth-thumbW);
+    const local=Math.max(0,Math.min(maxThumb,x-trackRect.left-thumbW/2));
+    const maxScroll=Math.max(0,weekGrid.scrollWidth-weekGrid.clientWidth);
+    weekGrid.scrollLeft=(local/maxThumb)*maxScroll;
+  };
+
+  track.addEventListener("pointerdown",e=>{
+    if(e.target===weekScrollThumb)return;
+    scrollFromThumbX(e.clientX);
+  });
+
+  weekScrollThumb.addEventListener("pointerdown",e=>{
+    e.preventDefault();
+    weekScrollThumb.setPointerCapture?.(e.pointerId);
+
+    const startX=e.clientX;
+    const startScroll=weekGrid.scrollLeft;
+    const thumbW=weekScrollThumb.getBoundingClientRect().width;
+    const maxThumb=Math.max(1,track.clientWidth-thumbW);
+    const maxScroll=Math.max(0,weekGrid.scrollWidth-weekGrid.clientWidth);
+
+    const move=ev=>{
+      const dx=ev.clientX-startX;
+      weekGrid.scrollLeft=startScroll+(dx/maxThumb)*maxScroll;
+    };
+
+    const up=()=>{
+      document.removeEventListener("pointermove",move);
+      document.removeEventListener("pointerup",up);
+      document.removeEventListener("pointercancel",up);
+    };
+
+    document.addEventListener("pointermove",move);
+    document.addEventListener("pointerup",up);
+    document.addEventListener("pointercancel",up);
+  });
+}
 
 window.addEventListener("resize",()=>{
   if(!window.matchMedia("(max-width:680px)").matches)return;
@@ -2346,7 +2621,11 @@ function openRitual(id,updateHash=true,source){
   if(source!==undefined)ritualModalSource=source;
   const done=todayDone(id),l=last(id);
   ritualBack.hidden=ritualModalSource!=="archive";
-  ritualModalMeta.textContent=`Ритуал №${r.no} · ${r.cat.map(c=>CAT[c].n).join(" · ")}`;ritualModalBody.innerHTML=`<h2>${esc(r.title)}</h2><p class="intro">${esc(r.short)}</p><div class="detail-grid"><div class="detail-block"><span>Когда</span><p>${esc(r.when)}</p></div><div class="detail-block"><span>Что понадобится</span><p>${esc(r.need)}</p></div><div class="detail-block full"><span>Что делать</span><p>${esc(r.do)}</p></div><div class="detail-block full"><span>Что говорить</span><p>${esc(r.say)}</p></div><div class="detail-block"><span>Происхождение</span><p>${esc(OR[r.origin])}</p></div><div class="detail-block"><span>Категории</span><p>${esc(r.cat.map(c=>CAT[c].n).join(", "))}</p></div></div><div class="modal-actions"><button class="primary" id="modalDone" ${done?"disabled":""}>${done?"✓ "+esc(r.done):esc(r.act)}</button><button class="share-btn" id="modalShare">↗ Поделиться</button></div>${l?`<div class="lastdone">Последний раз: ${pretty(l.date)}</div>`:""}`;ritualOverlay.classList.add("open");document.body.classList.add("lock");modalDone.onclick=()=>complete(id);modalShare.onclick=()=>share(r);if(updateHash)history.replaceState(null,"",`#ritual-${id}`)}
+  ritualModalMeta.textContent=`Ритуал №${r.no} · ${r.cat.map(c=>CAT[c].n).join(" · ")}`;ritualModalBody.innerHTML=`<h2>${esc(r.title)}</h2><p class="intro">${esc(r.short)}</p><div class="detail-grid"><div class="detail-block"><span>Когда</span><p>${esc(r.when)}</p></div><div class="detail-block"><span>Что понадобится</span><p>${esc(r.need)}</p></div><div class="detail-block full"><span>Что делать</span><p>${esc(r.do)}</p></div><div class="detail-block full"><span>Что говорить</span><p>${esc(r.say)}</p></div><div class="detail-block"><span>Происхождение</span><p>${esc(OR[r.origin])}</p></div><div class="detail-block"><span>Категории</span><p>${esc(r.cat.map(c=>CAT[c].n).join(", "))}</p></div></div><div class="modal-actions"><button class="primary" id="modalDone" ${done?"disabled":""}>${done?"✓ "+esc(r.done):esc(r.act)}</button><button class="share-btn" id="modalShare">↗ Поделиться</button></div>${l?`<div class="lastdone">Последний раз: ${pretty(l.date)}</div>`:""}`;ritualOverlay.classList.add("open");document.body.classList.add("lock");
+const ritualScroll=ritualOverlay.querySelector(".modal-scroll-content");
+if(ritualScroll)ritualScroll.scrollTop=0;
+requestAnimationFrame(()=>ritualOverlay.querySelector(".modal")?._updateCustomScrollbar?.());
+modalDone.onclick=()=>complete(id);modalShare.onclick=()=>share(r);if(updateHash)history.replaceState(null,"",`#ritual-${id}`)}
 async function share(r){const url=location.origin+location.pathname+`#ritual-${r.id}`;const data={title:r.title,text:`Нашла для тебя ритуал из «Бытовой магии»: «${r.title}».`,url};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(`${data.text}\n${url}`);toast("Ссылка скопирована")}}catch(e){if(e.name!=="AbortError")toast("Скопируйте ссылку из адресной строки")}}
 
 /* day events */
@@ -2409,7 +2688,7 @@ function showCalendar(e){
   renderCalendar();
   calendarOverlay.classList.add("open");
   document.body.classList.add("lock");
-  const modal=calendarOverlay.querySelector(".modal");
+  const modal=calendarOverlay.querySelector(".modal-scroll-content");
   if(modal)modal.scrollTop=0;
 }
 openCalendar.onclick=showCalendar;calendarTop.onclick=showCalendar;prevMonth.onclick=()=>{calDate=new Date(calDate.getFullYear(),calDate.getMonth()-1,1,12);renderCalendar()};nextMonth.onclick=()=>{calDate=new Date(calDate.getFullYear(),calDate.getMonth()+1,1,12);renderCalendar()};todayMonth.onclick=()=>{calDate=new Date(now.getFullYear(),now.getMonth(),1,12);renderCalendar()};
@@ -2448,7 +2727,13 @@ ritualBack.onclick=()=>{
   openArchive();
 };
 
-function openArchive(){renderFilters();renderAll();archiveOverlay.classList.add("open");document.body.classList.add("lock")}
+function openArchive(){
+  renderFilters();
+  renderAll();
+  archiveOverlay.classList.add("open");
+  document.body.classList.add("lock");
+  requestAnimationFrame(()=>archiveOverlay.querySelector(".modal")?._updateCustomScrollbar?.());
+}
 allRitualsBtn.onclick=openArchive;
 
 /* overlays */
@@ -2461,6 +2746,108 @@ function closeOverlay(name){
     if(location.hash.startsWith("#ritual-"))history.replaceState(null,"",location.pathname+location.search);
   }
 }
+
+function setupCustomModalScrollbars(){
+  document.querySelectorAll(".modal").forEach(modal=>{
+    if(modal.querySelector(":scope > .modal-scroll-content"))return;
+
+    const content=document.createElement("div");
+    content.className="modal-scroll-content";
+
+    while(modal.firstChild){
+      content.appendChild(modal.firstChild);
+    }
+
+    const rail=document.createElement("div");
+    rail.className="modal-scrollbar";
+    rail.setAttribute("aria-hidden","true");
+
+    const thumb=document.createElement("div");
+    thumb.className="modal-scroll-thumb";
+    rail.appendChild(thumb);
+
+    modal.appendChild(content);
+    modal.appendChild(rail);
+
+    const update=()=>{
+      const visible=content.clientHeight;
+      const total=content.scrollHeight;
+      const scrollable=Math.max(0,total-visible);
+
+      if(scrollable<=1){
+        modal.classList.remove("has-custom-scroll");
+        thumb.style.height="0px";
+        thumb.style.transform="translateY(0)";
+        return;
+      }
+
+      modal.classList.add("has-custom-scroll");
+
+      const railH=rail.clientHeight;
+      const thumbH=Math.max(42,Math.min(railH,railH*(visible/total)));
+      const maxThumb=Math.max(0,railH-thumbH);
+      const ratio=scrollable ? content.scrollTop/scrollable : 0;
+
+      thumb.style.height=`${thumbH}px`;
+      thumb.style.transform=`translateY(${maxThumb*ratio}px)`;
+    };
+
+    content.addEventListener("scroll",update,{passive:true});
+
+    rail.addEventListener("pointerdown",e=>{
+      if(e.target===thumb)return;
+      const rect=rail.getBoundingClientRect();
+      const thumbH=thumb.getBoundingClientRect().height;
+      const railH=rail.clientHeight;
+      const maxThumb=Math.max(1,railH-thumbH);
+      const y=Math.max(0,Math.min(maxThumb,e.clientY-rect.top-thumbH/2));
+      const maxScroll=Math.max(0,content.scrollHeight-content.clientHeight);
+      content.scrollTop=(y/maxThumb)*maxScroll;
+    });
+
+    thumb.addEventListener("pointerdown",e=>{
+      e.preventDefault();
+      thumb.setPointerCapture?.(e.pointerId);
+
+      const startY=e.clientY;
+      const startScroll=content.scrollTop;
+      const railH=rail.clientHeight;
+      const thumbH=thumb.getBoundingClientRect().height;
+      const maxThumb=Math.max(1,railH-thumbH);
+      const maxScroll=Math.max(0,content.scrollHeight-content.clientHeight);
+
+      const move=ev=>{
+        const delta=ev.clientY-startY;
+        content.scrollTop=startScroll+(delta/maxThumb)*maxScroll;
+      };
+
+      const up=()=>{
+        document.removeEventListener("pointermove",move);
+        document.removeEventListener("pointerup",up);
+        document.removeEventListener("pointercancel",up);
+      };
+
+      document.addEventListener("pointermove",move);
+      document.addEventListener("pointerup",up);
+      document.addEventListener("pointercancel",up);
+    });
+
+    const ro=new ResizeObserver(update);
+    ro.observe(content);
+    ro.observe(modal);
+
+    const mo=new MutationObserver(()=>requestAnimationFrame(update));
+    mo.observe(content,{childList:true,subtree:true,characterData:true});
+
+    modal._updateCustomScrollbar=update;
+    modal._scrollContent=content;
+
+    requestAnimationFrame(update);
+  });
+}
+
+setupCustomModalScrollbars();
+
 document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>closeOverlay(b.dataset.close));document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{if(e.target===o){if(o.id==="calendarOverlay")closeOverlay("calendar");if(o.id==="dayOverlay")closeOverlay("day");if(o.id==="ritualOverlay")closeOverlay("ritual");if(o.id==="archiveOverlay")closeOverlay("archive")}}));document.addEventListener("keydown",e=>{
   if(e.key!=="Escape")return;
   const open=[...document.querySelectorAll(".overlay.open")];
