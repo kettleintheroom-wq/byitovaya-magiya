@@ -1051,6 +1051,134 @@ footer{
   }
 }
 
+
+/* ===== MOBILE RITUAL CLEANUP v19 ===== */
+.blob-side{display:contents}
+.blob-helper{display:none}
+
+@media(max-width:680px){
+
+  /* Text block becomes the clear primary layer */
+  .ritual-copy .counter{
+    margin-bottom:12px;
+    font-size:10px!important;
+    color:var(--muted);
+  }
+
+  .ritual-copy h3,
+  .ritual-copy h3.long-title{
+    margin:0 0 16px!important;
+  }
+
+  .ritual-copy p{
+    margin:0 0 18px!important;
+    max-width:32ch!important;
+  }
+
+  /* Metadata stops looking like four competing buttons */
+  .meta-row{
+    display:flex!important;
+    gap:7px 12px!important;
+    margin:0 0 22px!important;
+    align-items:center;
+  }
+
+  .meta-pill{
+    border:0!important;
+    padding:0!important;
+    color:var(--muted);
+    font-size:10px!important;
+    line-height:1.3!important;
+  }
+
+  .meta-pill:nth-child(n+3){
+    display:none!important;
+  }
+
+  .meta-pill + .meta-pill::before{
+    content:"·";
+    margin-right:12px;
+    color:var(--muted);
+  }
+
+  /* One primary action + one quiet details link */
+  .action-row{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+    margin-top:0!important;
+  }
+
+  .action-row .primary{
+    width:100%!important;
+    min-height:54px!important;
+    padding:14px 16px!important;
+    font-size:17px!important;
+    text-align:left!important;
+    border-radius:0!important;
+  }
+
+  #detailsBtn{
+    justify-self:start;
+    font-size:16px!important;
+    padding:2px 0!important;
+  }
+
+  #anotherBtn{
+    display:none!important;
+  }
+
+  /* Jelly control is now a compact secondary utility, not another hero */
+  .object-stage{
+    width:100%!important;
+    display:grid!important;
+    grid-template-columns:112px minmax(0,1fr)!important;
+    align-items:center!important;
+    gap:16px!important;
+    padding-top:4px!important;
+  }
+
+  .object-blob{
+    width:112px!important;
+    height:112px!important;
+    font-size:42px!important;
+    border-width:2px!important;
+  }
+
+  .blob-side{
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:flex-start!important;
+    gap:10px!important;
+    min-width:0;
+  }
+
+  .blob-helper{
+    display:block!important;
+    max-width:16ch;
+    font:700 13px/1.2 Arial,Helvetica,sans-serif;
+  }
+
+  .object-label{
+    width:auto!important;
+    max-width:100%!important;
+    margin:0!important;
+    padding:7px 10px!important;
+    border-radius:999px!important;
+    font-size:9px!important;
+    line-height:1.25!important;
+    background:var(--accent-soft)!important;
+    border:0!important;
+    color:var(--ink);
+  }
+
+  /* More breathing room between this section and neighbours */
+  #randomRitualSection{
+    padding-top:48px!important;
+    padding-bottom:54px!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1091,7 +1219,7 @@ footer{
 </section>
 <section class="section" id="randomRitualSection">
   <div class="section-head"><div><div class="mono tiny">можно прямо сейчас</div><h2>Вмешаться<br>в происходящее</h2></div></div>
-  <div class="now-layout"><div class="object-stage"><div class="object-blob" id="ritualObject" role="button" tabindex="0" aria-label="Выдать другой ритуал" title="Жамкни — выдам другой ритуал">✦</div><div class="object-label" id="objectLabel"></div></div><div class="ritual-copy" id="ritualCopy"></div></div>
+  <div class="now-layout"><div class="object-stage"><div class="object-blob" id="ritualObject" role="button" tabindex="0" aria-label="Выдать другой ритуал" title="Жамкни — выдам другой ритуал">✦</div><div class="blob-side"><div class="blob-helper">жамкни — выдам другой ритуал</div><div class="object-label" id="objectLabel"></div></div></div><div class="ritual-copy" id="ritualCopy"></div></div>
 </section>
 
 <section class="section" id="archive">
