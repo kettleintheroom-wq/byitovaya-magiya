@@ -1179,6 +1179,54 @@ footer{
   }
 }
 
+
+.object-blob{
+  font-family:Arial,Helvetica,sans-serif!important;
+  font-weight:400!important;
+  line-height:1!important;
+}
+
+@media(max-width:680px){
+  .object-blob{
+    font-size:34px!important;
+  }
+}
+
+
+/* ===== v21: dynamic blob icons + footer top alignment ===== */
+.object-blob{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+
+.object-blob .blob-icon{
+  display:block;
+  font-family:Arial,"Times New Roman","Segoe UI Symbol",sans-serif;
+  font-size:64px;
+  font-weight:400;
+  line-height:1;
+  color:var(--ink);
+  font-variant-emoji:text;
+  transform:translateY(1px);
+}
+
+footer{
+  align-items:start!important;
+}
+
+.footer-meter,
+.footer-meta{
+  align-self:start!important;
+}
+
+@media(max-width:680px){
+  .object-blob .blob-icon{
+    font-size:38px;
+    transform:none;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1219,7 +1267,7 @@ footer{
 </section>
 <section class="section" id="randomRitualSection">
   <div class="section-head"><div><div class="mono tiny">можно прямо сейчас</div><h2>Вмешаться<br>в происходящее</h2></div></div>
-  <div class="now-layout"><div class="object-stage"><div class="object-blob" id="ritualObject" role="button" tabindex="0" aria-label="Выдать другой ритуал" title="Жамкни — выдам другой ритуал">✦</div><div class="blob-side"><div class="blob-helper">жамкни — выдам другой ритуал</div><div class="object-label" id="objectLabel"></div></div></div><div class="ritual-copy" id="ritualCopy"></div></div>
+  <div class="now-layout"><div class="object-stage"><div class="object-blob" id="ritualObject" role="button" tabindex="0" aria-label="Выдать другой ритуал" title="Жамкни — выдам другой ритуал"><span class="blob-icon">✦</span></div><div class="blob-side"><div class="blob-helper">жамкни — выдам другой ритуал</div><div class="object-label" id="objectLabel"></div></div></div><div class="ritual-copy" id="ritualCopy"></div></div>
 </section>
 
 <section class="section" id="archive">
@@ -1307,7 +1355,7 @@ const rituals=[
   id:"coffee-cinnamon",
   no:"001",
   title:"Кофе с корицей",
-  icon:"☕",
+  icon:"≈",
   cat:["money"],
   origin:"internet",
   time:"weekly",
@@ -1362,7 +1410,7 @@ const rituals=[
   id:"red-friday",
   no:"004",
   title:"Красное бельё — light",
-  icon:"♥",
+  icon:"♡",
   cat:["luck","love"],
   origin:"internet",
   time:"weekly",
@@ -1948,7 +1996,7 @@ function compactNeedFor(r){
 }
 
 function pickRitual(forceDifferent=false){const p=currentPool();let next=p[Math.floor(Math.random()*p.length)];if(forceDifferent&&p.length>1){while(next.id===currentRitual?.id)next=p[Math.floor(Math.random()*p.length)]}currentRitual=next;renderCurrentRitual()}
-function renderCurrentRitual(){const r=currentRitual;if(!r)return;ritualObject.textContent=r.icon||"✦";objectLabel.textContent=("НУЖНО: "+compactNeedFor(r)).toUpperCase();const done=todayDone(r.id);ritualCopy.innerHTML=`<div class="counter">${r.no} / ${rituals.length} · ${r.cat.map(c=>CAT[c].n).join(" · ").toUpperCase()}</div><h3 class="${r.title.length>23?'long-title':''}">${esc(r.title)}</h3><p>${esc(r.short)}</p><div class="meta-row"><span class="meta-pill">${esc(r.when)}</span><span class="meta-pill">${esc(OR[r.origin])}</span>${r.cat.map(c=>`<span class="meta-pill">${esc(CAT[c].n)}</span>`).join("")}</div><div class="action-row"><button class="primary" id="doneBtn" ${done?"disabled":""}>${done?"✓ ВСЕЛЕННАЯ УВЕДОМЛЕНА":esc(r.act)+" ✦"}</button><button class="secondary" id="detailsBtn">подробнее</button><button class="secondary" id="anotherBtn">другой ритуал ↻</button></div>`;doneBtn.onclick=()=>complete(r.id);detailsBtn.onclick=()=>openRitual(r.id);anotherBtn.onclick=()=>pickRitual(true)}
+function renderCurrentRitual(){const r=currentRitual;if(!r)return;ritualObject.innerHTML=`<span class="blob-icon">${r.icon||"✦"}</span>`;objectLabel.textContent=("НУЖНО: "+compactNeedFor(r)).toUpperCase();const done=todayDone(r.id);ritualCopy.innerHTML=`<div class="counter">${r.no} / ${rituals.length} · ${r.cat.map(c=>CAT[c].n).join(" · ").toUpperCase()}</div><h3 class="${r.title.length>23?'long-title':''}">${esc(r.title)}</h3><p>${esc(r.short)}</p><div class="meta-row"><span class="meta-pill">${esc(r.when)}</span><span class="meta-pill">${esc(OR[r.origin])}</span>${r.cat.map(c=>`<span class="meta-pill">${esc(CAT[c].n)}</span>`).join("")}</div><div class="action-row"><button class="primary" id="doneBtn" ${done?"disabled":""}>${done?"✓ ВСЕЛЕННАЯ УВЕДОМЛЕНА":esc(r.act)+" ✦"}</button><button class="secondary" id="detailsBtn">подробнее</button><button class="secondary" id="anotherBtn">другой ритуал ↻</button></div>`;doneBtn.onclick=()=>complete(r.id);detailsBtn.onclick=()=>openRitual(r.id);anotherBtn.onclick=()=>pickRitual(true)}
 function pressRitualBlob(){
   ritualObject.classList.remove("pressed");
   void ritualObject.offsetWidth;
