@@ -1263,6 +1263,46 @@ footer{
   }
 }
 
+
+/* ===== v23: stable mobile left alignment ===== */
+@media(max-width:680px){
+  /* The original desktop rule has align-items:center.
+     In a column flex layout that makes shorter ritual cards shrink and center.
+     Force every ritual card to use the full mobile content width instead. */
+  .now-layout{
+    align-items:stretch!important;
+  }
+
+  .ritual-copy{
+    width:100%!important;
+    max-width:none!important;
+    align-self:stretch!important;
+    margin:0!important;
+    padding:0!important;
+  }
+
+  .ritual-copy .counter,
+  .ritual-copy h3,
+  .ritual-copy h3.long-title,
+  .ritual-copy p,
+  .ritual-copy .meta-row,
+  .ritual-copy .action-row{
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+
+  .ritual-copy h3,
+  .ritual-copy h3.long-title,
+  .ritual-copy p{
+    max-width:100%!important;
+    text-align:left!important;
+  }
+
+  .object-stage{
+    align-self:stretch!important;
+  }
+}
+
 </style>
 </head>
 <body>
