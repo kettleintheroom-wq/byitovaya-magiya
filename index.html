@@ -1234,9 +1234,14 @@ footer{
 }
 
 @media(max-width:680px){
-  /* Keep the ritual utility at one vertical position while ritual copy changes. */
+  /* Let the utility follow the actual ritual height instead of reserving a tall fixed slot. */
   .ritual-copy{
-    min-height:430px!important;
+    min-height:0!important;
+  }
+
+  /* A consistent, compact gap after “подробнее”, regardless of title length. */
+  .now-layout{
+    gap:34px!important;
   }
 
   /* Desktop keeps each ritual's own symbol; mobile uses one deterministic SVG mark. */
