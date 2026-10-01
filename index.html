@@ -36,7 +36,7 @@ header{height:74px;display:flex;align-items:center;justify-content:space-between
 .day .event small{display:block;margin-top:7px;font:9px/1.25 "Courier New",monospace;font-weight:400;text-transform:uppercase;overflow-wrap:break-word}
 .week-footer{display:flex;justify-content:flex-end;margin-top:16px}
 .text-link{border:0;border-bottom:1px solid currentColor;background:transparent;padding:2px 0;font-weight:800}
-.now-layout{display:grid;grid-template-columns:.8fr 1.2fr;align-items:center;gap:40px}.object-stage{min-height:500px;position:relative;display:grid;place-items:center}.object-blob{width:330px;height:330px;border:3px solid var(--ink);border-radius:45% 55% 58% 42%/48% 40% 60% 52%;background:linear-gradient(135deg,var(--blue),#9499ff);display:grid;place-items:center;transform:rotate(-6deg);font-size:118px;transition:.2s ease}.object-stage:hover .object-blob{transform:rotate(2deg) scale(1.02);background:var(--pink)}.object-label{position:absolute;right:3%;bottom:7%;max-width:260px;padding:10px 13px;background:var(--accent);border:1.5px solid var(--ink);font:10px/1.3 "Courier New",monospace;transform:rotate(3deg);border-radius:16px;white-space:normal;overflow-wrap:break-word}.ritual-copy .counter{font:10px "Courier New",monospace;letter-spacing:.08em;color:var(--muted)}.ritual-copy h3{font-size:clamp(58px,8vw,108px);line-height:.78;letter-spacing:-.08em;margin:16px 0 26px}.ritual-copy p{max-width:570px;font-size:18px;line-height:1.5;overflow-wrap:break-word}.meta-row{display:flex;gap:8px;flex-wrap:wrap;margin:23px 0}.meta-pill{border:1px solid var(--ink);padding:7px 9px;font:9px "Courier New",monospace;text-transform:uppercase}.action-row{display:flex;align-items:center;gap:14px;margin-top:28px}.primary{border:2px solid var(--ink);background:var(--ink);color:#fff;padding:15px 18px;font-weight:900}.primary:hover{background:var(--pink);color:var(--ink)}.primary:disabled{opacity:.7;cursor:default}.secondary{border:0;background:transparent;text-decoration:underline}
+.now-layout{display:grid;grid-template-columns:.8fr 1.2fr;align-items:center;gap:40px}.object-stage{min-height:500px;position:relative;display:grid;place-items:center}.object-blob{width:330px;height:330px;border:3px solid var(--ink);border-radius:45% 55% 58% 42%/48% 40% 60% 52%;background:linear-gradient(135deg,var(--blue),#9499ff);display:grid;place-items:center;transform:rotate(-6deg) scale(1);font-size:118px;position:relative;isolation:isolate;overflow:hidden;cursor:pointer;user-select:none;transition:transform .7s cubic-bezier(.22,.61,.36,1),border-radius .8s ease}.object-blob::before{content:"";position:absolute;inset:-2px;background:linear-gradient(135deg,var(--pink),#ff85cf);opacity:0;z-index:-1;transition:opacity .78s ease}.object-blob:hover{transform:rotate(-4deg) scale(1.015);border-radius:48% 52% 56% 44%/49% 45% 55% 51%}.object-blob:hover::before{opacity:1}.object-blob:active{transform:rotate(-4deg) scaleX(1.025) scaleY(.955)}.object-blob.pressed{animation:blobPress .92s cubic-bezier(.22,.7,.25,1)}@keyframes blobPress{0%{transform:rotate(-4deg) scale(1.015);border-radius:48% 52% 56% 44%/49% 45% 55% 51%}22%{transform:rotate(-4deg) scaleX(1.055) scaleY(.90);border-radius:52% 48% 60% 40%/42% 58% 44% 56%}48%{transform:rotate(-5deg) scaleX(.975) scaleY(1.045);border-radius:44% 56% 50% 50%/55% 45% 58% 42%}72%{transform:rotate(-5deg) scaleX(1.018) scaleY(.985);border-radius:47% 53% 57% 43%/48% 52% 46% 54%}100%{transform:rotate(-6deg) scale(1);border-radius:45% 55% 58% 42%/48% 40% 60% 52%}}.object-label{position:absolute;right:3%;bottom:7%;max-width:260px;padding:10px 13px;background:var(--accent);border:1.5px solid var(--ink);font:10px/1.3 "Courier New",monospace;transform:rotate(3deg);border-radius:16px;white-space:normal;overflow-wrap:break-word}.ritual-copy .counter{font:10px "Courier New",monospace;letter-spacing:.08em;color:var(--muted)}.ritual-copy h3{font-size:clamp(54px,7vw,104px);line-height:.88;letter-spacing:-.07em;margin:16px 0 26px;max-width:100%;text-wrap:balance;overflow-wrap:normal;word-break:normal;hyphens:none}.ritual-copy p{max-width:570px;font-size:18px;line-height:1.5;overflow-wrap:break-word}.meta-row{display:flex;gap:8px;flex-wrap:wrap;margin:23px 0}.meta-pill{border:1px solid var(--ink);padding:7px 9px;font:9px "Courier New",monospace;text-transform:uppercase}.action-row{display:flex;align-items:center;gap:14px;margin-top:28px}.primary{border:2px solid var(--ink);background:var(--ink);color:#fff;padding:15px 18px;font-weight:900}.primary:hover{background:var(--pink);color:var(--ink)}.primary:disabled{opacity:.7;cursor:default}.secondary{border:0;background:transparent;text-decoration:underline}
 .next-grid{display:grid;grid-template-columns:1fr 1fr;border-top:2px solid var(--ink);border-bottom:1px solid var(--ink)}
 .next-card{min-height:310px;border:0;padding:26px 26px 30px 0;position:relative;background:transparent;overflow:hidden}
 .next-card + .next-card{border-left:1px solid var(--ink);padding-left:26px}
@@ -47,7 +47,7 @@ header{height:74px;display:flex;align-items:center;justify-content:space-between
 .next-card h3{max-width:500px;font-size:42px;line-height:.92;letter-spacing:-.045em;margin:38px 0 12px;overflow-wrap:break-word}
 .next-card .corner{position:absolute;right:18px;top:20px;font-size:30px;color:var(--accent)}
 .next-card small{font:10px "Courier New",monospace}
-.archive{position:relative}.archive-title{max-width:850px;font-size:clamp(58px,9vw,116px);line-height:.8;letter-spacing:-.08em;margin:0 0 58px;padding-right:40px}.archive-cta{position:absolute;right:0;top:36px;border:0;border-bottom:2px solid var(--ink);background:transparent;padding:8px 0;font-weight:900;z-index:3}
+.archive{position:relative}.archive-title{max-width:850px;font-size:clamp(58px,9vw,116px);line-height:.86;letter-spacing:-.075em;margin:0 0 58px;padding-right:40px}.archive-cta{position:absolute;right:0;top:36px;border:0;border-bottom:2px solid var(--ink);background:transparent;padding:8px 0;font-weight:900;z-index:3}
 #archivePieces{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 44px;align-items:start;padding:14px 0 10px}
 .archive-piece{--piece:var(--pink);position:relative;display:block;width:100%;min-height:190px;border:0;border-top:2px solid var(--ink);text-decoration:none;padding:20px 82px 24px 0;background:transparent;transition:.18s ease;text-align:left}
 .archive-piece:after{content:"";position:absolute;width:58px;height:58px;border-radius:50%;right:2px;top:18px;background:var(--piece);transition:.18s ease}
@@ -71,9 +71,36 @@ footer{padding:30px 0 46px;display:grid;grid-template-columns:1fr 1.5fr;gap:30px
 .all-card .ico{position:absolute;right:8px;top:16px;font-size:24px;color:var(--accent)}
 .all-card b{display:block;font-size:24px;line-height:.96;margin-top:28px;overflow-wrap:break-word}
 .all-card small{display:block;margin-top:10px;font:9px/1.3 "Courier New",monospace;color:var(--muted);text-transform:uppercase}
+.day-events-modal{width:min(860px,100%)}
+.day-events-head{margin-bottom:28px}
+.day-events-date{font-size:clamp(54px,8vw,92px);line-height:.82;letter-spacing:-.075em;margin:9px 0 12px}
+.day-events-sub{font:11px/1.45 "Courier New",monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.day-events-list{border-top:2px solid var(--ink)}
+.day-event-item{display:grid;grid-template-columns:92px 1fr auto;gap:18px;align-items:start;padding:22px 0;border-bottom:1px solid var(--ink)}
+.day-event-icon{width:64px;height:64px;border:1.5px solid var(--ink);border-radius:50%;display:grid;place-items:center;font-size:30px;background:var(--paper)}
+.day-event-copy h3{font-size:30px;line-height:.95;letter-spacing:-.04em;margin:0 0 9px}
+.day-event-copy p{font-size:14px;line-height:1.45;margin:0;color:#4d4d49}
+.day-event-meta{margin-top:10px;font:9px/1.35 "Courier New",monospace;color:var(--muted);text-transform:uppercase}
+.day-event-open{border:0;border-bottom:1px solid currentColor;background:transparent;padding:4px 0;font-weight:900;white-space:nowrap}
+.day-events-empty{padding:28px 0;font-size:18px}
+@media(max-width:680px){
+  .day-event-item{grid-template-columns:56px 1fr;gap:14px}
+  .day-event-icon{width:48px;height:48px;font-size:23px}
+  .day-event-open{grid-column:2;margin-top:5px;justify-self:start}
+  .day-event-copy h3{font-size:25px}
+}
+
 .toast{position:fixed;left:50%;bottom:24px;z-index:500;transform:translate(-50%,30px);opacity:0;background:var(--ink);color:#fff;border:2px solid var(--ink);padding:12px 16px;font-weight:800;transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:1250px) and (min-width:901px){
+  .now-layout{grid-template-columns:.72fr 1.28fr;gap:34px}
+  .ritual-copy h3{font-size:clamp(52px,6.4vw,84px);line-height:.9;letter-spacing:-.06em}
+  .ritual-copy p{font-size:17px}
+  .object-blob{width:290px;height:290px;font-size:102px}
+  .object-stage{min-height:450px}
+}
 @media(max-width:900px){.week-grid{grid-template-columns:repeat(4,1fr)}.now-layout{grid-template-columns:1fr}.magic-meter{grid-template-columns:1fr}#archivePieces{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px}.ap1,.ap2,.ap3,.ap4{margin-top:0}.ap2,.ap4{margin-top:34px}.all-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:680px){.nav{display:none}.date-top{font-size:9px}.hero{min-height:670px}.hero h1{font-size:76px}.hero-copy{font-size:17px}.f1{left:0;top:2%}.f1 .sticker{width:84px;height:50px;font-size:28px}.f2{right:0;top:3%}.f2 .sticker{width:72px;height:72px;font-size:30px}.f3,.f4{display:none}.section{padding:68px 0}.section-head{display:block}.section-note{margin-top:17px}.week-grid{grid-template-columns:repeat(2,1fr)}.day{min-height:190px}.object-stage{min-height:390px}.object-blob{width:250px;height:250px;font-size:92px}.object-label{right:0;max-width:210px;font-size:9px}.ritual-copy h3{font-size:65px;line-height:.86}.next-grid{grid-template-columns:1fr}.next-date{font-size:84px}.archive-title{font-size:66px;padding-right:0}.archive-cta{position:static;display:inline-block;margin-bottom:30px}#archivePieces{grid-template-columns:1fr;padding:0}.archive-piece{min-height:150px;padding-right:72px}.ap1,.ap2,.ap3,.ap4{width:100%;margin:0;transform:none}.month-grid{grid-template-columns:repeat(7,minmax(44px,1fr));overflow:auto}.modal{padding:15px}.modal-top h2{font-size:46px}.cal-cell{min-height:82px}.all-grid{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}.detail-block.full{grid-column:auto}footer{grid-template-columns:1fr}.action-row{align-items:flex-start;flex-direction:column}}
+@media(max-width:680px){.nav{display:none}.date-top{font-size:9px}.hero{min-height:670px}.hero h1{font-size:76px}.hero-copy{font-size:17px}.f1{left:0;top:2%}.f1 .sticker{width:84px;height:50px;font-size:28px}.f2{right:0;top:3%}.f2 .sticker{width:72px;height:72px;font-size:30px}.f3,.f4{display:none}.section{padding:68px 0}.section-head{display:block}.section-note{margin-top:17px}.week-grid{grid-template-columns:repeat(2,1fr)}.day{min-height:190px}.object-stage{min-height:390px}.object-blob{width:250px;height:250px;font-size:92px}.object-label{right:0;max-width:210px;font-size:9px}.ritual-copy h3{font-size:clamp(48px,14vw,64px);line-height:.92;letter-spacing:-.055em}.next-grid{grid-template-columns:1fr}.next-date{font-size:84px}.archive-title{font-size:66px;padding-right:0}.archive-cta{position:static;display:inline-block;margin-bottom:30px}#archivePieces{grid-template-columns:1fr;padding:0}.archive-piece{min-height:150px;padding-right:72px}.ap1,.ap2,.ap3,.ap4{width:100%;margin:0;transform:none}.month-grid{grid-template-columns:repeat(7,minmax(44px,1fr));overflow:auto}.modal{padding:15px}.modal-top h2{font-size:46px}.cal-cell{min-height:82px}.all-grid{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}.detail-block.full{grid-column:auto}footer{grid-template-columns:1fr}.action-row{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
@@ -109,7 +136,7 @@ footer{padding:30px 0 46px;display:grid;grid-template-columns:1fr 1.5fr;gap:30px
 </section>
 <section class="section">
   <div class="section-head"><div><div class="mono tiny">можно прямо сейчас</div><h2>Вмешаться<br>в происходящее</h2></div></div>
-  <div class="now-layout"><div class="object-stage"><div class="object-blob" id="ritualObject">✦</div><div class="object-label" id="objectLabel"></div></div><div class="ritual-copy" id="ritualCopy"></div></div>
+  <div class="now-layout"><div class="object-stage"><div class="object-blob" id="ritualObject" role="button" tabindex="0" aria-label="Выдать другой ритуал" title="Жамкни — выдам другой ритуал">✦</div><div class="object-label" id="objectLabel"></div></div><div class="ritual-copy" id="ritualCopy"></div></div>
 </section>
 <section class="section">
   <div class="section-head"><div><div class="mono tiny">скоро</div><h2>По плану<br>Вселенной</h2></div></div>
@@ -125,6 +152,7 @@ footer{padding:30px 0 46px;display:grid;grid-template-columns:1fr 1.5fr;gap:30px
 </div>
 
 <div class="overlay" id="calendarOverlay"><div class="modal"><div class="modal-top"><div><div class="mono tiny">календарь</div><h2 id="calendarTitle"></h2></div><button class="close" data-close="calendar">×</button></div><div class="calendar-controls"><button id="prevMonth">←</button><button id="todayMonth">сегодня</button><button id="nextMonth">→</button></div><div class="month-grid" id="monthGrid"></div></div></div>
+<div class="overlay" id="dayOverlay"><div class="modal day-events-modal"><div class="modal-top"><div><div class="mono tiny">события дня</div><div id="dayEventsHead"></div></div><button class="close" data-close="day">×</button></div><div id="dayEventsList"></div></div></div>
 <div class="overlay" id="ritualOverlay"><div class="modal ritual-modal"><div class="modal-top"><div class="mono tiny" id="ritualModalMeta"></div><button class="close" data-close="ritual">×</button></div><div id="ritualModalBody"></div></div></div>
 <div class="overlay" id="archiveOverlay"><div class="modal archive-modal"><div class="modal-top"><div><div class="mono tiny">архив</div><h2>Все ритуалы</h2></div><button class="close" data-close="archive">×</button></div><div class="filters" id="filters"></div><div class="all-grid" id="allGrid"></div></div></div>
 <div class="toast" id="toast"></div>
@@ -677,7 +705,7 @@ function nextOccurrences(limit=4){const out=[];const start=new Date(now.getFullY
 const tickerBits=[`ВСЕЛЕННАЯ ONLINE`,`ЛУНА: ${moon.name.toUpperCase()}`, ...nextOccurrences(4).map(x=>`${sf.format(x.d).toUpperCase()} · ${x.r.title.toUpperCase()}`),`ПОДТВЕРЖДЕНИЙ ЭФФЕКТИВНОСТИ НЕТ`];tickerTrack.textContent=(tickerBits.join(" · ")+" · ").repeat(4);
 
 /* Week */
-function renderWeek(){weekGrid.innerHTML="";const start=mondayOfWeek(now);let activeDays=0;for(let i=0;i<7;i++){const d=new Date(start);d.setDate(start.getDate()+i);const sp=specialForDate(d);if(sp.length)activeDays++;const m=moonAt(d);const el=document.createElement("button");el.className="day"+(same(d,now)?" today":"")+(sp.length?" has-events":"");el.type="button";const label=sp.length?sp.slice(0,2).map(r=>r.title).join(" + "):(same(d,now)?"можно запросить ритуал":"без поручений");const sub=sp.length>2?`и ещё ${sp.length-2}`:(sp.length?sp[0].when:"свободный день");el.innerHTML=`<div class="dow">${weekdaysShort[d.getDay()]}${same(d,now)?" · сегодня":""}</div><div class="num">${String(d.getDate()).padStart(2,"0")}</div><div class="moon">${m.icon}</div><div class="event">${esc(label)}<small>${esc(sub)}</small></div>`;if(sp.length)el.onclick=()=>openRitual(sp[0].id);weekGrid.appendChild(el)}weekNote.textContent=activeDays?`На этой неделе ${activeDays} ${activeDays===1?"день":"дня"} с отдельными поручениями.`:"На этой неделе можно действовать без специального расписания."}
+function renderWeek(){weekGrid.innerHTML="";const start=mondayOfWeek(now);let activeDays=0;for(let i=0;i<7;i++){const d=new Date(start);d.setDate(start.getDate()+i);const sp=specialForDate(d);if(sp.length)activeDays++;const m=moonAt(d);const el=document.createElement("button");el.className="day"+(same(d,now)?" today":"")+(sp.length?" has-events":"");el.type="button";const label=sp.length?sp.slice(0,2).map(r=>r.title).join(" + "):(same(d,now)?"можно запросить ритуал":"без поручений");const sub=sp.length>2?`и ещё ${sp.length-2}`:(sp.length?sp[0].when:"свободный день");el.innerHTML=`<div class="dow">${weekdaysShort[d.getDay()]}${same(d,now)?" · сегодня":""}</div><div class="num">${String(d.getDate()).padStart(2,"0")}</div><div class="moon">${m.icon}</div><div class="event">${esc(label)}<small>${esc(sub)}</small></div>`;if(sp.length)el.onclick=()=>openDayEvents(d);weekGrid.appendChild(el)}weekNote.textContent=activeDays?`На этой неделе ${activeDays} ${activeDays===1?"день":"дня"} с отдельными поручениями.`:"На этой неделе можно действовать без специального расписания."}
 renderWeek();
 
 /* current random ritual */
@@ -717,6 +745,21 @@ function compactNeedFor(r){
 
 function pickRitual(forceDifferent=false){const p=currentPool();let next=p[Math.floor(Math.random()*p.length)];if(forceDifferent&&p.length>1){while(next.id===currentRitual?.id)next=p[Math.floor(Math.random()*p.length)]}currentRitual=next;renderCurrentRitual()}
 function renderCurrentRitual(){const r=currentRitual;if(!r)return;ritualObject.textContent=r.icon||"✦";objectLabel.textContent=("НУЖНО: "+compactNeedFor(r)).toUpperCase();const done=todayDone(r.id);ritualCopy.innerHTML=`<div class="counter">${r.no} / ${rituals.length} · ${r.cat.map(c=>CAT[c].n).join(" · ").toUpperCase()}</div><h3>${esc(r.title)}</h3><p>${esc(r.short)}</p><div class="meta-row"><span class="meta-pill">${esc(r.when)}</span><span class="meta-pill">${esc(OR[r.origin])}</span>${r.cat.map(c=>`<span class="meta-pill">${esc(CAT[c].n)}</span>`).join("")}</div><div class="action-row"><button class="primary" id="doneBtn" ${done?"disabled":""}>${done?"✓ ВСЕЛЕННАЯ УВЕДОМЛЕНА":esc(r.act)+" ✦"}</button><button class="secondary" id="detailsBtn">подробнее</button><button class="secondary" id="anotherBtn">другой ритуал ↻</button></div>`;doneBtn.onclick=()=>complete(r.id);detailsBtn.onclick=()=>openRitual(r.id);anotherBtn.onclick=()=>pickRitual(true)}
+function pressRitualBlob(){
+  ritualObject.classList.remove("pressed");
+  void ritualObject.offsetWidth;
+  ritualObject.classList.add("pressed");
+  setTimeout(()=>pickRitual(true),420);
+  setTimeout(()=>ritualObject.classList.remove("pressed"),980);
+}
+ritualObject.addEventListener("click",pressRitualBlob);
+ritualObject.addEventListener("keydown",e=>{
+  if(e.key==="Enter"||e.key===" "){
+    e.preventDefault();
+    pressRitualBlob();
+  }
+});
+
 pickRitual();heroRitual.onclick=()=>{pickRitual(true);document.querySelector(".ritual-copy").scrollIntoView({behavior:"smooth",block:"center"})};
 
 /* Upcoming */
@@ -739,9 +782,43 @@ function complete(id){if(todayDone(id))return;state.log.push({id,date:iso(now),t
 function openRitual(id,updateHash=true){const r=rituals.find(x=>x.id===id);if(!r)return;const done=todayDone(id),l=last(id);ritualModalMeta.textContent=`Ритуал №${r.no} · ${r.cat.map(c=>CAT[c].n).join(" · ")}`;ritualModalBody.innerHTML=`<h2>${esc(r.title)}</h2><p class="intro">${esc(r.short)}</p><div class="detail-grid"><div class="detail-block"><span>Когда</span><p>${esc(r.when)}</p></div><div class="detail-block"><span>Что понадобится</span><p>${esc(r.need)}</p></div><div class="detail-block full"><span>Что делать</span><p>${esc(r.do)}</p></div><div class="detail-block full"><span>Что говорить</span><p>${esc(r.say)}</p></div><div class="detail-block"><span>Происхождение</span><p>${esc(OR[r.origin])}</p></div><div class="detail-block"><span>Категории</span><p>${esc(r.cat.map(c=>CAT[c].n).join(", "))}</p></div></div><div class="modal-actions"><button class="primary" id="modalDone" ${done?"disabled":""}>${done?"✓ "+esc(r.done):esc(r.act)}</button><button class="share-btn" id="modalShare">↗ Поделиться</button></div>${l?`<div class="lastdone">Последний раз: ${pretty(l.date)}</div>`:""}`;ritualOverlay.classList.add("open");document.body.classList.add("lock");modalDone.onclick=()=>complete(id);modalShare.onclick=()=>share(r);if(updateHash)history.replaceState(null,"",`#ritual-${id}`)}
 async function share(r){const url=location.origin+location.pathname+`#ritual-${r.id}`;const data={title:r.title,text:`Нашла для тебя ритуал из «Бытовой магии»: «${r.title}».`,url};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(`${data.text}\n${url}`);toast("Ссылка скопирована")}}catch(e){if(e.name!=="AbortError")toast("Скопируйте ссылку из адресной строки")}}
 
+/* day events */
+function dayTitle(d){
+  return `${d.getDate()} ${monthsGen[d.getMonth()]}`;
+}
+function openDayEvents(date){
+  const d=new Date(date.getFullYear(),date.getMonth(),date.getDate(),12);
+  const items=specialForDate(d);
+  const moonInfo=principalOn(d) || moonAt(d);
+  dayEventsHead.innerHTML=`<div class="day-events-date">${esc(dayTitle(d))}</div><div class="day-events-sub">${esc(weekdays[d.getDay()])} · ${esc(moonInfo.name||"лунный цикл")} · событий: ${items.length}</div>`;
+  if(!items.length){
+    dayEventsList.innerHTML=`<div class="day-events-empty">На этот день отдельных поручений нет.</div>`;
+  }else{
+    dayEventsList.innerHTML=`<div class="day-events-list">${items.map(r=>`
+      <article class="day-event-item">
+        <div class="day-event-icon">${r.icon||"✦"}</div>
+        <div class="day-event-copy">
+          <h3>${esc(r.title)}</h3>
+          <p>${esc(r.short)}</p>
+          <div class="day-event-meta">${esc(r.when)} · ${esc(r.cat.map(c=>CAT[c].n).join(" / "))}</div>
+        </div>
+        <button class="day-event-open" data-day-ritual="${r.id}">подробнее →</button>
+      </article>
+    `).join("")}</div>`;
+    dayEventsList.querySelectorAll("[data-day-ritual]").forEach(btn=>{
+      btn.onclick=()=>{
+        closeOverlay("day");
+        openRitual(btn.dataset.dayRitual);
+      };
+    });
+  }
+  dayOverlay.classList.add("open");
+  document.body.classList.add("lock");
+}
+
 /* calendar */
 let calDate=new Date(now.getFullYear(),now.getMonth(),1,12);
-function renderCalendar(){calendarTitle.innerHTML=`${months[calDate.getMonth()]}<br>${calDate.getFullYear()}`;monthGrid.innerHTML=["ПН","ВТ","СР","ЧТ","ПТ","СБ","ВС"].map(x=>`<div class="cal-cell head">${x}</div>`).join("");const y=calDate.getFullYear(),m=calDate.getMonth(),days=new Date(y,m+1,0).getDate();let st=new Date(y,m,1).getDay();st=st===0?6:st-1;for(let i=0;i<st;i++)monthGrid.insertAdjacentHTML("beforeend",'<div class="cal-cell blank"></div>');for(let d=1;d<=days;d++){const date=new Date(y,m,d,12),sp=specialForDate(date),pr=principalOn(date),mi=pr?pr.icon:moonAt(date).icon;const cell=document.createElement("div");cell.className="cal-cell"+(same(date,now)?" today":"")+(sp.length?" eventday clickable":"");cell.innerHTML=`<b class="cnum">${d}</b><span class="cdot">${mi}</span>${sp.length?`<span class="ctext">${esc(sp.slice(0,2).map(r=>r.title).join(" · "))}${sp.length>2?" · +"+(sp.length-2):""}</span>`:""}`;if(sp.length)cell.onclick=()=>openRitual(sp[0].id);monthGrid.appendChild(cell)}}
+function renderCalendar(){calendarTitle.innerHTML=`${months[calDate.getMonth()]}<br>${calDate.getFullYear()}`;monthGrid.innerHTML=["ПН","ВТ","СР","ЧТ","ПТ","СБ","ВС"].map(x=>`<div class="cal-cell head">${x}</div>`).join("");const y=calDate.getFullYear(),m=calDate.getMonth(),days=new Date(y,m+1,0).getDate();let st=new Date(y,m,1).getDay();st=st===0?6:st-1;for(let i=0;i<st;i++)monthGrid.insertAdjacentHTML("beforeend",'<div class="cal-cell blank"></div>');for(let d=1;d<=days;d++){const date=new Date(y,m,d,12),sp=specialForDate(date),pr=principalOn(date),mi=pr?pr.icon:moonAt(date).icon;const cell=document.createElement("div");cell.className="cal-cell"+(same(date,now)?" today":"")+(sp.length?" eventday clickable":"");cell.innerHTML=`<b class="cnum">${d}</b><span class="cdot">${mi}</span>${sp.length?`<span class="ctext">${esc(sp.slice(0,2).map(r=>r.title).join(" · "))}${sp.length>2?" · +"+(sp.length-2):""}</span>`:""}`;if(sp.length)cell.onclick=()=>openDayEvents(date);monthGrid.appendChild(cell)}}
 function showCalendar(e){if(e)e.preventDefault();renderCalendar();calendarOverlay.classList.add("open");document.body.classList.add("lock")}
 openCalendar.onclick=showCalendar;calendarTop.onclick=showCalendar;prevMonth.onclick=()=>{calDate=new Date(calDate.getFullYear(),calDate.getMonth()-1,1,12);renderCalendar()};nextMonth.onclick=()=>{calDate=new Date(calDate.getFullYear(),calDate.getMonth()+1,1,12);renderCalendar()};todayMonth.onclick=()=>{calDate=new Date(now.getFullYear(),now.getMonth(),1,12);renderCalendar()};
 
@@ -754,7 +831,7 @@ allRitualsBtn.onclick=openArchive;
 
 /* overlays */
 function closeOverlay(name){document.getElementById(name+"Overlay").classList.remove("open");if(!document.querySelector(".overlay.open"))document.body.classList.remove("lock");if(name==="ritual"&&location.hash.startsWith("#ritual-"))history.replaceState(null,"",location.pathname+location.search)}
-document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>closeOverlay(b.dataset.close));document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{if(e.target===o){if(o.id==="calendarOverlay")closeOverlay("calendar");if(o.id==="ritualOverlay")closeOverlay("ritual");if(o.id==="archiveOverlay")closeOverlay("archive")}}));document.addEventListener("keydown",e=>{if(e.key==="Escape"){["calendar","ritual","archive"].forEach(closeOverlay)}});
+document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>closeOverlay(b.dataset.close));document.querySelectorAll(".overlay").forEach(o=>o.addEventListener("click",e=>{if(e.target===o){if(o.id==="calendarOverlay")closeOverlay("calendar");if(o.id==="dayOverlay")closeOverlay("day");if(o.id==="ritualOverlay")closeOverlay("ritual");if(o.id==="archiveOverlay")closeOverlay("archive")}}));document.addEventListener("keydown",e=>{if(e.key==="Escape"){["calendar","day","ritual","archive"].forEach(closeOverlay)}});
 
 /* parallax */
 document.addEventListener("mousemove",e=>{const cx=e.clientX/window.innerWidth-.5,cy=e.clientY/window.innerHeight-.5;document.querySelectorAll(".floater").forEach(el=>{const depth=Number(el.dataset.depth||8);el.style.transform=`translate(${cx*depth}px,${cy*depth}px)`})});
