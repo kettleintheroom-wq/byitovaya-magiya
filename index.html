@@ -1227,6 +1227,37 @@ footer{
   }
 }
 
+
+/* ===== v22: stable mobile ritual utility + vector mobile mark ===== */
+.object-blob .blob-icon-mobile{
+  display:none;
+}
+
+@media(max-width:680px){
+  /* Keep the ritual utility at one vertical position while ritual copy changes. */
+  .ritual-copy{
+    min-height:430px!important;
+  }
+
+  /* Desktop keeps each ritual's own symbol; mobile uses one deterministic SVG mark. */
+  .object-blob .blob-icon-desktop{
+    display:none!important;
+  }
+  .object-blob .blob-icon-mobile{
+    display:block!important;
+    width:40px;
+    height:40px;
+    color:var(--ink);
+    line-height:0;
+    flex:0 0 auto;
+  }
+  .object-blob .blob-icon-mobile svg{
+    display:block;
+    width:100%;
+    height:100%;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1267,7 +1298,7 @@ footer{
 </section>
 <section class="section" id="randomRitualSection">
   <div class="section-head"><div><div class="mono tiny">можно прямо сейчас</div><h2>Вмешаться<br>в происходящее</h2></div></div>
-  <div class="now-layout"><div class="object-stage"><div class="object-blob" id="ritualObject" role="button" tabindex="0" aria-label="Выдать другой ритуал" title="Жамкни — выдам другой ритуал"><span class="blob-icon">✦</span></div><div class="blob-side"><div class="blob-helper">жамкни — выдам другой ритуал</div><div class="object-label" id="objectLabel"></div></div></div><div class="ritual-copy" id="ritualCopy"></div></div>
+  <div class="now-layout"><div class="object-stage"><div class="object-blob" id="ritualObject" role="button" tabindex="0" aria-label="Выдать другой ритуал" title="Жамкни — выдам другой ритуал"><span class="blob-icon blob-icon-desktop">✦</span><span class="blob-icon blob-icon-mobile" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M24 3c1.7 11.8 7.2 17.3 19 19-11.8 1.7-17.3 7.2-19 19-1.7-11.8-7.2-17.3-19-19C16.8 20.3 22.3 14.8 24 3Z"/></svg></span></div><div class="blob-side"><div class="blob-helper">жамкни — выдам другой ритуал</div><div class="object-label" id="objectLabel"></div></div></div><div class="ritual-copy" id="ritualCopy"></div></div>
 </section>
 
 <section class="section" id="archive">
@@ -1996,7 +2027,7 @@ function compactNeedFor(r){
 }
 
 function pickRitual(forceDifferent=false){const p=currentPool();let next=p[Math.floor(Math.random()*p.length)];if(forceDifferent&&p.length>1){while(next.id===currentRitual?.id)next=p[Math.floor(Math.random()*p.length)]}currentRitual=next;renderCurrentRitual()}
-function renderCurrentRitual(){const r=currentRitual;if(!r)return;ritualObject.innerHTML=`<span class="blob-icon">${r.icon||"✦"}</span>`;objectLabel.textContent=("НУЖНО: "+compactNeedFor(r)).toUpperCase();const done=todayDone(r.id);ritualCopy.innerHTML=`<div class="counter">${r.no} / ${rituals.length} · ${r.cat.map(c=>CAT[c].n).join(" · ").toUpperCase()}</div><h3 class="${r.title.length>23?'long-title':''}">${esc(r.title)}</h3><p>${esc(r.short)}</p><div class="meta-row"><span class="meta-pill">${esc(r.when)}</span><span class="meta-pill">${esc(OR[r.origin])}</span>${r.cat.map(c=>`<span class="meta-pill">${esc(CAT[c].n)}</span>`).join("")}</div><div class="action-row"><button class="primary" id="doneBtn" ${done?"disabled":""}>${done?"✓ ВСЕЛЕННАЯ УВЕДОМЛЕНА":esc(r.act)+" ✦"}</button><button class="secondary" id="detailsBtn">подробнее</button><button class="secondary" id="anotherBtn">другой ритуал ↻</button></div>`;doneBtn.onclick=()=>complete(r.id);detailsBtn.onclick=()=>openRitual(r.id);anotherBtn.onclick=()=>pickRitual(true)}
+function renderCurrentRitual(){const r=currentRitual;if(!r)return;ritualObject.innerHTML=`<span class="blob-icon blob-icon-desktop">${r.icon||"✦"}</span><span class="blob-icon blob-icon-mobile" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M24 3c1.7 11.8 7.2 17.3 19 19-11.8 1.7-17.3 7.2-19 19-1.7-11.8-7.2-17.3-19-19C16.8 20.3 22.3 14.8 24 3Z"/></svg></span>`;objectLabel.textContent=("НУЖНО: "+compactNeedFor(r)).toUpperCase();const done=todayDone(r.id);ritualCopy.innerHTML=`<div class="counter">${r.no} / ${rituals.length} · ${r.cat.map(c=>CAT[c].n).join(" · ").toUpperCase()}</div><h3 class="${r.title.length>23?'long-title':''}">${esc(r.title)}</h3><p>${esc(r.short)}</p><div class="meta-row"><span class="meta-pill">${esc(r.when)}</span><span class="meta-pill">${esc(OR[r.origin])}</span>${r.cat.map(c=>`<span class="meta-pill">${esc(CAT[c].n)}</span>`).join("")}</div><div class="action-row"><button class="primary" id="doneBtn" ${done?"disabled":""}>${done?"✓ ВСЕЛЕННАЯ УВЕДОМЛЕНА":esc(r.act)+" ✦"}</button><button class="secondary" id="detailsBtn">подробнее</button><button class="secondary" id="anotherBtn">другой ритуал ↻</button></div>`;doneBtn.onclick=()=>complete(r.id);detailsBtn.onclick=()=>openRitual(r.id);anotherBtn.onclick=()=>pickRitual(true)}
 function pressRitualBlob(){
   ritualObject.classList.remove("pressed");
   void ritualObject.offsetWidth;
