@@ -12,5 +12,5 @@ for(let i=0;i<730;i++){const d=new Date(2026,0,1+i,12);for(const r of app.origin
 const html=fs.readFileSync('index.html','utf8'),manifest=JSON.parse(fs.readFileSync('manifest.webmanifest','utf8'));
 assert(html.includes('rel="manifest"'));assert.equal(manifest.display,'standalone');assert.equal(manifest.start_url,'./#today');
 for(const icon of manifest.icons){assert(fs.existsSync(icon.src));const png=fs.readFileSync(icon.src);const [w,h]=icon.sizes.split('x').map(Number);assert.equal(png.readUInt32BE(16),w);assert.equal(png.readUInt32BE(20),h);}
-assert.equal(fs.readFileSync('app.js','utf8').match(/APP_VERSION='([^']+)'/)[1],fs.readFileSync('sw.js','utf8').match(/VERSION='([^']+)'/)[1]);
+assert.equal(fs.readFileSync('app.js','utf8').match(/APP_VERSION\s*=\s*'([^']+)'/)[1],fs.readFileSync('sw.js','utf8').match(/VERSION\s*=\s*'([^']+)'/)[1]);
 console.log('PASS: all 26 records exactly preserved; original calendar events retained for 730 dates; combined rules, New Year, manifest paths, PNG dimensions, version agreement.');

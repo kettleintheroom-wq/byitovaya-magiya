@@ -48,3 +48,13 @@ Cloudflare Pages сообщил успешный preview-деплой комми
 Отдельная проверка Workers Builds завершилась сообщением: «Preview creation failed: This Worker does not exist on your account». Деплой Pages успешен. Настройки сторонней интеграции не менялись.
 
 Production по правильному адресу https://byitovaya-magiya.pages.dev/ проверен через HTTPS: 113 635 байт, побайтово совпадает с docs/original-index.html. SHA-256: 18c71aba244b36e4a9e72c4b273e601d0c3144564ccb540c712a2fbe6e13a0e5.
+
+## Исправление iOS — 1.0.1
+
+Precache исключает index.html; навигация использует абсолютный корневой URL. Redirected Response нормализуется до нового Response и в кеше, и в сетевом navigation fallback. APP_VERSION и VERSION равны 1.0.1. Manifest start_url не менялся.
+
+Smoke-прогон использует HTTP-редирект /index.html -> /, проверяет 11 ресурсов в кеше, отсутствие index.html и root.redirected=false. Проверены все четыре экрана, все 26 карточек, onboarding, инструкция установки и share-окно: запрещённых внутренних формулировок в отображаемых текстах нет. Полезные предупреждения о хранении и удалении журнала сохранены. Синтаксис JS и сохранность контента проверены.
+
+Регрессионный тест tests/ios-navigation.cjs воспроизводит старый cache /index.html с redirected=true, обновляет worker 1.0.0 -> 1.0.1, проверяет удаление старого кеша и отсутствие index.html в новом, redirected=false для корня, сохранность журнала, обслуживаемую worker навигацию, повторное открытие и offline reload. Отдельно проверена нормализация сетевого navigation fallback при редиректе и отсутствии корня в кеше.
+
+Оба браузерных прогона выполнены в Chromium. Физический iPhone, Safari/WebKit и запуск с главного экрана не доступны этой среде: это отдельная проверка владельцем по README.
