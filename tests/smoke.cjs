@@ -18,10 +18,15 @@ const http=require('node:http'),path=require('node:path');
  await page.goto('http://127.0.0.1:4173/');await page.getByRole('button',{name:'Ладно, начинаем'}).click();
  await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>navigator.serviceWorker.controller);
  assert(await page.evaluate(async()=>{const c=await caches.open('bbm-shell-'+APP_VERSION);const keys=await c.keys();const root=await c.match(location.origin+'/');return keys.length===11&&!keys.some(r=>new URL(r.url).pathname==='/index.html')&&root&&!root.redirected;}));
+ assert.equal(await page.locator('[data-open="laurel-wallet"]').count(),0);assert.equal(await page.locator('[data-open="red-chandelier"]').count(),0);assert(await page.locator('[data-open="coffee-cinnamon"]').first().isVisible());
  uiTexts.push(await page.locator('body').innerText());
  await page.screenshot({path:(process.env.EVIDENCE_DIR||'/tmp')+'/today-mobile.png',fullPage:true});
  await page.getByRole('link',{name:'Ритуалы',exact:true}).click();await page.getByRole('heading',{name:'Ритуалы',exact:true}).waitFor();
- assert.equal(await page.locator('.ritual-card').count(),26);uiTexts.push(await page.locator('body').innerText());
+ assert.equal(await page.locator('.ritual-card').count(),26);
+ assert.equal(await page.locator('.glyph svg').count(),26);
+ assert(await page.locator('.glyph').evaluateAll(nodes=>nodes.every(n=>n.textContent===''&&n.querySelector('svg')?.getAttribute('stroke')==='#151515'&&!n.querySelector('text,image,foreignObject'))));
+ assert((await page.locator('body').innerText()).includes('Пятничная версия без люстры и акробатики.'));
+ await page.screenshot({path:(process.env.EVIDENCE_DIR||'/tmp')+'/rituals-svg-mobile.png',fullPage:true});uiTexts.push(await page.locator('body').innerText());
  for(const b of await page.locator('.title-btn').all()){await b.click();uiTexts.push(await page.locator('#detail').innerText());await page.getByRole('button',{name:'Закрыть карточку'}).click();}
  await page.getByRole('searchbox').fill('кофе');assert.equal(await page.locator('.ritual-card').count(),1);
  await page.getByRole('button',{name:'Как это делается'}).click();
@@ -31,7 +36,7 @@ const http=require('node:http'),path=require('node:path');
  assert.equal(await page.locator('.stat b').first().innerText(),'1');assert.equal(await page.locator('.ritual-card').count(),1);
  uiTexts.push(await page.locator('body').innerText());assert((await page.locator('body').innerText()).includes('Удаление данных сайта может удалить журнал'));await page.getByLabel('Увеличить текст описаний').check();
  await page.reload();assert(await page.getByLabel('Увеличить текст описаний').isChecked());assert.equal(await page.locator('.stat b').first().innerText(),'1');
- await page.getByRole('link',{name:'Календарь',exact:true}).click();await page.getByRole('heading',{name:'Календарь',exact:true}).waitFor();await page.getByRole('button',{name:'Следующий месяц'}).click();
+ await page.getByRole('link',{name:'Календарь',exact:true}).click();await page.getByRole('heading',{name:'Календарь',exact:true}).waitFor();assert.equal(await page.locator('[data-open="laurel-wallet"]').count(),0);assert.equal(await page.locator('[data-open="red-chandelier"]').count(),0);await page.getByRole('button',{name:'Следующий месяц'}).click();
  assert((await page.locator('.monthbar strong').innerText()).toLowerCase().includes('ноябрь'));
  await page.locator('[data-select="2026-11-01"]').click();assert(await page.getByRole('button',{name:'Вдуть корицу в дом',exact:true}).isVisible());
  uiTexts.push(await page.locator('body').innerText());await page.screenshot({path:(process.env.EVIDENCE_DIR||'/tmp')+'/calendar-mobile.png',fullPage:true});
@@ -47,8 +52,8 @@ const http=require('node:http'),path=require('node:path');
  // Exact content and original rules retained, including combined date/week rule.
  const original=fs.readFileSync('docs/original-index.html','utf8');const oldData=original.slice(original.indexOf('const OR='),original.indexOf('const weekdays='));
  const box={Intl,Date,Map,Set};vm.createContext(box);vm.runInContext('const now=new Date();const same=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();'+fs.readFileSync('rituals.js','utf8')+fs.readFileSync('calendar.js','utf8')+';globalThis.result=rituals;globalThis.scheduled=scheduledForDate;',box);
- const originalBox={};vm.createContext(originalBox);vm.runInContext(oldData+';globalThis.result=rituals;',originalBox);assert.equal(JSON.stringify(box.result),JSON.stringify(originalBox.result));
- const combined=box.scheduled(new Date(2026,9,1,12)).map(r=>r.id);for(const id of ['coffee-cinnamon','laurel-wallet','red-chandelier','cinnamon-door'])assert(combined.includes(id));assert(box.scheduled(new Date(2026,11,31,12)).some(r=>r.id==='grapes'));
+ const originalBox={};vm.createContext(originalBox);vm.runInContext(oldData+';globalThis.result=rituals;',originalBox);for(const r of originalBox.result){if(['laurel-wallet','red-chandelier'].includes(r.id)){r.time='anytime';r.when='Без строгой привязки';delete r.rule;}if(r.id==='red-friday')r.short='Пятничная версия без люстры и акробатики.';}assert.equal(JSON.stringify(box.result),JSON.stringify(originalBox.result));
+ const combined=box.scheduled(new Date(2026,9,1,12)).map(r=>r.id);for(const id of ['coffee-cinnamon','cinnamon-door'])assert(combined.includes(id));assert(box.scheduled(new Date(2026,11,31,12)).some(r=>r.id==='grapes'));
 
  // Real update lifecycle: waiting worker, explicit activation, unchanged local journal.
  testUpdate=true;

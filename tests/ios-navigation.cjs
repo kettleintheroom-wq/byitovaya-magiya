@@ -36,7 +36,7 @@ const assert = require('node:assert/strict');
     try {
       let content = fs.readFileSync(target);
       if (pathname === '/sw.js' && legacy) content = Buffer.from(legacyWorker);
-      if (pathname === '/app.js' && legacy) content = Buffer.from(content.toString().replace("APP_VERSION='1.0.1'", "APP_VERSION='1.0.0'"));
+      if (pathname === '/app.js' && legacy) content = Buffer.from(content.toString().replace("APP_VERSION='1.0.2'", "APP_VERSION='1.0.0'"));
       res.setHeader('Cache-Control', 'no-store');
       res.setHeader('Content-Type', ({'.html':'text/html', '.js':'text/javascript', '.css':'text/css', '.webmanifest':'application/manifest+json', '.png':'image/png', '.svg':'image/svg+xml'})[path.extname(target)] || 'text/plain');
       res.end(content);
@@ -68,11 +68,11 @@ const assert = require('node:assert/strict');
   await page.evaluate(async () => (await navigator.serviceWorker.getRegistration()).update());
   await page.locator('#applyUpdate').waitFor({state:'visible'});
   await page.locator('#applyUpdate').click();
-  await page.waitForFunction(() => APP_VERSION === '1.0.1');
+  await page.waitForFunction(() => APP_VERSION === '1.0.2');
   assert.equal(await page.evaluate(() => localStorage.getItem('bbm-pwa-v1')), before);
   const clean = await page.evaluate(async () => {
     const keys = await caches.keys();
-    const cache = await caches.open('bbm-shell-1.0.1');
+    const cache = await caches.open('bbm-shell-1.0.2');
     const requests = await cache.keys();
     const root = await cache.match(location.origin + '/');
     return { old:keys.includes('bbm-shell-1.0.0'), index:requests.some(r => new URL(r.url).pathname === '/index.html'), count:requests.length, redirected:root.redirected };
@@ -97,14 +97,14 @@ const assert = require('node:assert/strict');
   await context.setOffline(false);
 
   // При отсутствии root в кеше сетевой редирект также нормализуется.
-  await page.evaluate(async () => (await caches.open('bbm-shell-1.0.1')).delete(location.origin + '/'));
+  await page.evaluate(async () => (await caches.open('bbm-shell-1.0.2')).delete(location.origin + '/'));
   networkRedirect = true;
   response = await page.goto(base + '/?network-fallback=1');
   assert(response.fromServiceWorker());
   assert.equal(response.request().redirectedFrom(), null);
   await page.getByRole('heading', {name:'У Вселенной есть поручения.',exact:true}).waitFor();
   assert.equal(errors.length, 0, errors.join('\n'));
-  console.log('PASS: legacy cache has redirected=true; upgrade 1.0.0 -> 1.0.1 removes old cache/index entry, root.redirected=false, local journal unchanged, SW navigation/relaunch/offline work, redirected network fallback normalized.');
+  console.log('PASS: legacy cache has redirected=true; upgrade 1.0.0 -> 1.0.2 removes old cache/index entry, root.redirected=false, local journal unchanged, SW navigation/relaunch/offline work, redirected network fallback normalized.');
   await browser.close();
   await new Promise(resolve => server.close(resolve));
 })().catch(error => { console.error(error); process.exit(1); });
