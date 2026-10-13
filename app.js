@@ -1,5 +1,5 @@
 'use strict';
-const APP_VERSION='1.1.2';
+const APP_VERSION='1.1.3';
 const $=id=>document.getElementById(id);
 const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 const same=(a,b)=>iso(a)===iso(b);

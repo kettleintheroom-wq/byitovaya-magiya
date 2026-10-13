@@ -1,0 +1,22 @@
+const {chromium}=require('playwright');
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+(async()=>{
+ const browser=await chromium.launch({executablePath:process.env.CHROME_EXECUTABLE||undefined,headless:true,args:['--no-sandbox']});
+ const page=await browser.newPage(),dir=process.env.EVIDENCE_DIR||'/tmp';fs.mkdirSync(dir,{recursive:true});
+ await page.addScriptTag({content:'function same(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();}'});await page.addScriptTag({path:path.resolve('share-cards.js')});await page.addScriptTag({path:path.resolve('rituals.js')});await page.addScriptTag({path:path.resolve('calendar.js')});
+ const samples=[
+  {name:'share-calm',type:'day',date:'2026-10-13',title:'Срочных чар не поступало.',text:'Календарь не требует реквизита. Обычные дела тоже считаются делами.'},
+  {name:'share-busy',type:'day',date:'2026-01-01',title:'У Вселенной есть поручения.',text:'На сегодня: Кофе с корицей · Вдуть корицу в дом · 12 виноградин. Можно без героизма — начните с одного.'},
+  {name:'share-done-long',type:'done',date:'2026-10-13',title:'Вернулась — посмотри в зеркало',text:'Поколдовано. Вселенная получила входящее.'},
+  {name:'share-headline-long',type:'day',date:'2026-10-13',title:'Сегодня можно заниматься обычными делами и не торопить Вселенную с ответом.',text:'Маленькие бытовые чудеса спокойно подождут своей очереди.'}
+ ];
+ await page.evaluate(()=>{window.rendered=[];const original=CanvasRenderingContext2D.prototype.fillText;CanvasRenderingContext2D.prototype.fillText=function(text,x,y,...args){const m=this.measureText(text),matrix=this.getTransform();if(matrix.a===1&&matrix.b===0&&matrix.c===0&&matrix.d===1){window.rendered.push({text,x,y,width:m.width,font:this.font});}return original.call(this,text,x,y,...args);};});
+ for(const sample of samples){const bytes=await page.evaluate(async s=>{const blob=await createShareCard({...s,date:new Date(s.date+'T12:00:00')});return Array.from(new Uint8Array(await blob.arrayBuffer()));},sample);const png=Buffer.from(bytes);assert.equal(png.readUInt32BE(16),1080);assert.equal(png.readUInt32BE(20),1920);fs.writeFileSync(path.join(dir,sample.name+'.png'),png);}
+ const sheet=await page.evaluate(async samples=>{const c=document.createElement('canvas');c.width=2160;c.height=960;const ctx=c.getContext('2d');for(let i=0;i<samples.length;i++){const s=samples[i],blob=await createShareCard({...s,date:new Date(s.date+'T12:00:00')});ctx.drawImage(await createImageBitmap(blob),i*540,0,540,960);}return Array.from(new Uint8Array(await new Promise(resolve=>c.toBlob(async blob=>resolve(await blob.arrayBuffer()),'image/png'))));},samples);
+ fs.writeFileSync(path.join(dir,'share-card-examples.png'),Buffer.from(sheet));
+ const measured=await page.evaluate(()=>window.rendered);assert(measured.some(x=>x.text.includes('Вернулась')));assert(measured.some(x=>x.text.includes('ответом.')));for(const line of measured){assert(line.x>=104);assert(line.x+line.width<=977,line.text+' overflows horizontally');assert(line.y<1854);}
+ // Every existing ritual title and the longest real two-year calendar summary must fit.
+ await page.evaluate(async()=>{for(const r of rituals)await createShareCard({type:'done',date:new Date(),title:r.title,text:'Поколдовано. Вселенная получила входящее.'});let longest='';for(let i=0;i<730;i++){const d=new Date(2026,0,1+i,12),list=scheduledForDate(d).filter(r=>!['waxing','waning'].includes(r.rule));const text=`На сегодня: ${list.map(r=>r.title).join(' · ')}. Можно без героизма — начните с одного.`;if(text.length>longest.length)longest=text;}await createShareCard({type:'day',date:new Date(),title:'У Вселенной есть поручения.',text:longest});});
+ const pink=await page.evaluate(async()=>{const blob=await createShareCard({...{type:'day',date:new Date(),title:'Спокойный день.',text:'Всё идёт своим чередом.'}});const bitmap=await createImageBitmap(blob),c=document.createElement('canvas');c.width=1080;c.height=1920;const ctx=c.getContext('2d');ctx.drawImage(bitmap,0,0);const pixels=ctx.getImageData(0,0,1080,1920).data;let count=0;for(let i=0;i<pixels.length;i+=4)if(pixels[i]===255&&pixels[i+1]===77&&pixels[i+2]===184)count++;return count/(1080*1920);});assert(pink<.06,'Pink must be a limited accent');
+ await browser.close();console.log('PASS: four 1080x1920 sample PNGs, Cyrillic/long lines/26 titles/longest combined calendar summary fit; pink below 6% of daily card.');
+})().catch(e=>{console.error(e);process.exit(1);});
