@@ -10,6 +10,7 @@ function validDate(value) {
   return y>=1900&&y<=9999&&date.getUTCFullYear()===y&&date.getUTCMonth()===m-1&&date.getUTCDate()===d;
 }
 function validTime(value){return typeof value==='string'&&/^([01]\d|2[0-3]):[0-5]\d$/.test(value);}
+// Legacy-схема 1.1.0: только чтение/импорт старых настроек, без функции в UI.
 function reminderOptions(r){
   if(['thursday','friday','first','newyear'].includes(r.rule))return [
     {timing:'morning',label:'Утром в день ритуала · 09:00',kind:'calendar',localTime:'09:00'},
@@ -73,9 +74,4 @@ function eligibleRandom(date){
 function pickRandom(date,previousId,rng=Math.random){
   let list=eligibleRandom(date);if(list.length>1)list=list.filter(r=>r.id!==previousId);
   return list.length?list[Math.min(list.length-1,Math.max(0,Math.floor(rng()*list.length)))]:null;
-}
-function reminderLabel(reminder){
-  const r=rituals.find(r=>r.id===reminder.ritualId),option=r&&reminderOptions(r).find(o=>o.timing===reminder.timing);
-  if(reminder.kind==='once'){const [y,m,d]=reminder.date.split('-');return `${d}.${m}.${y} · ${reminder.localTime}`;}
-  return option?.label||'';
 }

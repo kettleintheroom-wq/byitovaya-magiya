@@ -1,5 +1,5 @@
 // При изменении файлов приложения повышайте VERSION и APP_VERSION в app.js.
-const VERSION = '1.1.0';
+const VERSION = '1.1.1';
 const CACHE = 'bbm-shell-' + VERSION;
 const ROOT = new URL('./', self.location.href).href;
 const FILES = [
@@ -9,6 +9,7 @@ const FILES = [
   './rituals.js',
   './calendar.js',
   './model.js',
+  './storage.js',
   './share-cards.js',
   './manifest.webmanifest',
   './icons/icon.svg',
