@@ -21,7 +21,14 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
  await page.goto('http://127.0.0.1:4175/#ritual-coffee-cinnamon');assert.equal(await page.locator('#detail [data-remind]').count(),0);await page.getByRole('button',{name:'Закрыть карточку'}).click();
  // Random selection, no immediate repeats, action buttons on the selected card.
  await page.goto('http://127.0.0.1:4175/#today');let previous=null;
- for(let i=0;i<20;i++){await page.locator('[data-action=random]').click();const id=await page.locator('.random-box [data-open]').first().getAttribute('data-open');assert.notEqual(id,previous);assert(!['coffee-cinnamon','red-friday','cinnamon-door','grapes','road','knock-wood','paired','moon-money'].includes(id));previous=id;}
+ assert.equal(await page.locator('.hero-actions button').count(),1);
+ assert.equal(await page.locator('.hero-actions button').innerText(),'Поделиться карточкой');
+ assert(!(await page.locator('main').innerText()).includes('Текст и ссылка'));
+ assert.equal(await page.locator('[data-action=random]').innerText(),'Случайный ритуал');
+ assert((await page.locator('.random-box').boundingBox()).height<=96);
+ assert((await page.locator('[data-action=random]').boundingBox()).height>=48);
+ assert((await page.locator('.hero-actions button').boundingBox()).width<300);
+ for(let i=0;i<20;i++){await page.locator('[data-action=random]').click();const id=await page.locator('.random-box [data-open]').first().getAttribute('data-open');assert.equal(await page.locator('[data-action=random]').innerText(),'Другой случайный ритуал');assert.notEqual(id,previous);assert(!['coffee-cinnamon','red-friday','cinnamon-door','grapes','road','knock-wood','paired','moon-money'].includes(id));previous=id;}
  await page.locator('.random-box [data-save]').click();await page.locator('.random-box [data-done]').click();assert(await page.locator('.random-box [data-done]').isDisabled());
  await page.locator('.random-box [data-open]').first().click();assert(await page.locator('#detail').isVisible());await page.getByRole('button',{name:'Закрыть карточку'}).click();
  // Daily PNG generation and download fallback; no external assets.
@@ -54,10 +61,23 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
  await upload(JSON.stringify(incoming));await page.getByRole('button',{name:'Объединить с текущими',exact:true}).click();assert((await getState()).favorites.includes('red-friday'));assert.equal((await getState()).reminders.find(r=>r.ritualId==='coffee-cinnamon').timing,'eve');
  await upload(JSON.stringify(incoming));await page.getByRole('button',{name:'Заменить текущие данные',exact:true}).click();await page.getByRole('button',{name:'Да, заменить данные',exact:true}).click();current=await getState();assert.deepEqual(current.favorites,['red-friday']);assert.equal(current.log.length,1);assert.equal(current.reminders.length,1);assert(current.settings.largeText);
  await page.reload();assert.equal((await getState()).log.length,1);assert.equal(await page.locator('.stat b').first().innerText(),'1');
+ const statsBoxes=await page.locator('.stat').evaluateAll(nodes=>nodes.map(n=>n.getBoundingClientRect().height));
+ assert.equal(statsBoxes[0],statsBoxes[1]);assert(statsBoxes[0]<=130);
  await page.screenshot({path:evidence+'/mine-features-mobile.png',fullPage:true});
  // Layout for all new dialogs including date/time input on small screens.
  for(const width of [320,360,390,430,768,1280]){await page.setViewportSize({width,height:844});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'mine overflow '+width);assert(await page.locator('.actions button').evaluateAll(nodes=>nodes.every(n=>n.scrollWidth<=n.clientWidth)),'button text overflow '+width);await page.goto('http://127.0.0.1:4175/#today');await page.locator('[data-action=day-image]').click();await page.locator('#cardPreview').waitFor({state:'visible'});assert(await page.locator('#imageDialog').evaluate(el=>el.scrollWidth<=el.clientWidth),'image dialog overflow '+width);await page.getByRole('button',{name:'Закрыть изображение'}).click();await page.goto('http://127.0.0.1:4175/#mine');}
+ for(const large of [false,true]){
+  await page.goto('http://127.0.0.1:4175/#mine');await page.getByLabel('Увеличить текст описаний').setChecked(large);
+  for(const width of [320,390,430,1280]){await page.setViewportSize({width,height:844});
+   for(const tab of ['today','calendar','rituals','mine']){await page.goto('http://127.0.0.1:4175/#'+tab);
+    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),tab+' overflow '+width+' large='+large);
+    if(tab==='mine'){const heights=await page.locator('.stat').evaluateAll(nodes=>nodes.map(n=>n.getBoundingClientRect().height));assert.equal(heights[0],heights[1]);}
+    await page.locator('footer').scrollIntoViewIfNeeded();assert((await page.locator('footer').boundingBox()).y+(await page.locator('footer').boundingBox()).height<=(await page.locator('.bottom').boundingBox()).y,'footer overlaps navigation');
+   }
+  }
+ }
  await page.setViewportSize({width:390,height:844});
+ await page.goto('http://127.0.0.1:4175/#today');await page.screenshot({path:evidence+'/today-compact-mobile.png',fullPage:true});
  // Cache includes both new scripts and all offline features still work after hard reload.
  assert(await page.evaluate(async()=>{const c=await caches.open('bbm-shell-'+APP_VERSION);return !!await c.match(location.origin+'/model.js')&&!!await c.match(location.origin+'/share-cards.js');}));
  await context.setOffline(true);await page.reload();
