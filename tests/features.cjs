@@ -18,7 +18,15 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
  await page.getByLabel('Увеличить текст описаний').uncheck();
  // Legacy reminders are kept in data, but absent from every user-facing screen and detail.
  for(const tab of ['today','calendar','rituals','mine']){await page.goto('http://127.0.0.1:4175/#'+tab);assert(!/напомн|уведомления появ|реквизитом/i.test(await page.locator('body').innerText()));assert.equal(await page.locator('[data-remind],#reminderDialog,.reminders').count(),0);}
- await page.goto('http://127.0.0.1:4175/#ritual-coffee-cinnamon');assert.equal(await page.locator('#detail [data-remind]').count(),0);await page.getByRole('button',{name:'Закрыть карточку'}).click();
+ await page.goto('http://127.0.0.1:4175/#ritual-coffee-cinnamon');
+ assert.equal(await page.locator('#detail [data-share]').innerText(),'Позвать колдовать вместе');
+ await page.evaluate(()=>{navigator.share=async data=>{window.inviteShared=data;};});await page.locator('#detail [data-share]').click();
+ assert.deepEqual(await page.evaluate(()=>window.inviteShared),{title:'Кофе с корицей',text:'Кофе с корицей по четвергам. Пойдём колдовать вместе.',url:'http://127.0.0.1:4175/#ritual-coffee-cinnamon'});
+ await page.evaluate(()=>navigator.share=undefined);
+ for(const width of [320,390,430,1280]){await page.setViewportSize({width,height:844});assert(await page.locator('#detail').evaluate(el=>el.scrollWidth<=el.clientWidth));assert(await page.locator('#detail [data-share]').evaluate(el=>el.scrollWidth<=el.clientWidth&&el.getBoundingClientRect().height>=48));}
+ await page.setViewportSize({width:390,height:844});
+ await page.screenshot({path:evidence+'/ritual-invite-mobile.png'});
+ assert.equal(await page.locator('#detail [data-remind]').count(),0);await page.getByRole('button',{name:'Закрыть карточку'}).click();
  // Random selection, no immediate repeats, action buttons on the selected card.
  await page.goto('http://127.0.0.1:4175/#today');let previous=null;
  assert.equal(await page.locator('.hero-actions button').count(),1);
@@ -47,7 +55,7 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
  await page.getByRole('button',{name:'Закрыть изображение'}).click();
  // Existing text-share fallback is still available in the ritual detail, not in the PNG window.
  await page.evaluate(()=>{navigator.share=undefined;Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async()=>{throw new Error('denied')}}});});
- await page.goto('http://127.0.0.1:4175/#ritual-laurel-wallet');await page.locator('#detail [data-share]').click();await page.locator('#shareText').waitFor({state:'visible'});assert((await page.locator('#shareText').inputValue()).includes('Лавр'));
+ await page.goto('http://127.0.0.1:4175/#ritual-laurel-wallet');await page.locator('#detail [data-share]').click();await page.locator('#shareText').waitFor({state:'visible'});assert((await page.locator('#shareText').inputValue()).includes('Пойдём колдовать вместе: «Лавр в кошелёк».'));assert((await page.locator('#shareText').inputValue()).includes('#ritual-laurel-wallet'));
  await page.getByRole('button',{name:'Закрыть окно',exact:true}).click();await page.getByRole('button',{name:'Закрыть карточку',exact:true}).click();await page.goto('http://127.0.0.1:4175/#mine');
  // Export/import round trip, merge dedup and latest reminder wins.
  const download=await Promise.all([page.waitForEvent('download'),page.getByRole('button',{name:'Скачать копию моего журнала',exact:true}).click()]).then(([d])=>d);await download.saveAs(evidence+'/journal-export.json');
