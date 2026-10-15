@@ -2,6 +2,7 @@ import '../../moon-core.js';
 import '../../push-schedule.js';
 import ritualTitles from './ritual-titles.json' with {type:'json'};
 import {buildPushPayload} from '@block65/webcrypto-web-push';
+import {logPushError,logPushConfig,logPushResponse} from './diagnostics.js';
 const S=globalThis.BBMPushSchedule;
 const json=(data,status=200)=>Response.json(data,{status});
 const error=(message,status=400)=>Object.assign(new Error(message),{status});
@@ -48,7 +49,16 @@ async function sync(request,env){
  return status(db,id);
 }
 async function status(db,id){const row=await db.prepare('SELECT enabled,timezone FROM installations WHERE id=?').bind(id).first();const jobs=(await db.prepare("SELECT ritual_id,revision,active,outcome FROM jobs WHERE install_id=? AND kind='custom'").bind(id).all()).results;return json({enabled:!!row?.enabled,timezone:row?.timezone,failed:jobs.filter(j=>!j.active&&!['sent','deduplicated'].includes(j.outcome)).map(j=>({ritualId:j.ritual_id,outcome:j.outcome})),completed:jobs.filter(j=>!j.active&&['sent','deduplicated'].includes(j.outcome)).map(j=>({ritualId:j.ritual_id,revision:j.revision.split(':')[0]}))});}
-export async function sendPush(env,subscription,payload){const init=await buildPushPayload({data:payload,options:{ttl:1800,urgency:'normal'}},subscription,{subject:env.VAPID_SUBJECT,publicKey:env.VAPID_PUBLIC_KEY,privateKey:env.VAPID_PRIVATE_KEY});const r=await fetch(subscription.endpoint,{...init,redirect:'error',signal:AbortSignal.timeout(10000)});await r.body?.cancel();return r.status;}
+export async function sendPush(env,subscription,payload){
+ let stage='buildPushPayload';
+ try{
+  const init=await buildPushPayload({data:payload,options:{ttl:1800,urgency:'normal'}},subscription,{subject:env.VAPID_SUBJECT,publicKey:env.VAPID_PUBLIC_KEY,privateKey:env.VAPID_PRIVATE_KEY});
+  stage='fetch.push-service';
+  const r=await fetch(subscription.endpoint,{...init,redirect:'error',signal:AbortSignal.timeout(10000)});
+  logPushResponse(env,r.status);
+  stage='response.body.cancel';await r.body?.cancel();return r.status;
+ }catch(e){logPushError(env,stage,e,[subscription?.endpoint,subscription?.keys?.p256dh,subscription?.keys?.auth]);throw e;}
+}
 export async function deliver(env,job,now,send=sendPush){
  const db=env.DB,occurrence=job.next_at,key=job.id+'|'+job.revision+'|'+occurrence;
  // Атомарная запись до сети: повторный Cron не повторяет неопределённую отправку.
@@ -56,7 +66,7 @@ export async function deliver(env,job,now,send=sendPush){
  let accepted=false,outcome;
  if(claimed.meta.changes){
   const spec=JSON.parse(job.spec),payload={title:job.kind==='base'?spec.title:'Время поколдовать',body:job.kind==='base'?spec.body:ritualTitles[job.ritual_id],ritualId:job.ritual_id,tag:job.ritual_id+'-'+occurrence};
-  let code;try{code=await send(env,JSON.parse(job.subscription),payload);}catch{code=0;}
+  let code;try{code=await send(env,JSON.parse(job.subscription),payload);}catch(e){logPushError(env,'scheduled.send',e);code=0;}
   accepted=code>=200&&code<300;
   if(code===404||code===410)await db.prepare('UPDATE installations SET enabled=0,subscription=NULL,endpoint_hash=NULL WHERE id=?').bind(job.install_id).run();
   if(code===429||code>=500){await db.prepare('DELETE FROM deliveries WHERE install_id=? AND event_key=?').bind(job.install_id,key).run();return;}
@@ -81,20 +91,25 @@ export default {scheduled,async fetch(request,env){
  const finish=r=>{for(const [k,v] of Object.entries(headers))r.headers.set(k,v);return r;};
  if(origin!==env.APP_ORIGIN)return json({error:'Origin запрещён'},403);
  if(request.method==='OPTIONS')return finish(new Response(null,{status:204,headers:{'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,OPTIONS','Access-Control-Allow-Headers':'Authorization,Content-Type,X-Install-Id'}}));
+ let stage='request';
  try{
   const path=new URL(request.url).pathname;
   if(path==='/health'&&request.method==='GET')return finish(json({ok:true,environment:env.ENVIRONMENT}));
   if(path==='/config'&&request.method==='GET')return finish(json({publicKey:env.VAPID_PUBLIC_KEY}));
   if(path==='/installation'&&request.method==='PUT')return finish(await sync(request,env));
+  if(path==='/test'&&request.method==='POST')logPushConfig(env);
+  stage='db.identity';
   const {id,row}=await identity(request,env.DB);if(!row)throw error('Подписка ещё не создана',404);
   if(path==='/installation'&&request.method==='GET')return finish(await status(env.DB,id));
   if(path==='/installation'&&request.method==='DELETE'){await env.DB.prepare('UPDATE installations SET enabled=0,subscription=NULL,endpoint_hash=NULL,updated_at=? WHERE id=?').bind(Date.now(),id).run();return finish(json({enabled:false}));}
   if(path==='/test'&&request.method==='POST'&&env.ENVIRONMENT==='preview'){
+   stage='db.test.rate-limit';
    if(!row.enabled||!row.subscription)throw error('Сначала включите уведомления');const now=Date.now();const claim=await env.DB.prepare('UPDATE installations SET test_at=? WHERE id=? AND test_at<? AND enabled=1').bind(now,id,now-60000).run();if(!claim.meta.changes)throw error('Тест доступен раз в минуту',429);
+   stage='test.subscription-or-send';
    const code=await sendPush(env,JSON.parse(row.subscription),{title:'Вселенная на связи',body:'Это тест. Кофе с корицей ждёт внутри.',ritualId:'coffee-cinnamon',tag:'preview-test'});
    if(code===404||code===410)await env.DB.prepare('UPDATE installations SET enabled=0,subscription=NULL,endpoint_hash=NULL WHERE id=?').bind(id).run();
    return finish(json({accepted:code>=200&&code<300},code>=200&&code<300?200:502));
   }
   throw error('Не найдено',404);
- }catch(e){return finish(json({error:e.status?e.message:'Сервис временно недоступен'},e.status||503));}
+ }catch(e){if(!e.status)logPushError(env,stage,e,[request.headers.get('Authorization')?.replace(/^Bearer /,'')]);return finish(json({error:e.status?e.message:'Сервис временно недоступен'},e.status||503));}
 }};

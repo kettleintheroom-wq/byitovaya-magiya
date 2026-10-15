@@ -4,12 +4,13 @@ import fs from 'node:fs';
 import {DatabaseSync} from 'node:sqlite';
 import {generateKeyPairSync} from 'node:crypto';
 import worker,{validateState,validateSubscription,deliver,scheduled,sendPush} from '../src/worker.js';
+import {logPushError} from '../src/diagnostics.js';
 const origin='https://pwa-prototype.byitovaya-magiya.pages.dev',S=globalThis.BBMPushSchedule;
 function db(){const sql=new DatabaseSync(':memory:');sql.exec(fs.readFileSync(new URL('../migrations/0001_push.sql',import.meta.url),'utf8'));return {sql,prepare(q){return {bind(...args){return {async first(){return sql.prepare(q).get(...args)||null;},async all(){return {results:sql.prepare(q).all(...args)};},async run(){return {meta:{changes:Number(sql.prepare(q).run(...args).changes)}};}};},async all(){return {results:sql.prepare(q).all()};}};},async batch(stmts){sql.exec('BEGIN');try{const out=[];for(const s of stmts)out.push(await s.run());sql.exec('COMMIT');return out;}catch(e){sql.exec('ROLLBACK');throw e;}}};}
 function keypair(){const p=generateKeyPairSync('ec',{namedCurve:'prime256v1'}),pub=p.publicKey.export({format:'jwk'}),priv=p.privateKey.export({format:'jwk'});return {publicKey:Buffer.concat([Buffer.from([4]),Buffer.from(pub.x,'base64url'),Buffer.from(pub.y,'base64url')]).toString('base64url'),privateKey:priv.d};}
 const keys=keypair(),subscription={endpoint:'https://web.push.apple.com/test-token',keys:{p256dh:keys.publicKey,auth:Buffer.alloc(16,2).toString('base64url')}};
 const defaults=()=>({enabled:true,timezone:'Europe/Moscow',preferences:Object.fromEntries(S.BASE.map(p=>[p.id,true])),reminders:[],subscription});
-function env(){return {DB:db(),APP_ORIGIN:origin,ENVIRONMENT:'preview',VAPID_SUBJECT:origin,VAPID_PUBLIC_KEY:keys.publicKey,VAPID_PRIVATE_KEY:keys.privateKey};}
+function env(){return {DB:db(),APP_ORIGIN:origin,ENVIRONMENT:'preview',PUSH_DEBUG:'false',VAPID_SUBJECT:origin,VAPID_PUBLIC_KEY:keys.publicKey,VAPID_PRIVATE_KEY:keys.privateKey};}
 const id='a'.repeat(32),secret='b'.repeat(64),headers={'Origin':origin,'X-Install-Id':id,'Authorization':'Bearer '+secret,'Content-Type':'application/json'};
 const call=(e,method,data,h=headers,path='/installation')=>worker.fetch(new Request('https://example.workers.dev'+path,{method,headers:h,body:data?JSON.stringify(data):undefined}),e);
 test('API enforces origin, secret, bounded inputs and exact five preferences',async()=>{
@@ -67,4 +68,39 @@ test('Actual scheduled handler dispatches a due once and does not repeat it',asy
  const e=env(),j=await oneJob(e),now=Date.now();e.DB.sql.prepare('UPDATE jobs SET next_at=? WHERE id=?').run(now-1000,j.id);
  const old=globalThis.fetch;let sends=0;globalThis.fetch=async()=>{sends++;return new Response(null,{status:201});};
  try{await scheduled({scheduledTime:now},e);await scheduled({scheduledTime:now+300000},e);assert.equal(sends,1);assert.equal(e.DB.sql.prepare('SELECT active FROM jobs WHERE id=?').get(j.id).active,0);}finally{globalThis.fetch=old;}
+});
+test('Preview diagnostics redact all subscription/installation/VAPID values and stay off in production',()=>{
+ const e={...env(),PUSH_DEBUG:'true'},messages=[],old=console.error;
+ const sensitive=[subscription.endpoint,subscription.keys.p256dh,subscription.keys.auth,secret];
+ console.error=(...args)=>messages.push(args.join(' '));
+ try{
+  const failure=new TypeError([...sensitive,e.VAPID_PRIVATE_KEY,'https://other.invalid/token','Bearer short-secret'].join(' '));
+  logPushError(e,'buildPushPayload',failure,sensitive);
+  logPushError(e,'outer',failure,sensitive);
+  logPushError({...e,ENVIRONMENT:'production'},'off',new Error('production'));
+  logPushError({...e,PUSH_DEBUG:'false'},'off',new Error('disabled'));
+  assert.equal(messages.length,1);
+  const result=JSON.parse(messages[0].replace('PUSH_PREVIEW_DIAGNOSTIC ',''));
+  assert.equal(result.stage,'buildPushPayload');assert.equal(result.name,'TypeError');assert(result.stack);
+  for(const value of [...sensitive,e.VAPID_PRIVATE_KEY,'https://other.invalid/token','short-secret'])assert(!messages[0].includes(value));
+ }finally{console.error=old;}
+});
+test('POST /test reports build failure safely and keeps the existing subscription',async()=>{
+ const e=env();await call(e,'PUT',defaults());delete e.VAPID_PRIVATE_KEY;e.PUSH_DEBUG='true';
+ const logs=[],oldError=console.error,oldLog=console.log;
+ console.error=(...args)=>logs.push(args.join(' '));console.log=(...args)=>logs.push(args.join(' '));
+ try{
+  const response=await call(e,'POST',{},headers,'/test');assert.equal(response.status,503);
+  assert.deepEqual(await response.json(),{error:'Сервис временно недоступен'});
+  assert(logs.some(x=>x.includes('"stage":"buildPushPayload"')));
+  assert(logs.some(x=>x.includes('"VAPID_PRIVATE_KEY":false')));
+  for(const value of [subscription.endpoint,subscription.keys.p256dh,subscription.keys.auth,secret])assert(!logs.join('\n').includes(value));
+  assert.equal(e.DB.sql.prepare('SELECT enabled FROM installations').get().enabled,1);
+ }finally{console.error=oldError;console.log=oldLog;}
+});
+test('POST /test returns accepted:true with a mocked push-service 201',async()=>{
+ const e=env();await call(e,'PUT',defaults());const old=globalThis.fetch;
+ globalThis.fetch=async()=>new Response(null,{status:201});
+ try{const response=await call(e,'POST',{},headers,'/test');assert.equal(response.status,200);assert.deepEqual(await response.json(),{accepted:true});}
+ finally{globalThis.fetch=old;}
 });
