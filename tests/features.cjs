@@ -17,7 +17,7 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
  assert.equal(await page.locator('.stat b').first().innerText(),'1');assert.equal((await page.locator('.category-stats dd').allTextContents()).reduce((n,x)=>n+Number(x),0),1);
  await page.getByLabel('Увеличить текст описаний').uncheck();
  // Legacy reminders are kept in data, but absent from every user-facing screen and detail.
- for(const tab of ['today','calendar','rituals','mine']){await page.goto('http://127.0.0.1:4175/#'+tab);assert(!/напомн|уведомления появ|реквизитом/i.test(await page.locator('body').innerText()));assert.equal(await page.locator('[data-remind],#reminderDialog,.reminders').count(),0);}
+ for(const tab of ['today','calendar','rituals','mine']){await page.goto('http://127.0.0.1:4175/#'+tab);assert(!/уведомления появ|реквизитом/i.test(await page.locator('body').innerText()));assert.equal(await page.locator('[data-remind],#reminderDialog,.reminders').count(),0);}
  await page.goto('http://127.0.0.1:4175/#ritual-coffee-cinnamon');
  assert.equal(await page.locator('#detail [data-share]').innerText(),'Позвать колдовать вместе');
  await page.evaluate(()=>{navigator.share=async data=>{window.inviteShared=data;};});await page.locator('#detail [data-share]').click();

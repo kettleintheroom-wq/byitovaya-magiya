@@ -3,7 +3,7 @@ const original=fs.readFileSync('docs/original-index.html','utf8');
 const old=original.slice(original.indexOf('const OR='),original.indexOf('const weekdays='));
 function evaluate(s){const ctx={Date,Intl,Map,Set};vm.createContext(ctx);vm.runInContext(s,ctx);return ctx;}
 const source=evaluate(old+';globalThis.data=rituals;');
-const app=evaluate('const now=new Date();const same=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();'+fs.readFileSync('rituals.js','utf8')+fs.readFileSync('calendar.js','utf8')+';globalThis.data=rituals;globalThis.icons=RITUAL_ICONS;globalThis.get=scheduledForDate;globalThis.original=specialForDate;');
+const app=evaluate('const now=new Date();const same=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();'+fs.readFileSync('rituals.js','utf8')+fs.readFileSync('moon-core.js','utf8')+fs.readFileSync('calendar.js','utf8')+';globalThis.data=rituals;globalThis.icons=RITUAL_ICONS;globalThis.get=scheduledForDate;globalThis.original=specialForDate;');
 // Допускаем только согласованные изменения трёх записей; остальные поля и записи сохраняем.
 for(const r of source.data){if(['laurel-wallet','red-chandelier'].includes(r.id)){r.time='anytime';r.when='Без строгой привязки';delete r.rule;}if(r.id==='red-friday')r.short='Пятничная версия без люстры и акробатики.';}
 assert.equal(JSON.stringify(source.data),JSON.stringify(app.data));assert.equal(app.data.length,26);assert.equal(new Set(app.data.map(r=>r.id)).size,26);

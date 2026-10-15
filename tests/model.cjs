@@ -1,6 +1,6 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 const box={Date,Intl,Map,Set};vm.createContext(box);
-vm.runInContext('const now=new Date();const same=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();'+['rituals.js','calendar.js','model.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n')+';globalThis.api={rituals,normalise,parseJournal,mergeJournal,monthStats,eligibleRandom,pickRandom,matchRule,reminderOptions,CONTEXT_RITUALS};',box);
+vm.runInContext('const now=new Date();const same=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();'+['rituals.js','moon-core.js','calendar.js','model.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n')+';globalThis.api={rituals,normalise,parseJournal,mergeJournal,monthStats,eligibleRandom,pickRandom,matchRule,reminderOptions,CONTEXT_RITUALS};',box);
 const m=box.api,plain=v=>JSON.parse(JSON.stringify(v));
 const legacy={favorites:['coffee-cinnamon','laurel-wallet'],log:[{id:'coffee-cinnamon',date:'2026-10-08',ts:1791450000000}],settings:{largeText:true,showPhase:false},onboarded:true};
 const migrated=plain(m.normalise(legacy));assert.equal(migrated.schemaVersion,2);for(const key of Object.keys(legacy))assert.deepEqual(migrated[key],legacy[key]);assert.deepEqual(migrated.reminders,[]);

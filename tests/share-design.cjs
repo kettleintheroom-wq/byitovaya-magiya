@@ -3,7 +3,7 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
 (async()=>{
  const browser=await chromium.launch({executablePath:process.env.CHROME_EXECUTABLE||undefined,headless:true,args:['--no-sandbox']});
  const page=await browser.newPage(),dir=process.env.EVIDENCE_DIR||'/tmp';fs.mkdirSync(dir,{recursive:true});
- await page.addScriptTag({content:'function same(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();}'});await page.addScriptTag({path:path.resolve('share-cards.js')});await page.addScriptTag({path:path.resolve('rituals.js')});await page.addScriptTag({path:path.resolve('calendar.js')});
+ await page.addScriptTag({content:'function same(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();}'});await page.addScriptTag({path:path.resolve('share-cards.js')});await page.addScriptTag({path:path.resolve('rituals.js')});await page.addScriptTag({path:path.resolve('moon-core.js')});await page.addScriptTag({path:path.resolve('calendar.js')});
  const samples=[
   {name:'share-calm',type:'day',date:'2026-10-13',title:'Срочных чар не поступало.',text:'Календарь не требует реквизита. Обычные дела тоже считаются делами.'},
   {name:'share-busy',type:'day',date:'2026-01-01',title:'У Вселенной есть поручения.',text:'На сегодня: Кофе с корицей · Вдуть корицу в дом · 12 виноградин. Можно без героизма — начните с одного.'},

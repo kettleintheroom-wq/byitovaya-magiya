@@ -1,0 +1,8 @@
+node_modules/
+.wrangler/
+push/.dev.vars
+push/.secrets/
+push/deployment.local.json
+push/wrangler.local.json
+
+push/.deploy-preview/

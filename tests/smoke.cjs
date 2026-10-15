@@ -17,7 +17,7 @@ const http=require('node:http'),path=require('node:path');
  await page.goto('http://127.0.0.1:4173/docs/original-index.html');await page.screenshot({path:(process.env.EVIDENCE_DIR||'/tmp')+'/original-mobile.png'});
  await page.goto('http://127.0.0.1:4173/');await page.getByRole('button',{name:'Ладно, начинаем'}).click();
  await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>navigator.serviceWorker.controller);
- assert(await page.evaluate(async()=>{const c=await caches.open('bbm-shell-'+APP_VERSION);const keys=await c.keys();const root=await c.match(location.origin+'/');return keys.length===14&&!keys.some(r=>new URL(r.url).pathname==='/index.html')&&root&&!root.redirected;}));
+ assert(await page.evaluate(async()=>{const c=await caches.open('bbm-shell-'+APP_VERSION);const keys=await c.keys();const root=await c.match(location.origin+'/');return keys.length===18&&!keys.some(r=>new URL(r.url).pathname==='/index.html')&&root&&!root.redirected;}));
  assert.equal(await page.locator('[data-open="laurel-wallet"]').count(),0);assert.equal(await page.locator('[data-open="red-chandelier"]').count(),0);assert(await page.locator('[data-open="coffee-cinnamon"]').first().isVisible());
  uiTexts.push(await page.locator('body').innerText());
  await page.screenshot({path:(process.env.EVIDENCE_DIR||'/tmp')+'/today-mobile.png',fullPage:true});
@@ -51,7 +51,7 @@ const http=require('node:http'),path=require('node:path');
  await context.setOffline(false);
  // Exact content and original rules retained, including combined date/week rule.
  const original=fs.readFileSync('docs/original-index.html','utf8');const oldData=original.slice(original.indexOf('const OR='),original.indexOf('const weekdays='));
- const box={Intl,Date,Map,Set};vm.createContext(box);vm.runInContext('const now=new Date();const same=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();'+fs.readFileSync('rituals.js','utf8')+fs.readFileSync('calendar.js','utf8')+';globalThis.result=rituals;globalThis.scheduled=scheduledForDate;',box);
+ const box={Intl,Date,Map,Set};vm.createContext(box);vm.runInContext('const now=new Date();const same=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();'+fs.readFileSync('rituals.js','utf8')+fs.readFileSync('moon-core.js','utf8')+fs.readFileSync('calendar.js','utf8')+';globalThis.result=rituals;globalThis.scheduled=scheduledForDate;',box);
  const originalBox={};vm.createContext(originalBox);vm.runInContext(oldData+';globalThis.result=rituals;',originalBox);for(const r of originalBox.result){if(['laurel-wallet','red-chandelier'].includes(r.id)){r.time='anytime';r.when='Без строгой привязки';delete r.rule;}if(r.id==='red-friday')r.short='Пятничная версия без люстры и акробатики.';}assert.equal(JSON.stringify(box.result),JSON.stringify(originalBox.result));
  const combined=box.scheduled(new Date(2026,9,1,12)).map(r=>r.id);for(const id of ['coffee-cinnamon','cinnamon-door'])assert(combined.includes(id));assert(box.scheduled(new Date(2026,11,31,12)).some(r=>r.id==='grapes'));
 
@@ -70,7 +70,7 @@ const http=require('node:http'),path=require('node:path');
  const iphone=await ios.newPage();await iphone.goto('http://127.0.0.1:4173/#mine');
  await iphone.getByRole('button',{name:'Добавить на главный экран',exact:true}).click();
  uiTexts.push(await iphone.locator('#installBody').innerText());assert((await iphone.locator('#installBody').innerText()).includes('На экран Домой'));await iphone.getByRole('button',{name:'Закрыть инструкцию'}).click();
- await iphone.goto('http://127.0.0.1:4173/#ritual-coffee-cinnamon');await iphone.getByRole('button',{name:'Поделиться',exact:true}).click();
+ await iphone.goto('http://127.0.0.1:4173/#ritual-coffee-cinnamon');await iphone.getByRole('button',{name:'Позвать колдовать вместе',exact:true}).click();
  await iphone.locator('#shareText').waitFor({state:'visible'});assert((await iphone.locator('#shareText').inputValue()).includes('#ritual-coffee-cinnamon'));uiTexts.push(await iphone.locator('#shareFallback').innerText());await ios.close();for(const text of uiTexts)assert(!forbidden.test(text),'Internal wording in UI: '+text);
  assert.equal(errors.length,0,errors.join('\n'));
 

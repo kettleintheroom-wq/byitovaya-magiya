@@ -1,5 +1,5 @@
 // При изменении файлов приложения повышайте VERSION и APP_VERSION в app.js.
-const VERSION = '1.1.4';
+const VERSION = '1.2.0';
 const CACHE = 'bbm-shell-' + VERSION;
 const ROOT = new URL('./', self.location.href).href;
 const FILES = [
@@ -8,6 +8,10 @@ const FILES = [
   './app.js',
   './rituals.js',
   './calendar.js',
+  './moon-core.js',
+  './push-schedule.js',
+  './push-config.js',
+  './push-ui.js',
   './model.js',
   './storage.js',
   './share-cards.js',
@@ -66,4 +70,23 @@ self.addEventListener('fetch', event => {
     const cached = await cache.match(request, { ignoreSearch: true });
     return cached || fetch(request);
   })());
+});
+
+// Payload никогда не задаёт произвольный URL: только известный id ритуала.
+self.addEventListener('push',event=>{
+ event.waitUntil((async()=>{
+  let p;try{p=event.data?.json();}catch{}
+  const valid=p&&typeof p.title==='string'&&typeof p.body==='string'&&typeof p.ritualId==='string'&&/^[a-z0-9-]{1,80}$/.test(p.ritualId);
+  await self.registration.showNotification(valid?p.title.slice(0,100):'Бытовая магия',{body:valid?p.body.slice(0,240):'Вселенная напоминает заглянуть в приложение.',icon:new URL('./icons/icon-192.png',ROOT).href,tag:valid&&typeof p.tag==='string'?p.tag.slice(0,150):'bbm-reminder',data:{ritualId:valid?p.ritualId:null}});
+ })());
+});
+self.addEventListener('notificationclick',event=>{
+ event.notification.close();
+ event.waitUntil((async()=>{
+  const id=event.notification.data?.ritualId,valid=typeof id==='string'&&/^[a-z0-9-]{1,80}$/.test(id),url=new URL(valid?'#ritual-'+id:'#today',ROOT).href;
+  const windows=await self.clients.matchAll({type:'window',includeUncontrolled:true});
+  const client=windows.find(c=>new URL(c.url).origin===new URL(ROOT).origin);
+  if(client){if(valid)client.postMessage({type:'OPEN_RITUAL',ritualId:id});await client.focus();}
+  else await self.clients.openWindow(url);
+ })());
 });
