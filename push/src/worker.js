@@ -54,7 +54,7 @@ export async function sendPush(env,subscription,payload){
  try{
   const init=await buildPushPayload({data:payload,options:{ttl:1800,urgency:'normal'}},subscription,{subject:env.VAPID_SUBJECT,publicKey:env.VAPID_PUBLIC_KEY,privateKey:env.VAPID_PRIVATE_KEY});
   stage='fetch.push-service';
-  const r=await fetch(subscription.endpoint,{...init,redirect:'error',signal:AbortSignal.timeout(10000)});
+  const r=await fetch(subscription.endpoint,{...init,redirect:'manual',signal:AbortSignal.timeout(10000)});
   logPushResponse(env,r.status);
   stage='response.body.cancel';await r.body?.cancel();return r.status;
  }catch(e){logPushError(env,stage,e,[subscription?.endpoint,subscription?.keys?.p256dh,subscription?.keys?.auth]);throw e;}

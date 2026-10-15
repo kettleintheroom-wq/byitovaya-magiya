@@ -53,7 +53,7 @@ test('Scheduler ignores disabled preferences and is idempotent',async()=>{
  await scheduled({scheduledTime:Date.now()},e);await scheduled({scheduledTime:Date.now()},e);assert.equal(e.DB.sql.prepare('SELECT COUNT(*) n FROM deliveries').get().n,0);
 });
 test('Apple-compatible aes128gcm/VAPID encrypted request',async()=>{
- const old=globalThis.fetch;let checked=false;globalThis.fetch=async(url,init)=>{assert.equal(url,subscription.endpoint);assert.equal(init.headers['content-encoding'],'aes128gcm');assert.match(init.headers.authorization,/^vapid /);assert.equal(init.body.byteLength,4096);assert.equal(init.redirect,'error');checked=true;return new Response(null,{status:201});};
+ const old=globalThis.fetch;let checked=false;globalThis.fetch=async(url,init)=>{assert.equal(url,subscription.endpoint);assert.equal(init.headers['content-encoding'],'aes128gcm');assert.match(init.headers.authorization,/^vapid /);assert.equal(init.body.byteLength,4096);assert.equal(init.redirect,'manual');checked=true;return new Response(null,{status:201});};
  try{assert.equal(await sendPush(env(),subscription,{title:'Тест',body:'Кириллица',ritualId:'coffee-cinnamon'}),201);assert(checked);}finally{globalThis.fetch=old;}
 });
 test('Completed once stays completed after timezone changes; future weekly reschedules',async()=>{
@@ -98,9 +98,17 @@ test('POST /test reports build failure safely and keeps the existing subscriptio
   assert.equal(e.DB.sql.prepare('SELECT enabled FROM installations').get().enabled,1);
  }finally{console.error=oldError;console.log=oldLog;}
 });
-test('POST /test returns accepted:true with a mocked push-service 201',async()=>{
- const e=env();await call(e,'PUT',defaults());const old=globalThis.fetch;
- globalThis.fetch=async()=>new Response(null,{status:201});
- try{const response=await call(e,'POST',{},headers,'/test');assert.equal(response.status,200);assert.deepEqual(await response.json(),{accepted:true});}
- finally{globalThis.fetch=old;}
+test('POST /test accepts only 2xx, rejects redirects without following them, and preserves status handling',async()=>{
+ const old=globalThis.fetch;
+ try{
+  for(const status of [200,201,202,204,301,302,303,307,308,400,401,403,404,410,429,500,503]){
+   const e=env();await call(e,'PUT',defaults());let sends=0;
+   globalThis.fetch=async(url,init)=>{sends++;assert.equal(url,subscription.endpoint);assert.equal(init.redirect,'manual');return new Response(null,{status,headers:status>=300&&status<400?{Location:'https://redirect.invalid/'}:{}});};
+   const response=await call(e,'POST',{},headers,'/test'),accepted=status>=200&&status<300;
+   assert.equal(response.status,accepted?200:502,'push status '+status);assert.deepEqual(await response.json(),{accepted});assert.equal(sends,1);
+   const row=e.DB.sql.prepare('SELECT enabled,subscription FROM installations').get();
+   assert.equal(row.enabled,status===404||status===410?0:1);
+   assert.equal(row.subscription===null,status===404||status===410);
+  }
+ }finally{globalThis.fetch=old;}
 });
