@@ -1,5 +1,5 @@
 'use strict';
-const APP_VERSION='1.3.0';
+const APP_VERSION='1.3.1';
 const $=id=>document.getElementById(id);
 const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 const same=(a,b)=>iso(a)===iso(b);
@@ -55,14 +55,54 @@ for(const dialog of document.querySelectorAll('dialog'))dialog.addEventListener(
 document.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b||b.disabled)return;const d=b.dataset;if(d.close)$(d.close).close();if(d.imageDone)openDoneImage(d.imageDone,d.logDate);if(d.open)openDetail(d.open);if(d.done)done(d.done);if(d.save)favorite(d.save);if(d.share){const r=rituals.find(r=>r.id===d.share);shareData(ritualInvitation(r));}if(d.date){selectedDate=dateFrom(d.date);monthDate=new Date(selectedDate.getFullYear(),selectedDate.getMonth(),1,12);location.hash='calendar';}if(d.select){selectedDate=dateFrom(d.select);render();document.querySelector(`[data-select="${d.select}"]`)?.focus();}if(d.month){monthDate=new Date(monthDate.getFullYear(),monthDate.getMonth()+Number(d.month),1,12);selectedDate=new Date(monthDate);render();document.querySelector(`[data-month="${d.month}"]`)?.focus();}if(d.category){category=d.category;render();document.querySelector(`[data-category="${category}"]`)?.focus();}if(d.undo){const old=state.log;state.log=old.filter(x=>!(x.ts===Number(d.undo)&&x.id===d.id));if(!persist())state.log=old;render();}switch(d.action){case'random':chooseRandom();break;case'day-image':{const s=summary();openImage({type:'day',date:new Date(now),title:s.title,text:s.text},{title:'Бытовая магия — сегодня',text:`${fullDate(now)}. ${s.title} ${s.text}`,url:new URL('#today',location.href).href});break;}case'import':$('journalFile').click();break;case'import-merge':applyImport(false);break;case'import-replace':confirmReplace();break;case'import-confirm':applyImport(true);break;case'retry-storage':state=load();render();break;case'onboard':{const old=state.onboarded;state.onboarded=true;if(!persist())state.onboarded=old;render();break;}case'install':installInstructions();break;case'native-install':if(deferredInstall){await deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$('install').close();}break;case'share-day':{const s=summary();shareData({title:'Бытовая магия — сегодня',text:`${fullDate(now)}. ${s.title} ${s.text}`,url:new URL('#today',location.href).href});break;}case'calendar-today':selectedDate=new Date(now);monthDate=new Date(now.getFullYear(),now.getMonth(),1,12);render();break;case'export':exportJournal();break;case'check-update':await checkForUpdate();break;}});
 document.addEventListener('input',e=>{if(e.target.id==='search'){search=e.target.value;renderLibrary();}});document.addEventListener('change',e=>{const key=e.target.dataset.setting;if(key){const old=state.settings[key];state.settings[key]=e.target.checked;if(!persist())state.settings[key]=old;render();document.querySelector(`[data-setting="${key}"]`)?.focus();}});
 function closeAuxDialogs(){for(const dialog of document.querySelectorAll('dialog[open]'))if(dialog.id!=='detail')dialog.close();}
-function openRitualFromPush(id){if(!rituals.some(r=>r.id===id))return;closeAuxDialogs();const target='#ritual-'+id;if(location.hash!==target)location.hash=target;else{if(currentId!==id||!$('detail').open)openDetail(id);$('detailTitle')?.focus({preventScroll:true});}}
+function openRitualFromPush(id){
+ if(!rituals.some(r=>r.id===id))return false;
+ closeAuxDialogs();const target='#ritual-'+id;
+ // Apply UI directly; do not wait for iOS to deliver hashchange or navigate.
+ if(location.hash!==target||currentId!==id||!$('detail').open){history.replaceState(null,'',target);render();openDetail(id);}
+ $('detailTitle')?.focus({preventScroll:true});return currentId===id&&$('detail').open;
+}
+let pendingPushNavigationFlight=null,pendingPushNavigationAgain=false,pendingPushPoll=null;
+const consumedPushNavigationIds=new Set();
+async function consumePendingPushNavigation(){
+ if(document.visibilityState!=='visible')return false;
+ if(pendingPushNavigationFlight){pendingPushNavigationAgain=true;return pendingPushNavigationFlight;}
+ pendingPushNavigationFlight=(async()=>{
+  try{
+   const intent=await BBMPushNavigation.read();if(!intent||document.visibilityState!=='visible')return false;
+   if(!BBMPushNavigation.valid(intent)){await BBMPushNavigation.discard(intent.id);return false;}
+   if(!rituals.some(r=>r.id===intent.ritualId)){await BBMPushNavigation.discard(intent.id);return false;}
+   if(!consumedPushNavigationIds.has(intent.id)){
+    if(!openRitualFromPush(intent.ritualId))return false;
+    consumedPushNavigationIds.add(intent.id);
+    if(consumedPushNavigationIds.size>32)consumedPushNavigationIds.delete(consumedPushNavigationIds.values().next().value);
+   }
+   // Acknowledge only after the correct detail is actually open.
+   await BBMPushNavigation.complete(intent);return true;
+  }catch{return false;}
+ })().finally(()=>{pendingPushNavigationFlight=null;if(pendingPushNavigationAgain){pendingPushNavigationAgain=false;queueMicrotask(()=>consumePendingPushNavigation());}});
+ return pendingPushNavigationFlight;
+}
+function resumePushNavigation(){
+ if(document.visibilityState!=='visible')return;
+ consumePendingPushNavigation();
+ // Also cover an already-visible iOS window with no new focus/visibility event,
+ // or an intent committed just after the OS resumed it. Local storage only.
+ if(!pendingPushPoll)pendingPushPoll=setInterval(consumePendingPushNavigation,2000);
+}
+function pausePushNavigation(){clearInterval(pendingPushPoll);pendingPushPoll=null;}
+document.addEventListener('DOMContentLoaded',resumePushNavigation);
+window.addEventListener('pageshow',resumePushNavigation);
+window.addEventListener('focus',resumePushNavigation);
+window.addEventListener('pagehide',pausePushNavigation);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')resumePushNavigation();else pausePushNavigation();});
 function route(){closeDetail(true);closeAuxDialogs();render();if(location.hash.startsWith('#ritual-')){openDetail(location.hash.slice(8));$('detailTitle')?.focus({preventScroll:true});}window.scrollTo(0,0);}
 window.addEventListener('hashchange',route);
 function refreshDate(){const old=iso(now);now=new Date();if(old!==iso(now)){randomId=null;randomDate='';selectedDate=new Date(now);monthDate=new Date(now.getFullYear(),now.getMonth(),1,12);render();if(currentId)renderDetail();}}
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){refreshDate();swRegistration?.update().catch(()=>{});}});setInterval(refreshDate,30000);window.addEventListener('storage',e=>{if(e.key===STORE){state=load();render();if(currentId)renderDetail();}});
 function randomBlock(){
   const r=randomDate===iso(now)&&rituals.find(r=>r.id===randomId);
-  return `<section class="random-box" aria-label="Случайный ритуал"><span class="eyebrow">ЧТО-НИБУДЬ НА СЕГОДНЯ</span><button data-action="random">${r?'Другой случайный ритуал':'Случайный ритуал'}</button>${r?card(r):''}</section>`;
+  return `<section class="random-box" aria-label="Случайный ритуал"><span class="eyebrow">ЧТО-НИБУДЬ НА СЕГОДНЯ</span><button class="random-pick" data-action="random">${r?'Другой случайный ритуал':'Случайный ритуал'}</button>${r?`<button class="random-result" data-open="${r.id}"><span class="random-icon" aria-hidden="true">${ritualIcon(r.icon)}</span><span class="random-copy"><strong>${esc(r.title)}</strong><span class="meta">${esc(r.when)} · ${esc(r.cat.map(c=>CAT[c].n).join(' / '))}</span><span class="random-description">${esc(r.short)}</span></span><span class="card-chevron" aria-hidden="true">›</span></button>`:''}</section>`;
 }
 function chooseRandom(){const r=pickRandom(now,randomId);if(!r){toast('Сегодня подходящего варианта нет. Библиотека всегда открыта.');return;}randomId=r.id;randomDate=iso(now);render();document.querySelector('.random-box')?.scrollIntoView({block:'nearest'});}
 function categoryStats(stats){const month=new Intl.DateTimeFormat('ru-RU',{month:'long'}).format(now);return `<section class="category-stats" aria-label="Статистика по категориям"><h2>${esc(month[0].toUpperCase()+month.slice(1))}: по делам</h2><dl>${Object.entries(stats.categories).map(([key,count])=>`<div><dt>${esc(CAT[key].n)}</dt><dd>${count}</dd></div>`).join('')}</dl><p class="muted">Одна отметка — одна основная категория, первая в карточке ритуала.</p></section>`;}

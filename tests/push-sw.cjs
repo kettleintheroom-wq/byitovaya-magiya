@@ -2,7 +2,7 @@ const fs=require('fs'),vm=require('vm'),assert=require('assert/strict');
 (async()=>{
  const handlers={},notifications=[],opened=[],messages=[],navigations=[];let focus=0,windows=[];
  const box={URL,Response,Request,console,self:{location:{href:'https://pwa-prototype.byitovaya-magiya.pages.dev/sw.js',origin:'https://pwa-prototype.byitovaya-magiya.pages.dev'},addEventListener:(name,fn)=>handlers[name]=fn,registration:{showNotification:async(title,data)=>notifications.push({title,...data})},clients:{matchAll:async()=>windows,openWindow:async url=>opened.push(url)}}};
- vm.createContext(box);vm.runInContext(fs.readFileSync('sw.js','utf8'),box);
+ vm.createContext(box);box.importScripts=file=>vm.runInContext(fs.readFileSync(file.replace(/^\.\//,''),'utf8'),box);vm.runInContext(fs.readFileSync('sw.js','utf8'),box);
  async function dispatch(name,event){let done;handlers[name]({...event,waitUntil:p=>done=p});await done;}
  await dispatch('push',{data:{json:()=>({title:'Корица',body:'Кофе готов',ritualId:'coffee-cinnamon',tag:'fixed'})}});assert.equal(notifications[0].data.ritualId,'coffee-cinnamon');assert.equal(notifications[0].tag,'fixed');
  await dispatch('push',{data:{json:()=>{throw Error('broken')}}});assert.equal(notifications[1].title,'Бытовая магия');

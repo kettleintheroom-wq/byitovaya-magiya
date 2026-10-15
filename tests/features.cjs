@@ -37,8 +37,8 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
  assert((await page.locator('[data-action=random]').boundingBox()).height>=48);
  assert((await page.locator('.hero-actions button').boundingBox()).width<300);
  for(let i=0;i<20;i++){await page.locator('[data-action=random]').click();const id=await page.locator('.random-box [data-open]').first().getAttribute('data-open');assert.equal(await page.locator('[data-action=random]').innerText(),'Другой случайный ритуал');assert.notEqual(id,previous);assert(!['coffee-cinnamon','red-friday','cinnamon-door','grapes','road','knock-wood','paired','moon-money'].includes(id));previous=id;}
- await page.locator('.random-box [data-save]').click();await page.locator('.random-box [data-done]').click();assert(await page.locator('.random-box [data-done]').isDisabled());
- await page.locator('.random-box [data-open]').first().click();assert(await page.locator('#detail').isVisible());await page.getByRole('button',{name:'Закрыть карточку'}).click();
+ assert.equal(await page.locator('.random-box .ritual-card,.random-box [data-save],.random-box [data-done]').count(),0);
+ await page.locator('.random-box [data-open]').click();assert(await page.locator('#detail').isVisible());await page.locator('#detailFavorite').click();await page.locator('#detail [data-done]').click();assert(await page.locator('#detail [data-done]').isDisabled());await page.getByRole('button',{name:'Закрыть карточку'}).click();
  // Daily PNG generation and download fallback; no external assets.
  await page.locator('[data-action=day-image]').click();await page.locator('#cardPreview').waitFor({state:'visible'});
  assert.equal(await page.locator('#imageDialog button:not(.icon-btn)').count(),1);assert.equal(await page.locator('#imageDialog a').count(),0);assert.equal(await page.locator('#imageTitle').innerText(),'Карточка готова');assert(await page.locator('#cardPreview').evaluate(img=>img.naturalWidth===1080&&img.naturalHeight===1920));

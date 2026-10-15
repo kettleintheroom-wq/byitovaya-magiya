@@ -2,14 +2,15 @@ const {chromium}=require('playwright'),fs=require('node:fs'),path=require('node:
 (async()=>{
  const root=process.cwd(),fromVersion=process.env.UPGRADE_FROM||'1.1.0',oldFiles={},version=fs.readFileSync('app.js','utf8').match(/APP_VERSION='([^']+)'/)[1],nextVersion=version.replace(/\d+$/,n=>String(Number(n)+1));
  for(const file of ['index.html','app.js','sw.js','model.js'])oldFiles[file]=fs.readFileSync('tests/fixtures/v'+fromVersion+'/'+file);
- if(fromVersion==='1.2.0')oldFiles['push-ui.js']=fs.readFileSync('tests/fixtures/v1.2.0/push-ui.js');
+ if(fs.existsSync('tests/fixtures/v'+fromVersion+'/push-ui.js'))oldFiles['push-ui.js']=fs.readFileSync('tests/fixtures/v'+fromVersion+'/push-ui.js');
+ const hadFeatureIntro=oldFiles['index.html'].toString().includes('id="pushIntro"');
  oldFiles['calendar.js']=fs.readFileSync('tests/fixtures/v1.1.4/calendar.js');
  let generation=0;
  const server=http.createServer((req,res)=>{const pathname=new URL(req.url,'http://localhost').pathname;if(pathname==='/index.html'){res.writeHead(301,{Location:'/'});return res.end();}const target=path.resolve(root,'.'+(pathname==='/'?'/index.html':pathname));if(!target.startsWith(root+path.sep)){res.writeHead(403);return res.end();}try{res.setHeader('Content-Type',({'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png','.svg':'image/svg+xml','.webmanifest':'application/manifest+json'})[path.extname(target)]||'text/plain');res.setHeader('Cache-Control','no-store');let content=!generation&&oldFiles[path.basename(target)]?oldFiles[path.basename(target)]:fs.readFileSync(target);if(generation===2&&['app.js','sw.js'].includes(path.basename(target)))content=Buffer.from(content.toString().replaceAll(version,nextVersion));res.end(content);}catch{res.writeHead(404);res.end();}});
  await new Promise(resolve=>server.listen(4176,'127.0.0.1',resolve));
  const browser=await chromium.launch({executablePath:process.env.CHROME_EXECUTABLE||undefined,headless:true,args:['--no-sandbox']});
  const context=await browser.newContext({viewport:{width:390,height:844},timezoneId:'Europe/Moscow',isMobile:true,hasTouch:true}),page=await context.newPage(),errors=[];
- await context.addInitScript(()=>Object.defineProperty(navigator,'standalone',{value:true}));
+ await context.addInitScript(hadFeatureIntro=>{Object.defineProperty(navigator,'standalone',{value:true});if(hadFeatureIntro)localStorage.setItem('bbm-push-feature-intro-seen','1');},hadFeatureIntro);
  page.on('pageerror',e=>errors.push(e.message));await page.clock.install({time:new Date('2026-10-13T12:00:00Z')});
  await page.goto('http://127.0.0.1:4176/');await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>navigator.serviceWorker.controller);
  assert.equal(await page.evaluate(()=>APP_VERSION),fromVersion);
@@ -19,12 +20,13 @@ const {chromium}=require('playwright'),fs=require('node:fs'),path=require('node:
   return page.evaluate(()=>{const value=JSON.stringify({preferences:{},reminders:[],enabled:false,installId:'e'.repeat(32),installSecret:'f'.repeat(64)});localStorage.setItem('bbm-push-preview-v1',value);return value;});
  });
  await page.goto('http://127.0.0.1:4176/#mine');const before=await page.evaluate(()=>localStorage.getItem('bbm-pwa-v1'));assert.equal(await page.locator('.stat b').first().innerText(),'3');
- generation=1;await page.getByRole('button',{name:'Проверить обновление',exact:true}).click();await page.locator('#applyUpdate').waitFor({state:'visible'});await page.locator('#applyUpdate').click();await page.waitForFunction(v=>APP_VERSION===v,version);
+ if(hadFeatureIntro)await page.getByRole('link',{name:'Обновления',exact:true}).click();
+ generation=1;await page.getByRole('button',{name:'Проверить обновление',exact:true}).click();await page.locator('#applyUpdate').waitFor({state:'visible'});await page.locator('#applyUpdate').click();await page.waitForFunction(v=>APP_VERSION===v,version);await page.goto('http://127.0.0.1:4176/#mine');
  assert.equal(await page.evaluate(()=>localStorage.getItem('bbm-pwa-v1')),before,'Primary is byte-for-byte unchanged on loading new code');
  assert.equal(await page.evaluate(()=>localStorage.getItem('bbm-push-preview-v1')),pushBefore,'Push identity/preferences/reminders survive update byte-for-byte');
  assert.equal(await page.locator('.stat b').first().innerText(),'3');assert.equal(await page.locator('.ritual-card').count(),3);assert(await page.getByLabel('Увеличить текст описаний').isChecked());assert(!await page.getByLabel('Практики лунной фазы на главном').isChecked());assert.equal(await page.locator('[data-action=install],[data-remind],#reminderDialog,.reminders').count(),0);
- assert(await page.evaluate(async fromVersion=>{const keys=await caches.keys(),c=await caches.open('bbm-shell-'+APP_VERSION);return !keys.includes('bbm-shell-'+fromVersion)&&(await c.keys()).length===18&&!(await c.match(location.origin+'/')).redirected;},fromVersion));
- await page.locator('#pushIntro').waitFor({state:'visible'});await page.getByRole('button',{name:'Не сейчас',exact:true}).click();
+ assert(await page.evaluate(async fromVersion=>{const keys=await caches.keys(),c=await caches.open('bbm-shell-'+APP_VERSION);return !keys.includes('bbm-shell-'+fromVersion)&&(await c.keys()).length===19&&!(await c.match(location.origin+'/')).redirected;},fromVersion));
+ if(!hadFeatureIntro){await page.locator('#pushIntro').waitFor({state:'visible'});await page.getByRole('button',{name:'Не сейчас',exact:true}).click();}else{assert.equal(await page.evaluate(()=>localStorage.getItem('bbm-push-feature-intro-seen')),'1');assert(!await page.locator('#pushIntro').isVisible());}
  await page.getByRole('link',{name:'Обновления',exact:true}).click();
  await page.getByRole('button',{name:'Проверить обновление',exact:true}).click();await page.getByText('Новых обновлений нет.',{exact:true}).waitFor({state:'visible'});assert((await page.locator('#toast').innerText()).includes('Новых обновлений нет'));
  generation=2;await page.getByRole('button',{name:'Проверить обновление',exact:true}).click();await page.locator('#applyUpdate').waitFor({state:'visible'});assert((await page.locator('#updateMessage').innerText()).includes('Ваш журнал сохранится автоматически'));assert(await page.locator('#updateBackup').isVisible());

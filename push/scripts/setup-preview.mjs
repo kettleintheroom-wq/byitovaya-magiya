@@ -49,7 +49,7 @@ try{
  fs.writeFileSync(path.join(root,'push-config.js'),`// Только preview. Секретный ключ здесь отсутствует.\nconst PUSH_CONFIG=Object.freeze(${JSON.stringify({origin,api,publicKey:'',publicKeyFromAPI:true})});\n`);
  const stage=path.join(cwd,'.deploy-preview');fs.rmSync(stage,{recursive:true,force:true});fs.mkdirSync(stage,{recursive:true});
  // Явный allowlist: backend, тесты и локальные секреты не попадают в Pages.
- for(const file of ['index.html','app.js','app.css','rituals.js','calendar.js','moon-core.js','push-schedule.js','push-config.js','push-ui.js','model.js','storage.js','share-cards.js','sw.js','manifest.webmanifest','_headers'])fs.copyFileSync(path.join(root,file),path.join(stage,file));
+ for(const file of ['index.html','app.js','app.css','rituals.js','calendar.js','moon-core.js','push-schedule.js','push-config.js','push-ui.js','push-navigation.js','model.js','storage.js','share-cards.js','sw.js','manifest.webmanifest','_headers'])fs.copyFileSync(path.join(root,file),path.join(stage,file));
  fs.cpSync(path.join(root,'icons'),path.join(stage,'icons'),{recursive:true});
  if(await ask('Опубликовать подготовленный клиент только в pwa-prototype? Введите PREVIEW: ')!=='PREVIEW')throw new Error('Worker подготовлен; клиент ещё не опубликован. Повторите скрипт для завершения.');
  run(['pages','deploy',stage,'--project-name','byitovaya-magiya','--branch','pwa-prototype','--commit-dirty=true'],{base:true});

@@ -17,7 +17,7 @@ const http=require('node:http'),path=require('node:path');
  await page.goto('http://127.0.0.1:4173/docs/original-index.html');await page.screenshot({path:(process.env.EVIDENCE_DIR||'/tmp')+'/original-mobile.png'});
  await page.goto('http://127.0.0.1:4173/');await page.getByRole('button',{name:'Ладно, начинаем'}).click();
  await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>navigator.serviceWorker.controller);
- assert(await page.evaluate(async()=>{const c=await caches.open('bbm-shell-'+APP_VERSION);const keys=await c.keys();const root=await c.match(location.origin+'/');return keys.length===18&&!keys.some(r=>new URL(r.url).pathname==='/index.html')&&root&&!root.redirected;}));
+ assert(await page.evaluate(async()=>{const c=await caches.open('bbm-shell-'+APP_VERSION);const keys=await c.keys();const root=await c.match(location.origin+'/');return keys.length===19&&!keys.some(r=>new URL(r.url).pathname==='/index.html')&&root&&!root.redirected;}));
  assert.equal(await page.locator('[data-open="laurel-wallet"]').count(),0);assert.equal(await page.locator('[data-open="red-chandelier"]').count(),0);assert(await page.locator('[data-open="coffee-cinnamon"]').first().isVisible());
  uiTexts.push(await page.locator('body').innerText());
  await page.screenshot({path:(process.env.EVIDENCE_DIR||'/tmp')+'/today-mobile.png',fullPage:true});

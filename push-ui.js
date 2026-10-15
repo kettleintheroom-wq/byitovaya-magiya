@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded',()=>{
  toast(pushState.enabled?'Напоминание сохранено':'Напоминание сохранено. Чтобы оно пришло, включите уведомления.',pushState.enabled?null:{label:'Настроить уведомления',href:'#notifications'});
  if(pushState.enabled)pushSync();
  });
- if('serviceWorker' in navigator){navigator.serviceWorker.addEventListener('message',e=>{if(e.data?.type==='OPEN_RITUAL')openRitualFromPush(e.data.ritualId);});navigator.serviceWorker.ready.then(()=>pushSync()).catch(()=>{});}
+ if('serviceWorker' in navigator){navigator.serviceWorker.addEventListener('message',e=>{if(e.data?.type==='OPEN_RITUAL'){if(!e.data.navigationId)openRitualFromPush(e.data.ritualId);consumePendingPushNavigation();}});navigator.serviceWorker.ready.then(()=>pushSync()).catch(()=>{});}
 });
 window.addEventListener('online',()=>pushSync());document.addEventListener('visibilitychange',()=>{if(!document.hidden)pushSync();});
 
