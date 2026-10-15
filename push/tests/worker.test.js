@@ -79,6 +79,7 @@ test('Preview diagnostics redact all subscription/installation/VAPID values and 
   logPushError(e,'outer',failure,sensitive);
   logPushError({...e,ENVIRONMENT:'production'},'off',new Error('production'));
   logPushError({...e,PUSH_DEBUG:'false'},'off',new Error('disabled'));
+  logPushError({...e,PUSH_DEBUG:undefined},'off',new Error('disabled by default'));
   assert.equal(messages.length,1);
   const result=JSON.parse(messages[0].replace('PUSH_PREVIEW_DIAGNOSTIC ',''));
   assert.equal(result.stage,'buildPushPayload');assert.equal(result.name,'TypeError');assert(result.stack);

@@ -19,7 +19,7 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
  // Legacy reminders are kept in data, but absent from every user-facing screen and detail.
  for(const tab of ['today','calendar','rituals','mine']){await page.goto('http://127.0.0.1:4175/#'+tab);assert(!/уведомления появ|реквизитом/i.test(await page.locator('body').innerText()));assert.equal(await page.locator('[data-remind],#reminderDialog,.reminders').count(),0);}
  await page.goto('http://127.0.0.1:4175/#ritual-coffee-cinnamon');
- assert.equal(await page.locator('#detail [data-share]').innerText(),'Позвать колдовать вместе');
+ assert.equal(await page.locator('#detail [data-share]').innerText(),'Позвать вместе');
  await page.evaluate(()=>{navigator.share=async data=>{window.inviteShared=data;};});await page.locator('#detail [data-share]').click();
  assert.deepEqual(await page.evaluate(()=>window.inviteShared),{title:'Кофе с корицей',text:'Кофе с корицей по четвергам. Пойдём колдовать вместе.',url:'http://127.0.0.1:4175/#ritual-coffee-cinnamon'});
  await page.evaluate(()=>navigator.share=undefined);
@@ -58,7 +58,8 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
  await page.goto('http://127.0.0.1:4175/#ritual-laurel-wallet');await page.locator('#detail [data-share]').click();await page.locator('#shareText').waitFor({state:'visible'});assert((await page.locator('#shareText').inputValue()).includes('Пойдём колдовать вместе: «Лавр в кошелёк».'));assert((await page.locator('#shareText').inputValue()).includes('#ritual-laurel-wallet'));
  await page.getByRole('button',{name:'Закрыть окно',exact:true}).click();await page.getByRole('button',{name:'Закрыть карточку',exact:true}).click();await page.goto('http://127.0.0.1:4175/#mine');
  // Export/import round trip, merge dedup and latest reminder wins.
- const download=await Promise.all([page.waitForEvent('download'),page.getByRole('button',{name:'Скачать копию моего журнала',exact:true}).click()]).then(([d])=>d);await download.saveAs(evidence+'/journal-export.json');
+ await page.getByRole('link',{name:'Данные журнала',exact:true}).click();
+ const download=await Promise.all([page.waitForEvent('download'),page.getByRole('button',{name:'Скачать копию журнала',exact:true}).click()]).then(([d])=>d);await download.saveAs(evidence+'/journal-export.json');
  const exported=JSON.parse(fs.readFileSync(evidence+'/journal-export.json'));assert.equal(exported.schemaVersion,2);assert(exported.reminders.length);
  const upload=async(content,name='journal.json')=>{await page.locator('#journalFile').setInputFiles({name,mimeType:'application/json',buffer:Buffer.from(content)});await page.locator('#importDialog').waitFor({state:'visible'});};
  const before=await getState();await upload(JSON.stringify(exported));await page.getByRole('button',{name:'Объединить с текущими',exact:true}).click();assert.deepEqual(await getState(),before);
@@ -68,7 +69,7 @@ const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),
  await upload(JSON.stringify(incoming));await page.getByRole('button',{name:'Заменить текущие данные',exact:true}).click();assert(await page.getByRole('button',{name:'Да, заменить данные',exact:true}).isVisible());assert.deepEqual(await getState(),before);await page.getByRole('button',{name:'Отмена',exact:true}).click();assert.deepEqual(await getState(),before);
  await upload(JSON.stringify(incoming));await page.getByRole('button',{name:'Объединить с текущими',exact:true}).click();assert((await getState()).favorites.includes('red-friday'));assert.equal((await getState()).reminders.find(r=>r.ritualId==='coffee-cinnamon').timing,'eve');
  await upload(JSON.stringify(incoming));await page.getByRole('button',{name:'Заменить текущие данные',exact:true}).click();await page.getByRole('button',{name:'Да, заменить данные',exact:true}).click();current=await getState();assert.deepEqual(current.favorites,['red-friday']);assert.equal(current.log.length,1);assert.equal(current.reminders.length,1);assert(current.settings.largeText);
- await page.reload();assert.equal((await getState()).log.length,1);assert.equal(await page.locator('.stat b').first().innerText(),'1');
+ await page.reload();assert.equal((await getState()).log.length,1);await page.goto('http://127.0.0.1:4175/#mine');assert.equal(await page.locator('.stat b').first().innerText(),'1');
  const statsBoxes=await page.locator('.stat').evaluateAll(nodes=>nodes.map(n=>n.getBoundingClientRect().height));
  assert.equal(statsBoxes[0],statsBoxes[1]);assert(statsBoxes[0]<=130);
  await page.screenshot({path:evidence+'/mine-features-mobile.png',fullPage:true});

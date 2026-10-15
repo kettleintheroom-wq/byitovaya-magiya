@@ -29,12 +29,12 @@ const http=require('node:http'),path=require('node:path');
  await page.screenshot({path:(process.env.EVIDENCE_DIR||'/tmp')+'/rituals-svg-mobile.png',fullPage:true});uiTexts.push(await page.locator('body').innerText());
  for(const b of await page.locator('.title-btn').all()){await b.click();uiTexts.push(await page.locator('#detail').innerText());await page.getByRole('button',{name:'Закрыть карточку'}).click();}
  await page.getByRole('searchbox').fill('кофе');assert.equal(await page.locator('.ritual-card').count(),1);
- await page.getByRole('button',{name:'Как это делается'}).click();
- await page.getByRole('button',{name:'♡ Сохранить',exact:true}).click();await page.getByRole('button',{name:'Поколдовано',exact:true}).last().click();
+ await page.locator('.title-btn').click();
+ await page.locator('#detailFavorite').click();await page.getByRole('button',{name:'Поколдовано',exact:true}).last().click();
  assert(await page.getByRole('button',{name:'✓ Поколдовано',exact:true}).last().isDisabled());
  await page.getByRole('button',{name:'Закрыть карточку'}).click();await page.getByRole('link',{name:'Моё',exact:true}).click();await page.getByRole('heading',{name:'Моё',exact:true}).waitFor();
  assert.equal(await page.locator('.stat b').first().innerText(),'1');assert.equal(await page.locator('.ritual-card').count(),1);
- uiTexts.push(await page.locator('body').innerText());assert((await page.locator('body').innerText()).includes('Удаление данных сайта может удалить журнал'));await page.getByLabel('Увеличить текст описаний').check();
+ uiTexts.push(await page.locator('body').innerText());await page.getByRole('link',{name:'Данные журнала',exact:true}).click();await page.getByText('Удаление данных сайта может удалить журнал.',{exact:true}).waitFor();await page.getByRole('link',{name:'‹ В «Моё»',exact:true}).click();await page.getByLabel('Увеличить текст описаний').check();
  await page.reload();assert(await page.getByLabel('Увеличить текст описаний').isChecked());assert.equal(await page.locator('.stat b').first().innerText(),'1');
  await page.getByRole('link',{name:'Календарь',exact:true}).click();await page.getByRole('heading',{name:'Календарь',exact:true}).waitFor();assert.equal(await page.locator('[data-open="laurel-wallet"]').count(),0);assert.equal(await page.locator('[data-open="red-chandelier"]').count(),0);await page.getByRole('button',{name:'Следующий месяц'}).click();
  assert((await page.locator('.monthbar strong').innerText()).toLowerCase().includes('ноябрь'));
@@ -70,7 +70,7 @@ const http=require('node:http'),path=require('node:path');
  const iphone=await ios.newPage();await iphone.goto('http://127.0.0.1:4173/#mine');
  await iphone.getByRole('button',{name:'Добавить на главный экран',exact:true}).click();
  uiTexts.push(await iphone.locator('#installBody').innerText());assert((await iphone.locator('#installBody').innerText()).includes('На экран Домой'));await iphone.getByRole('button',{name:'Закрыть инструкцию'}).click();
- await iphone.goto('http://127.0.0.1:4173/#ritual-coffee-cinnamon');await iphone.getByRole('button',{name:'Позвать колдовать вместе',exact:true}).click();
+ await iphone.goto('http://127.0.0.1:4173/#ritual-coffee-cinnamon');await iphone.getByRole('button',{name:'Позвать вместе',exact:true}).click();
  await iphone.locator('#shareText').waitFor({state:'visible'});assert((await iphone.locator('#shareText').inputValue()).includes('#ritual-coffee-cinnamon'));uiTexts.push(await iphone.locator('#shareFallback').innerText());await ios.close();for(const text of uiTexts)assert(!forbidden.test(text),'Internal wording in UI: '+text);
  assert.equal(errors.length,0,errors.join('\n'));
 

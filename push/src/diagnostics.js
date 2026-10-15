@@ -1,6 +1,6 @@
 // Temporary preview diagnostics. Never pass a request, subscription or env to console.
 const seen=new WeakSet();
-export function previewDiagnostics(env){return env.ENVIRONMENT==='preview'&&env.PUSH_DEBUG!=='false';}
+export function previewDiagnostics(env){return env.ENVIRONMENT==='preview'&&env.PUSH_DEBUG==='true';}
 export function logPushError(env,stage,error,sensitive=[]){
  if(!previewDiagnostics(env))return;
  if(error&&typeof error==='object'){if(seen.has(error))return;seen.add(error);}

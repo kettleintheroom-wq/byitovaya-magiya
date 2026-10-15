@@ -10,6 +10,7 @@ const assert = require('node:assert/strict');
 (async () => {
   const root = process.cwd();
   const worker = fs.readFileSync('sw.js', 'utf8');
+  const version=worker.match(/const VERSION = '([^']+)'/)[1];
   const files = vm.runInNewContext(worker.match(/const FILES\s*=\s*(\[[\s\S]*?\]);/)[1]);
   let legacy = true;
   let networkRedirect = false;
@@ -36,7 +37,7 @@ const assert = require('node:assert/strict');
     try {
       let content = fs.readFileSync(target);
       if (pathname === '/sw.js' && legacy) content = Buffer.from(legacyWorker);
-      if (pathname === '/app.js' && legacy) content = Buffer.from(content.toString().replace("APP_VERSION='1.2.0'", "APP_VERSION='1.0.0'"));
+      if (pathname === '/app.js' && legacy) content = Buffer.from(content.toString().replace(`APP_VERSION='${version}'`, "APP_VERSION='1.0.0'"));
       res.setHeader('Cache-Control', 'no-store');
       res.setHeader('Content-Type', ({'.html':'text/html', '.js':'text/javascript', '.css':'text/css', '.webmanifest':'application/manifest+json', '.png':'image/png', '.svg':'image/svg+xml'})[path.extname(target)] || 'text/plain');
       res.end(content);
@@ -68,17 +69,17 @@ const assert = require('node:assert/strict');
   await page.evaluate(async () => (await navigator.serviceWorker.getRegistration()).update());
   await page.locator('#applyUpdate').waitFor({state:'visible'});
   await page.locator('#applyUpdate').click();
-  await page.waitForFunction(() => APP_VERSION === '1.2.0');
+  await page.waitForFunction(version => APP_VERSION === version,version);
   assert.equal(await page.evaluate(() => localStorage.getItem('bbm-pwa-v1')), before);
   const clean = await page.evaluate(async () => {
     const keys = await caches.keys();
-    const cache = await caches.open('bbm-shell-1.2.0');
+    const cache = await caches.open('bbm-shell-'+APP_VERSION);
     const requests = await cache.keys();
     const root = await cache.match(location.origin + '/');
     return { old:keys.includes('bbm-shell-1.0.0'), index:requests.some(r => new URL(r.url).pathname === '/index.html'), count:requests.length, redirected:root.redirected };
   });
   console.log('Upgrade cache check',clean);
-  assert.deepEqual(clean, { old:false, index:false, count:18, redirected:false });
+  assert.deepEqual(clean, { old:false, index:false, count:files.length, redirected:false });
 
   // Навигация действительно обслуживается новым worker без цепочки HTTP-редиректов.
   let response = await page.goto(base + '/?launch=1#today');
@@ -97,14 +98,14 @@ const assert = require('node:assert/strict');
   await context.setOffline(false);
 
   // При отсутствии root в кеше сетевой редирект также нормализуется.
-  await page.evaluate(async () => (await caches.open('bbm-shell-1.2.0')).delete(location.origin + '/'));
+  await page.evaluate(async () => (await caches.open('bbm-shell-'+APP_VERSION)).delete(location.origin + '/'));
   networkRedirect = true;
   response = await page.goto(base + '/?network-fallback=1');
   assert(response.fromServiceWorker());
   assert.equal(response.request().redirectedFrom(), null);
   await page.getByRole('heading', {name:'У Вселенной есть поручения.',exact:true}).waitFor();
   assert.equal(errors.length, 0, errors.join('\n'));
-  console.log('PASS: legacy cache has redirected=true; upgrade 1.0.0 -> 1.2.0 removes old cache/index entry, root.redirected=false, local journal unchanged, SW navigation/relaunch/offline work, redirected network fallback normalized.');
+  console.log('PASS: legacy cache has redirected=true; upgrade 1.0.0 -> '+version+' removes old cache/index entry, root.redirected=false, local journal unchanged, SW navigation/relaunch/offline work, redirected network fallback normalized.');
   await browser.close();
   await new Promise(resolve => server.close(resolve));
 })().catch(error => { console.error(error); process.exit(1); });

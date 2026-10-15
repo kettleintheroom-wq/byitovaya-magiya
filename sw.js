@@ -1,5 +1,5 @@
 // При изменении файлов приложения повышайте VERSION и APP_VERSION в app.js.
-const VERSION = '1.2.0';
+const VERSION = '1.3.0';
 const CACHE = 'bbm-shell-' + VERSION;
 const ROOT = new URL('./', self.location.href).href;
 const FILES = [
@@ -85,8 +85,20 @@ self.addEventListener('notificationclick',event=>{
  event.waitUntil((async()=>{
   const id=event.notification.data?.ritualId,valid=typeof id==='string'&&/^[a-z0-9-]{1,80}$/.test(id),url=new URL(valid?'#ritual-'+id:'#today',ROOT).href;
   const windows=await self.clients.matchAll({type:'window',includeUncontrolled:true});
-  const client=windows.find(c=>new URL(c.url).origin===new URL(ROOT).origin);
-  if(client){if(valid)client.postMessage({type:'OPEN_RITUAL',ritualId:id});await client.focus();}
+  const inScope=windows.filter(c=>{const u=new URL(c.url),root=new URL(ROOT);return u.origin===root.origin&&u.pathname.startsWith(root.pathname);});
+  const client=inScope.find(c=>c.focused)||inScope[0];
+  if(client){
+   let active=client;
+   // iOS may focus an existing window without applying a postMessage route.
+   // navigate supplies a durable deep-link; the message also closes stale dialogs.
+   // Client.url can retain an old hash after in-app navigation; do not use it
+   // to decide whether the live page is already showing this ritual.
+   if(typeof client.navigate==='function'){
+    try{active=await client.navigate(url)||client;}catch{}
+   }
+   try{await active.focus();}catch{}
+   if(valid)try{active.postMessage({type:'OPEN_RITUAL',ritualId:id});}catch{}
+  }
   else await self.clients.openWindow(url);
  })());
 });

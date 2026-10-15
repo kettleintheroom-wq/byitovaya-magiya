@@ -7,6 +7,7 @@
   "vars": {
     "APP_ORIGIN": "https://pwa-prototype.byitovaya-magiya.pages.dev",
     "ENVIRONMENT": "preview",
+    "PUSH_DEBUG": "false",
     "VAPID_SUBJECT": "https://pwa-prototype.byitovaya-magiya.pages.dev/"
   },
   "triggers": {"crons": ["*/5 * * * *"]},
